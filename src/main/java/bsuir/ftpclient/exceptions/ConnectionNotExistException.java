@@ -2,6 +2,7 @@ package main.java.bsuir.ftpclient.exceptions;
 
 public class ConnectionNotExistException extends Exception {
     public ConnectionNotExistException() {
+        super("Connection isn't exist!");
     }
 
     public ConnectionNotExistException(String message) {
@@ -13,6 +14,6 @@ public class ConnectionNotExistException extends Exception {
     }
 
     public ConnectionNotExistException(Throwable cause) {
-        super(cause);
+        super("Connection isn't exist!", cause);
     }
 }

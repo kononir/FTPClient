@@ -1,6 +1,7 @@
 package main.java.bsuir.ftpclient.windows;
 
 import main.java.bsuir.ftpclient.connection.Connection;
+import main.java.bsuir.ftpclient.exceptions.ConnectionExistException;
 import main.java.bsuir.ftpclient.exceptions.ConnectionNotExistException;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -25,78 +26,54 @@ public class MainWindow {
 
         MenuItem connect = new MenuItem("Connect");
         connect.setOnAction(event -> {
-            if (connection.isClosed()) {
-                TextInputDialog dialog = new TextInputDialog("91.122.30.115");
-                dialog.setTitle("Text input");
-                dialog.setHeaderText("Text input");
-                dialog.setContentText("Please enter domain name or ip");
+            TextInputDialog dialog = new TextInputDialog("91.122.30.115");
+            dialog.setTitle("Text input");
+            dialog.setHeaderText("Text input");
+            dialog.setContentText("Please enter domain name or ip");
 
-                Optional<String> result = dialog.showAndWait();
+            Optional<String> result = dialog.showAndWait();
 
-                result.ifPresent(connectInform -> {
-                    try {
-                        String connectionResult = connection.connect(connectInform);
+            result.ifPresent(connectInform -> {
+                try {
+                    String connectionResult = connection.connect(connectInform);
 
-                        addTextToMemo(connectionResult);
+                    addTextToMemo(connectionResult);
 
-                        AuthenticationDialog authenticationDialog = new AuthenticationDialog(connection);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    new AuthenticationDialog(connection);
+                } catch (IOException | ConnectionExistException e) {
+                    e.printStackTrace();
 
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Error");
-                        alert.setHeaderText("Error");
-                        alert.setContentText("Connection problems!");
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Error");
+                    alert.setContentText(e.getMessage());
 
-                        alert.showAndWait();
-                    }
-                });
-
-
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("Error");
-                alert.setContentText("Connection is already exist!");
-
-                alert.showAndWait();
-            }
+                    alert.showAndWait();
+                }
+            });
         });
 
         MenuItem disconnect = new MenuItem("Disconnect");
         disconnect.setOnAction(event -> {
-                try {
-                    if (connection.isClosed()) {
-                        throw new ConnectionNotExistException();
-                    }
+            try {
+                connection.disconnect();
 
-                    connection.disconnect();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Successful");
+                alert.setHeaderText("Successful");
+                alert.setContentText("Connection is closed!");
 
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Successful");
-                    alert.setHeaderText("Successful");
-                    alert.setContentText("Connection is closed!");
+                alert.showAndWait();
+            } catch (ConnectionNotExistException | IOException e) {
+                e.printStackTrace();
 
-                    alert.showAndWait();
-                } catch (ConnectionNotExistException e) {
-                    e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Error");
+                alert.setContentText(e.getMessage());
 
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText("Error");
-                    alert.setContentText("Connection isn't exist!");
-
-                    alert.showAndWait();
-                } catch (IOException e) {
-                    e.printStackTrace();
-
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText("Error");
-                    alert.setContentText("Some problems with closing connection!");
-
-                    alert.showAndWait();
-                }
+                alert.showAndWait();
+            }
         });
 
         connectionMenu.getItems().addAll(connect, disconnect);
@@ -130,7 +107,7 @@ public class MainWindow {
         Scene scene = new Scene(pane);
 
         Stage stage = new Stage();
-        //stage.setResizable(false);
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }
