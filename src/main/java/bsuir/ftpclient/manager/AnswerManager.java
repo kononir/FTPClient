@@ -1,7 +1,6 @@
-package main.java.bsuir.ftpclient.updaters;
+package main.java.bsuir.ftpclient.manager;
 
 import javafx.animation.AnimationTimer;
-import javafx.scene.control.TextArea;
 import main.java.bsuir.ftpclient.connection.Connection;
 import main.java.bsuir.ftpclient.connection.ConnectionListener;
 import main.java.bsuir.ftpclient.connection.ConnectionListenerController;
@@ -9,16 +8,15 @@ import main.java.bsuir.ftpclient.connection.ConnectionListenerController;
 import java.util.concurrent.Exchanger;
 import java.util.concurrent.TimeoutException;
 
-public class MemoUpdater {
-
-    private TextArea memo;
+public class AnswerManager {
     private AnimationTimer timer;
+    private MemoUpdater memoUpdater;
 
-    public MemoUpdater(TextArea memo) {
-        this.memo = memo;
+    public AnswerManager(MemoUpdater memoUpdater) {
+        this.memoUpdater = memoUpdater;
     }
 
-    public void startPrintAnswers(Connection connection) {
+    public void startCheckingForAnswers(Connection connection) {
         Exchanger<String> serverAnswerExchanger = new Exchanger<>();
 
         ConnectionListener listener = new ConnectionListener(connection, serverAnswerExchanger);
@@ -29,22 +27,20 @@ public class MemoUpdater {
         timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                updateAnswer(controller);
+                checkedForAnswer(controller);
             }
         };
 
         timer.start();
     }
 
-    public void stopPrintAnswers() {
-        timer.stop();
-    }
-
-    private void updateAnswer(ConnectionListenerController controller) {
+    private void checkedForAnswer(ConnectionListenerController controller) {
         try {
             String serverAnswer = controller.controlGettingServerAnswer();
 
-            addTextToMemo(serverAnswer + '\n');
+            memoUpdater.addTextToMemo(serverAnswer + '\n');
+
+            manageAnswer(serverAnswer);
         } catch (InterruptedException e) {
             e.printStackTrace();
 
@@ -53,11 +49,21 @@ public class MemoUpdater {
         }
     }
 
-    public void updateRequest(String request) {
-        addTextToMemo(request);
+    private void manageAnswer(String serverAnswer) {
+        String serverCloseControlConnection = "221";
+        String serviceNotAvailable = "421";
+
+        String answerCode = serverAnswer.substring(0, 3);
+
+        boolean controlConnectionIsClosed = serverCloseControlConnection.equals(answerCode)
+                || serviceNotAvailable.equals(answerCode);
+
+        if (controlConnectionIsClosed) {
+            timer.stop();
+        }
     }
 
-    synchronized private void addTextToMemo(String text) {
-        memo.setText(memo.getText() + text);
+    public void stopCheckingForAnswers() {
+        timer.stop();
     }
 }

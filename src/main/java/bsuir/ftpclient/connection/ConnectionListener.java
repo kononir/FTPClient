@@ -21,11 +21,14 @@ public class ConnectionListener implements Runnable {
         String answer;
         String answerCode;
         String serverCloseControlConnection = "221";
+        String serviceNotAvailable = "421";
 
         try {
             Socket socket = connection.getSocket();
 
             BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            boolean controlConnectionIsOpen;
 
             do {
                 answer = br.readLine();
@@ -33,7 +36,10 @@ public class ConnectionListener implements Runnable {
                 serverAnswerExchanger.exchange(answer);
 
                 answerCode = answer.substring(0, 3);
-            } while (!serverCloseControlConnection.equals(answerCode));
+
+                controlConnectionIsOpen = !serverCloseControlConnection.equals(answerCode)
+                        && !serviceNotAvailable.equals(answerCode);
+            } while (controlConnectionIsOpen);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (IOException ignored) {
