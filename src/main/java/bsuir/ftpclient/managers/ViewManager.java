@@ -1,42 +1,43 @@
-package main.java.bsuir.ftpclient.manager;
+package main.java.bsuir.ftpclient.managers;
 
 import javafx.animation.AnimationTimer;
+import javafx.scene.control.TextArea;
 import main.java.bsuir.ftpclient.connection.Connection;
 import main.java.bsuir.ftpclient.connection.ConnectionListener;
-import main.java.bsuir.ftpclient.connection.ConnectionListenerController;
+import main.java.bsuir.ftpclient.updaters.MemoUpdater;
 
 import java.util.concurrent.Exchanger;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-public class AnswerManager {
+public class ViewManager {
     private AnimationTimer timer;
     private MemoUpdater memoUpdater;
 
-    public AnswerManager(MemoUpdater memoUpdater) {
-        this.memoUpdater = memoUpdater;
+    public ViewManager(TextArea memo) {
+        this.memoUpdater = new MemoUpdater(memo);
     }
 
     public void startCheckingForAnswers(Connection connection) {
         Exchanger<String> serverAnswerExchanger = new Exchanger<>();
 
-        ConnectionListener listener = new ConnectionListener(connection, serverAnswerExchanger);
-
-        ConnectionListenerController controller = new ConnectionListenerController(listener);
-        controller.controlStartingListening(serverAnswerExchanger);
+        new Thread(new ConnectionListener(connection, serverAnswerExchanger)).start();
 
         timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                checkedForAnswer(controller);
+                checkForAnswer(serverAnswerExchanger);
             }
         };
 
         timer.start();
     }
 
-    private void checkedForAnswer(ConnectionListenerController controller) {
+    private void checkForAnswer(Exchanger<String> serverAnswerExchanger) {
         try {
-            String serverAnswer = controller.controlGettingServerAnswer();
+            int timeout = 1;
+
+            String serverAnswer = serverAnswerExchanger.exchange(null, timeout, TimeUnit.MILLISECONDS);
 
             memoUpdater.addTextToMemo(serverAnswer + '\n');
 

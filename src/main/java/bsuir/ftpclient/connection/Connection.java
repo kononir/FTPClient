@@ -11,14 +11,21 @@ import static org.junit.Assert.*;
 
 public class Connection {
     private Socket socket;
+    private String hostname;
 
     public Socket getSocket() {
         return socket;
     }
 
-    public void connect(String connectInform) throws IOException, ConnectionExistException {
+    public String getHostname() {
+        return hostname;
+    }
+
+    public void connect(String connectInformation, int port) throws IOException, ConnectionExistException {
         if (isClosed()) {
-            socket = new Socket(connectInform, 21);
+            socket = new Socket(connectInformation, port);
+
+            hostname = connectInformation;
         } else {
             throw new ConnectionExistException();
         }

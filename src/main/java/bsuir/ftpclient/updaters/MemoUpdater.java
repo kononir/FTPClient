@@ -1,4 +1,4 @@
-package main.java.bsuir.ftpclient.manager;
+package main.java.bsuir.ftpclient.updaters;
 
 import javafx.scene.control.TextArea;
 
