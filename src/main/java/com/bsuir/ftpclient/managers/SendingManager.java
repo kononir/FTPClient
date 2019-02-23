@@ -1,17 +1,25 @@
 package com.bsuir.ftpclient.managers;
 
+import com.bsuir.ftpclient.connection.Connection;
+import com.bsuir.ftpclient.connection.ConnectionActions;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class SendingManager {
-    private final Queue<Sender> senders = new LinkedList<>();
+    private final Queue<Listener> listeners = new LinkedList<>();
     private int lastSenderIndex;
+    private Connection controlConnection;
 
-    private class Sender implements Runnable {
+    public SendingManager(Connection controlConnection) {
+        this.controlConnection = controlConnection;
+    }
+
+    private class Listener implements Runnable {
         private String message;
         private int currSenderIndex;
 
-        private Sender(String message, int currSenderIndex) {
+        private Listener(int currSenderIndex) {
             this.message = message;
             this.currSenderIndex = currSenderIndex;
         }
@@ -27,34 +35,34 @@ public class SendingManager {
     }
 
     public void send(String message) {
-        Sender sender = new Sender(message, lastSenderIndex++);
+        Listener listener = new Listener(lastSenderIndex++);
 
-        synchronized (senders) {
-            senders.add(sender);
+        synchronized (listeners) {
+            listeners.add(listener);
         }
 
-        new Thread(sender);
+        new Thread(listener);
     }
 
-    public void killLastSender() {
-        synchronized (senders) {
-            Sender sender = senders.poll();
+    public void killLastListener() {
+        synchronized (listeners) {
+            Listener listener = listeners.poll();
 
-            if (sender != null) {
-                sender.kill();
+            if (listener != null) {
+                listener.kill();
             }
         }
     }
 
     public void killAllSenders() {
-        synchronized (senders) {
-            for (Sender sender: senders) {
-                if (sender != null) {
-                    sender.kill();
+        synchronized (listeners) {
+            for (Listener listener : listeners) {
+                if (listener != null) {
+                    listener.kill();
                 }
             }
 
-            senders.clear();
+            listeners.clear();
         }
     }
 }
