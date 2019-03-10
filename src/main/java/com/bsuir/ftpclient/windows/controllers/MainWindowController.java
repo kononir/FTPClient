@@ -1,7 +1,7 @@
 package com.bsuir.ftpclient.windows.controllers;
 
 import com.bsuir.ftpclient.connection.Connection;
-import com.bsuir.ftpclient.connection.ConnectionActions;
+import com.bsuir.ftpclient.connection.ControlConnectionActions;
 import com.bsuir.ftpclient.exceptions.ConnectionExistException;
 import com.bsuir.ftpclient.exceptions.ConnectionNotExistException;
 import com.bsuir.ftpclient.managers.FileNamesManager;
@@ -15,7 +15,7 @@ import java.io.IOException;
 public class MainWindowController {
     private Connection controlConnection = new Connection();
     private Connection dataConnection = new Connection();
-    private SendingManager sendingManager = new SendingManager();
+    private SendingManager sendingManager = new SendingManager(controlConnection);
 
     public void controlConnecting(String connectInformation)
             throws IOException, ConnectionExistException {
@@ -30,7 +30,7 @@ public class MainWindowController {
 
     public void controlAuthenticating(Pair<String, String> authenticationPair)
             throws IOException, ConnectionNotExistException {
-        ConnectionActions actions = new ConnectionActions();
+        ControlConnectionActions actions = new ControlConnectionActions();
 
         String loginCommand = "USER " + authenticationPair.getKey();
         String passwordCommand = "PASS " + authenticationPair.getValue();
@@ -60,11 +60,11 @@ public class MainWindowController {
 
     public void controlCreatingCatalogue(String catalogueName) throws IOException, ConnectionNotExistException {
         String catalogueDeleteCommand = "MKD " + catalogueName;
-        new ConnectionActions().sendCommand(controlConnection, catalogueDeleteCommand);
+        new ControlConnectionActions().sendCommand(controlConnection, catalogueDeleteCommand);
     }
 
     public void controlDeletingCatalogue(String catalogueName) throws IOException, ConnectionNotExistException {
         String catalogueDeleteCommand = "RMD " + catalogueName;
-        new ConnectionActions().sendCommand(controlConnection, catalogueDeleteCommand);
+        new ControlConnectionActions().sendCommand(controlConnection, catalogueDeleteCommand);
     }
 }

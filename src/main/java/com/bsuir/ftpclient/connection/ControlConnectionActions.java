@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
 
-public class ConnectionActions {
+public class ControlConnectionActions {
     public void sendCommand(Connection connection, String line) throws IOException, ConnectionNotExistException {
         if (connection.getSocket() == null) {
             throw new ConnectionNotExistException();
