@@ -19,11 +19,11 @@ public class ControlConnectionActions {
 
     public void sendRequest(String request)
             throws ControlConnectionException, ConnectionNotExistException {
-        if (controlConnection.getSocket() == null) {
+        Socket socket = controlConnection.getSocket();
+
+        if (socket == null) {
             throw new ConnectionNotExistException();
         }
-
-        Socket socket = controlConnection.getSocket();
 
         try {
             PrintStream output = new PrintStream(socket.getOutputStream());
@@ -34,11 +34,11 @@ public class ControlConnectionActions {
     }
 
     public String receiveResponse() throws ConnectionNotExistException, ControlConnectionException {
-        if (controlConnection.getSocket() == null) {
+        Socket socket = controlConnection.getSocket();
+
+        if (socket == null) {
             throw new ConnectionNotExistException();
         }
-
-        Socket socket = controlConnection.getSocket();
 
         StringBuilder response;
 

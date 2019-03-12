@@ -3,12 +3,11 @@ package com.bsuir.ftpclient.connection.ftp;
 import com.bsuir.ftpclient.connection.ftp.control.exception.ControlConnectionException;
 import com.bsuir.ftpclient.connection.ftp.exception.ConnectionExistException;
 import com.bsuir.ftpclient.connection.ftp.exception.ConnectionNotExistException;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.net.Socket;
-
-import static org.junit.Assert.*;
 
 public class Connection {
     private Socket socket;
@@ -56,7 +55,7 @@ public class Connection {
         connection.socket = new Socket("localhost", 21);
         connection.disconnect();
 
-        assertTrue("Positive test of 'connect' failed!", connection.socket.isClosed());
+        Assert.assertTrue("Positive test of 'connect' failed!", connection.socket.isClosed());
     }
 
     @Test(expected = ConnectionNotExistException.class)
@@ -65,7 +64,7 @@ public class Connection {
 
         connection.disconnect();
 
-        fail("Negative test (Expected ConnectionNotExistException) of 'disconnect' failed!");
+        Assert.fail("Negative test (Expected ConnectionNotExistException) of 'disconnect' failed!");
     }
 
     private boolean isClosed() {
@@ -82,7 +81,7 @@ public class Connection {
 
         boolean isClosed = connection.isClosed();
 
-        assertTrue("True test of 'isClosed' (only create connection) failed", isClosed);
+        Assert.assertTrue("True test of 'isClosed' (only create connection) failed", isClosed);
     }
 
     @Test
@@ -93,7 +92,7 @@ public class Connection {
 
         boolean isClosed = connection.isClosed();
 
-        assertTrue("True test of 'isClosed' (create connection, connect and disconnect) failed", isClosed);
+        Assert.assertTrue("True test of 'isClosed' (create connection, connect and disconnect) failed", isClosed);
     }
 
     @Test
@@ -102,7 +101,7 @@ public class Connection {
 
         connection.socket = new Socket("localhost", 21);
 
-        assertTrue("False test of 'isClosed' (create connection, connect) failed", !connection.isClosed());
+        Assert.assertTrue("False test of 'isClosed' (create connection, connect) failed", !connection.isClosed());
     }
 
     @Test
@@ -113,8 +112,8 @@ public class Connection {
 
         connection.connect("localhost", 21);
 
-        assertFalse("Create new connection test is failed: socket isn't created", connection.socket.isClosed());
-        assertEquals("Create new connection test is failed: hostname isn't set", expectedHostname, connection.hostname);
+        Assert.assertFalse("Create new connection test is failed: socket isn't created", connection.socket.isClosed());
+        Assert.assertEquals("Create new connection test is failed: hostname isn't set", expectedHostname, connection.hostname);
     }
 
     @Test (expected = ConnectionExistException.class)
@@ -126,6 +125,6 @@ public class Connection {
 
         connection.connect("localhost", 21);
 
-        fail("Test should throw ConnectionExistException");
+        Assert.fail("Test should throw ConnectionExistException");
     }
 }
