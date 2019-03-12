@@ -1,6 +1,6 @@
 package com.bsuir.ftpclient;
 
-import com.bsuir.ftpclient.windows.MainWindow;
+import com.bsuir.ftpclient.window.MainWindow;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

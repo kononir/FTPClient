@@ -1,8 +1,8 @@
 package com.bsuir.ftpclient.connection.database;
 
-import com.bsuir.ftpclient.connection.control.ControlStructure;
-import com.bsuir.ftpclient.connection.database.exception.LoadingControlStructuresException;
-import com.mysql.jdbc.Driver;
+import com.bsuir.ftpclient.connection.ftp.control.ControlStructure;
+import com.bsuir.ftpclient.connection.database.exception.ControlStructureException;
+import com.mysql.cj.jdbc.Driver;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 public class DatabaseConnection {
     private Connection connection;
 
-    private static final String URL = "jdbc:mysql://localhost:3306/ftp-request-response" +
+    private static final String URL = "jdbc:mysql://localhost:3306/request_response" +
             "?useUnicode=true" +
             "&useJDBCCompliantTimezoneShift=true" +
             "&useLegacyDatetimeCode=false" +
@@ -25,10 +25,6 @@ public class DatabaseConnection {
             DriverManager.registerDriver(driver);
 
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
-
-            if (!connection.isClosed()) {
-                System.out.println("Connection is established!");
-            }
         } catch (SQLException e) {
             System.out.println("Connection problems!");
             e.printStackTrace();
@@ -38,59 +34,53 @@ public class DatabaseConnection {
     private void disconnect() {
         try {
             connection.close();
-
-            if (connection.isClosed()) {
-                System.out.println("Connection is closed!");
-            }
         } catch (SQLException e) {
             System.out.println("Problems with disconnect!");
             e.printStackTrace();
         }
     }
 
-    public void insertControlStructure(ControlStructure controlStructure) {
-        Runnable insertion = () -> {
-            connect();
+    public void insertControlStructure(ControlStructure controlStructure) throws ControlStructureException {
+        connect();
 
-            try {
-                String sqlQuery = "INSERT INTO control_structure (request, response) values(?, ?)";
-                PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        try {
+            String sqlQuery = "INSERT INTO ftp_control (request, response) values(?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
 
-                preparedStatement.setString(1, controlStructure.getRequest());
-                preparedStatement.setString(2, controlStructure.getResponse());
-            } catch (SQLException e) {
-                System.out.println("Error when saving request/response to database!");
-                e.printStackTrace();
-            } finally {
-                disconnect();
-            }
-        };
+            preparedStatement.setString(1, controlStructure.getRequest());
+            preparedStatement.setString(2, controlStructure.getResponse());
 
-        new Thread(insertion).start();
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new ControlStructureException("Error when saving request/response to database!", e);
+        } finally {
+            disconnect();
+        }
     }
 
-    public List<ControlStructure> selectControlStructures() throws LoadingControlStructuresException {
-        List<ControlStructure> result = new ArrayList<>();
+    public List<ControlStructure> selectControlStructures() throws ControlStructureException {
+        List<ControlStructure> controlStructures = new ArrayList<>();
 
         connect();
 
         try {
-            Statement statement = connection.createStatement();
-            String sqlQuery = "SELECT * FROM control_structure";
-            ResultSet resultSet = statement.executeQuery(sqlQuery);
+            Statement selectStatement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+            String sqlQuerySelect = "SELECT * FROM ftp_control";
+            ResultSet resultSet = selectStatement.executeQuery(sqlQuerySelect);
 
             while (resultSet.next()) {
                 String request = resultSet.getString("request");
                 String response = resultSet.getString("response");
+                controlStructures.add(new ControlStructure(request, response));
 
-                result.add(new ControlStructure(request, response));
+                resultSet.deleteRow();
             }
         } catch (SQLException e) {
-            throw new LoadingControlStructuresException("Error when load control structures from database", e);
+            throw new ControlStructureException("Error when load control structures from database", e);
         } finally {
             disconnect();
         }
 
-        return result;
+        return controlStructures;
     }
 }
