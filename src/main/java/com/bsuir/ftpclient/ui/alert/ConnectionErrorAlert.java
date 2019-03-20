@@ -1,4 +1,4 @@
-package com.bsuir.ftpclient.alert;
+package com.bsuir.ftpclient.ui.alert;
 
 import javafx.scene.control.Alert;
 

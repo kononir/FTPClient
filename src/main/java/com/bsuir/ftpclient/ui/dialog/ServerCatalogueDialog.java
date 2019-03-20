@@ -1,9 +1,9 @@
-package com.bsuir.ftpclient.dialog;
+package com.bsuir.ftpclient.ui.dialog;
 
 import javafx.scene.control.TextInputDialog;
 
-public class CatalogueWorkingDialog extends TextInputDialog {
-    public CatalogueWorkingDialog() {
+public class ServerCatalogueDialog extends TextInputDialog {
+    public ServerCatalogueDialog() {
         super("r");
 
         this.setTitle("Text input");

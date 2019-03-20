@@ -1,4 +1,4 @@
-package com.bsuir.ftpclient.updater;
+package com.bsuir.ftpclient.ui.updater;
 
 import javafx.scene.control.TreeView;
 

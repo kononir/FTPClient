@@ -1,8 +1,8 @@
-package com.bsuir.ftpclient.manager;
+package com.bsuir.ftpclient.ui.manager;
 
 import com.bsuir.ftpclient.connection.ftp.control.ControlStructure;
-import com.bsuir.ftpclient.manager.controller.ViewManagerController;
-import com.bsuir.ftpclient.updater.MemoUpdater;
+import com.bsuir.ftpclient.ui.manager.controller.ViewManagerController;
+import com.bsuir.ftpclient.ui.updater.MemoUpdater;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.TextArea;
 
@@ -62,11 +62,11 @@ public class GeneralViewManager {
                 || serviceNotAvailable.equals(answerCode);
 
         if (controlConnectionIsClosed) {
-            stopCheckingForAnswers();
+            stopShowingServerAnswers();
         }
     }
 
-    public void stopCheckingForAnswers() {
+    public void stopShowingServerAnswers() {
         controller.controlStoppingListening();
 
         timer.stop();

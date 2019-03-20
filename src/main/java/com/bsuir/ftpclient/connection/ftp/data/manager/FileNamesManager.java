@@ -1,8 +1,8 @@
-package com.bsuir.ftpclient.manager;
+package com.bsuir.ftpclient.connection.ftp.data.manager;
 
 import com.bsuir.ftpclient.connection.ftp.Connection;
 import com.bsuir.ftpclient.connection.ftp.data.DataConnectionListener;
-import com.bsuir.ftpclient.updater.TreeUpdater;
+import com.bsuir.ftpclient.ui.updater.TreeUpdater;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.TreeView;
 

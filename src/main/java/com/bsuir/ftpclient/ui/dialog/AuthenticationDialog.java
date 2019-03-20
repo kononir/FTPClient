@@ -1,4 +1,4 @@
-package com.bsuir.ftpclient.dialog;
+package com.bsuir.ftpclient.ui.dialog;
 
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;

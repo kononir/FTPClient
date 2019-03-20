@@ -1,15 +1,14 @@
-package com.bsuir.ftpclient.manager;
+package com.bsuir.ftpclient.connection.ftp.control.manager;
 
+import com.bsuir.ftpclient.connection.ftp.Connection;
 import com.bsuir.ftpclient.connection.database.DatabaseConnection;
 import com.bsuir.ftpclient.connection.database.exception.ControlStructureException;
 import com.bsuir.ftpclient.connection.ftp.exception.ConnectionNotExistException;
-import com.bsuir.ftpclient.connection.ftp.Connection;
 import com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions;
 import com.bsuir.ftpclient.connection.ftp.control.ControlStructure;
 import com.bsuir.ftpclient.connection.ftp.control.exception.ControlConnectionException;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 public class SendingManager {
     private static final int ONE_THREAD = 1;
@@ -17,8 +16,11 @@ public class SendingManager {
 
     private Connection controlConnection;
 
-    public SendingManager(Connection controlConnection) {
+    private Exchanger<String> responseExchanger;
+
+    public SendingManager(Connection controlConnection, Exchanger<String> responseExchanger) {
         this.controlConnection = controlConnection;
+        this.responseExchanger = responseExchanger;
     }
 
     private class Sender implements Runnable {
@@ -37,12 +39,22 @@ public class SendingManager {
 
                 String response = connectionActions.receiveResponse();
 
+                handleResponse(response);
+
                 ControlStructure controlStructure = new ControlStructure(request, response);
                 DatabaseConnection databaseConnection = new DatabaseConnection();
-
                 databaseConnection.insertControlStructure(controlStructure);
-            } catch (ConnectionNotExistException | ControlConnectionException | ControlStructureException e) {
+            } catch (ConnectionNotExistException | ControlConnectionException
+                    | ControlStructureException | TimeoutException | InterruptedException e) {
                 e.printStackTrace();
+            }
+        }
+        
+        private void handleResponse(String response) throws TimeoutException, InterruptedException {
+            String answerCode = response.substring(0, 3);
+
+            if ("227".equals(answerCode)) {
+                responseExchanger.exchange(response, 1, TimeUnit.MILLISECONDS);
             }
         }
     }
