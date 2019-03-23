@@ -15,7 +15,6 @@ public class DataConnectionActions {
     }
 
     public void loadCatalogue(String toPath) throws DataConnectionException, ConnectionNotExistException {
-        /*
         try {
             Socket socket = dataConnection.getSocket();
 
@@ -27,18 +26,18 @@ public class DataConnectionActions {
 
             File directory = new File(toPath);
 
-            directory.mkdir();
+            //directory.mkdir();
 
-            FileOutputStream outputStream = new FileOutputStream(directory);
+            //FileOutputStream outputStream = new FileOutputStream(directory);
 
             int currDigit;
             while ((currDigit = inputStream.read()) != -1) {
-                outputStream.write(currDigit);
+                //outputStream.write(currDigit);
+                System.out.println(currDigit);
             }
         } catch (IOException e) {
             throw new DataConnectionException("Load catalogue error", e);
         }
-        */
     }
 
     public void loadFile(String toPath) throws ConnectionNotExistException, DataConnectionException {

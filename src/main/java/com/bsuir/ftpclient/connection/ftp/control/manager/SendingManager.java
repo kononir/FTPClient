@@ -34,27 +34,34 @@ public class SendingManager {
         public void run() {
             try {
                 ControlConnectionActions connectionActions = new ControlConnectionActions(controlConnection);
-
                 connectionActions.sendRequest(request);
 
-                String response = connectionActions.receiveResponse();
-
-                handleResponse(response);
-
-                ControlStructure controlStructure = new ControlStructure(request, response);
                 DatabaseConnection databaseConnection = new DatabaseConnection();
-                databaseConnection.insertControlStructure(controlStructure);
+
+                String firstCode;
+                do {
+                    String response = connectionActions.receiveResponse();
+                    firstCode = response.substring(0, 1);
+
+                    handleAnswerCode(response);
+
+                    ControlStructure controlStructure = new ControlStructure(request, response);
+                    databaseConnection.insertControlStructure(controlStructure);
+
+                    request = "";
+                } while ("1".equals(firstCode));
             } catch (ConnectionNotExistException | ControlConnectionException
                     | ControlStructureException | TimeoutException | InterruptedException e) {
                 e.printStackTrace();
             }
         }
         
-        private void handleResponse(String response) throws TimeoutException, InterruptedException {
+        private void handleAnswerCode(String response)
+                throws TimeoutException, InterruptedException {
             String answerCode = response.substring(0, 3);
 
             if ("227".equals(answerCode)) {
-                responseExchanger.exchange(response, 1, TimeUnit.MILLISECONDS);
+                responseExchanger.exchange(response, 10, TimeUnit.MILLISECONDS);
             }
         }
     }

@@ -92,7 +92,7 @@ public class MainWindowController {
         String passiveModeCommand = "PASV";
         sendingManager.send(passiveModeCommand);
 
-        String response = responseExchanger.exchange(null, 100, TimeUnit.MILLISECONDS);
+        String response = responseExchanger.exchange(null, 10, TimeUnit.MILLISECONDS);
 
         Pattern pattern = Pattern.compile("(\\d)+(,(\\d)+){5}");
         Matcher matcher = pattern.matcher(response);

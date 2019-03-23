@@ -43,7 +43,9 @@ public class GeneralViewManager {
     private void workWithControlStructures(List<ControlStructure> controlStructures) {
         for (ControlStructure controlStructure : controlStructures) {
             String request = controlStructure.getRequest();
-            memoUpdater.addTextToMemo(request + '\n');
+            if (!request.isEmpty()) {
+                memoUpdater.addTextToMemo(request + '\n');
+            }
 
             String response = controlStructure.getResponse();
             memoUpdater.addTextToMemo(response + '\n');
