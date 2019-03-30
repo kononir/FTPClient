@@ -26,20 +26,18 @@ public class FileNamesManager {
         timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                checkForFileName(dataExchanger);
+                update(dataExchanger);
             }
         };
 
         timer.start();
     }
 
-    private void checkForFileName(Exchanger<String> dataExchanger) {
+    private void update(Exchanger<String> dataExchanger) {
         try {
-            int timeout = 1;
+            String nodeInformation = dataExchanger.exchange(null, 1, TimeUnit.MILLISECONDS);
 
-            String nodeInformation = dataExchanger.exchange(null, timeout, TimeUnit.MILLISECONDS);
-
-            update(nodeInformation);
+            treeUpdater.addNewNode(nodeInformation);
         } catch (TimeoutException ignored) {
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -48,9 +46,5 @@ public class FileNamesManager {
 
     public void stopCheckingForFileNames() {
         timer.stop();
-    }
-
-    private void update(String nodeInformation) {
-        treeUpdater.addNewNode(nodeInformation);
     }
 }

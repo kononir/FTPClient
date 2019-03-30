@@ -8,6 +8,7 @@ import com.bsuir.ftpclient.ui.alert.DisconnectAlert;
 import com.bsuir.ftpclient.ui.dialog.*;
 import com.bsuir.ftpclient.ui.manager.GeneralViewManager;
 import com.bsuir.ftpclient.ui.window.controller.MainWindowController;
+import com.bsuir.ftpclient.ui.window.controller.exception.EstablishingDataConnectionException;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -19,7 +20,6 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 
 import java.util.Optional;
-import java.util.concurrent.TimeoutException;
 
 public class MainWindow {
     private TreeView<String> fileTree;
@@ -160,8 +160,8 @@ public class MainWindow {
                 try {
                     controller.controlLoadingCatalogue(fromPath, toPath);
                 } catch (ConnectionExistException | ControlConnectionException
-                        | TimeoutException | InterruptedException e) {
-                    e.printStackTrace();
+                        | EstablishingDataConnectionException e) {
+                    new ConnectionErrorAlert(e);
                 }
             });
         });
@@ -175,8 +175,8 @@ public class MainWindow {
                 try {
                     controller.controlLoadingFile(fromPath, toPath);
                 } catch (ConnectionExistException | ControlConnectionException
-                        | TimeoutException | InterruptedException e) {
-                    e.printStackTrace();
+                        | EstablishingDataConnectionException e) {
+                    new ConnectionErrorAlert(e);
                 }
             });
         });

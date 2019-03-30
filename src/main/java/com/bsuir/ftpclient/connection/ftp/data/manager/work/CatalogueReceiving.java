@@ -16,11 +16,7 @@ public class CatalogueReceiving implements Runnable {
 
     @Override
     public void run() {
-        try {
-            DataConnectionActions actions = new DataConnectionActions(dataConnection);
-            actions.loadCatalogue(toPath);
-        } catch (DataConnectionException | ConnectionNotExistException e) {
-            e.printStackTrace();
-        }
+        DataConnectionActions actions = new DataConnectionActions(dataConnection);
+        actions.loadCatalogue(toPath);
     }
 }

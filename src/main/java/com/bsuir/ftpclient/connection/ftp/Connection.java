@@ -17,10 +17,6 @@ public class Connection {
         return socket;
     }
 
-    public String getHostname() {
-        return hostname;
-    }
-
     public void connect(String connectInformation, int port)
             throws ConnectionExistException, ControlConnectionException {
         try {
