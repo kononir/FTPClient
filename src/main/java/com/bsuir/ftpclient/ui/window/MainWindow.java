@@ -1,14 +1,16 @@
 package com.bsuir.ftpclient.ui.window;
 
 import com.bsuir.ftpclient.connection.ftp.control.exception.ControlConnectionException;
+import com.bsuir.ftpclient.connection.ftp.data.file.FileComponent;
 import com.bsuir.ftpclient.connection.ftp.exception.ConnectionExistException;
 import com.bsuir.ftpclient.connection.ftp.exception.ConnectionNotExistException;
 import com.bsuir.ftpclient.ui.alert.ConnectionErrorAlert;
 import com.bsuir.ftpclient.ui.alert.DisconnectAlert;
 import com.bsuir.ftpclient.ui.dialog.*;
-import com.bsuir.ftpclient.ui.manager.GeneralViewManager;
+import com.bsuir.ftpclient.ui.manager.ControlConnectionViewManager;
+import com.bsuir.ftpclient.ui.updater.TreeUpdater;
 import com.bsuir.ftpclient.ui.window.controller.MainWindowController;
-import com.bsuir.ftpclient.ui.window.controller.exception.EstablishingDataConnectionException;
+import com.bsuir.ftpclient.ui.window.controller.exception.MainControllerException;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -19,12 +21,12 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.util.List;
 import java.util.Optional;
 
 public class MainWindow {
-    private TreeView<String> fileTree;
-
-    private GeneralViewManager generalViewManager;
+    private TreeUpdater fileTreeUpdater;
+    private ControlConnectionViewManager controlConnectionViewManager;
 
     private MainWindowController controller = new MainWindowController();
 
@@ -38,8 +40,11 @@ public class MainWindow {
         MenuItem disconnect = new MenuItem("Disconnect");
         disconnect.setOnAction(event -> disconnect());
 
+        MenuItem filesList = new MenuItem("Files list");
+        filesList.setOnAction(event -> loadFileList());
+
         Menu connectionMenu = new Menu("Server");
-        connectionMenu.getItems().addAll(connect, disconnect);
+        connectionMenu.getItems().addAll(connect, disconnect, filesList);
 
         MenuItem createCatalogue = new MenuItem("Create");
         createCatalogue.setOnAction(event -> createCatalogue());
@@ -71,14 +76,16 @@ public class MainWindow {
         TextArea answerMemo = new TextArea();
         answerMemo.setEditable(false);
 
-        generalViewManager = new GeneralViewManager(answerMemo);
+        controlConnectionViewManager = new ControlConnectionViewManager(answerMemo);
 
         ScrollPane memoScrolling = new ScrollPane();
         memoScrolling.setContent(answerMemo);
         memoScrolling.setFitToHeight(true);
         memoScrolling.setFitToWidth(true);
 
-        fileTree = new TreeView<>();
+        TreeItem<String> root = new TreeItem<>("/");
+        TreeView<String> fileTree = new TreeView<>(root);
+        fileTreeUpdater = new TreeUpdater(fileTree);
 
         ScrollPane treeScrolling = new ScrollPane();
         treeScrolling.setContent(fileTree);
@@ -117,12 +124,14 @@ public class MainWindow {
         result.ifPresent(connectInformation -> {
             try {
                 controller.controlConnecting(connectInformation);
-                generalViewManager.startShowingServerAnswers();
+                controlConnectionViewManager.startShowingServerAnswers();
 
                 Optional<Pair<String, String>> authenticationOptional = new AuthenticationDialog().showAndWait();
 
                 if (authenticationOptional.isPresent()) {
                     controller.controlAuthenticating(authenticationOptional.get());
+
+                    loadFileList();
                 } else {
                     controller.controlDisconnecting();
                 }
@@ -138,6 +147,15 @@ public class MainWindow {
 
             new DisconnectAlert();
         } catch (ConnectionNotExistException | ControlConnectionException e) {
+            new ConnectionErrorAlert(e);
+        }
+    }
+
+    private void loadFileList() {
+        try {
+            List<FileComponent> fileComponents = controller.controlLoadingFileList();
+            fileTreeUpdater.addAllToTree(fileComponents);
+        } catch (ControlConnectionException | ConnectionExistException | MainControllerException e) {
             new ConnectionErrorAlert(e);
         }
     }
@@ -160,7 +178,7 @@ public class MainWindow {
                 try {
                     controller.controlLoadingCatalogue(fromPath, toPath);
                 } catch (ConnectionExistException | ControlConnectionException
-                        | EstablishingDataConnectionException e) {
+                        | MainControllerException e) {
                     new ConnectionErrorAlert(e);
                 }
             });
@@ -175,7 +193,7 @@ public class MainWindow {
                 try {
                     controller.controlLoadingFile(fromPath, toPath);
                 } catch (ConnectionExistException | ControlConnectionException
-                        | EstablishingDataConnectionException e) {
+                        | MainControllerException e) {
                     new ConnectionErrorAlert(e);
                 }
             });
@@ -184,7 +202,7 @@ public class MainWindow {
 
     private void close() {
         try {
-            generalViewManager.stopShowingServerAnswers();
+            controlConnectionViewManager.stopShowingServerAnswers();
 
             controller.controlDisconnecting();
             controller.controlClose();

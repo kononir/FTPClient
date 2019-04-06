@@ -6,6 +6,8 @@ import com.bsuir.ftpclient.connection.ftp.exception.ConnectionNotExistException;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DataConnectionActions {
     private Connection dataConnection;
@@ -15,7 +17,7 @@ public class DataConnectionActions {
     }
 
     public void loadCatalogue(String toPath) {
-
+        // WIP
     }
 
     public void loadFile(String toPath) throws ConnectionNotExistException, DataConnectionException {
@@ -41,5 +43,30 @@ public class DataConnectionActions {
         } catch (IOException e) {
             throw new DataConnectionException("Load catalogue error", e);
         }
+    }
+
+    public List<String> loadFileList() throws ConnectionNotExistException, DataConnectionException {
+        List<String> fileList = new ArrayList<>();
+
+        try {
+            Socket socket = dataConnection.getSocket();
+
+            if (socket == null) {
+                throw new ConnectionNotExistException();
+            }
+
+            BufferedReader inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            String fileListLine;
+            while ((fileListLine = inputStream.readLine()) != null) {
+                fileList.add(fileListLine);
+            }
+
+            System.out.println(fileList.toString());
+        } catch (IOException e) {
+            throw new DataConnectionException("Load file list error", e);
+        }
+
+        return fileList;
     }
 }

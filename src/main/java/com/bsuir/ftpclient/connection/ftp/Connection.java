@@ -77,7 +77,7 @@ public class Connection {
 
         boolean isClosed = connection.isClosed();
 
-        Assert.assertTrue("True test of 'isClosed' (only create connection) failed", isClosed);
+        Assert.assertTrue("True test of 'isClosed' (only build connection) failed", isClosed);
     }
 
     @Test
@@ -88,7 +88,7 @@ public class Connection {
 
         boolean isClosed = connection.isClosed();
 
-        Assert.assertTrue("True test of 'isClosed' (create connection, connect and disconnect) failed", isClosed);
+        Assert.assertTrue("True test of 'isClosed' (build connection, connect and disconnect) failed", isClosed);
     }
 
     @Test
@@ -97,7 +97,7 @@ public class Connection {
 
         connection.socket = new Socket("localhost", 21);
 
-        Assert.assertTrue("False test of 'isClosed' (create connection, connect) failed", !connection.isClosed());
+        Assert.assertTrue("False test of 'isClosed' (build connection, connect) failed", !connection.isClosed());
     }
 
     @Test

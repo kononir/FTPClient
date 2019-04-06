@@ -9,7 +9,7 @@ import javafx.scene.control.TextArea;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
-public class GeneralViewManager {
+public class ControlConnectionViewManager {
     private AnimationTimer timer = new AnimationTimer() {
         @Override
         public void handle(long now) {
@@ -21,7 +21,7 @@ public class GeneralViewManager {
 
     private ViewManagerController controller = new ViewManagerController();
 
-    public GeneralViewManager(TextArea memo) {
+    public ControlConnectionViewManager(TextArea memo) {
         this.memoUpdater = new MemoUpdater(memo);
     }
 
