@@ -9,6 +9,9 @@ public class DataManager {
 
     public void manageWork(Runnable managing) {
         executorService.execute(managing);
+    }
+
+    public void shutdown() {
         executorService.shutdown();
     }
 }

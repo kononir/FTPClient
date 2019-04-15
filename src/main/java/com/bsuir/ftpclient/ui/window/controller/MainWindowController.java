@@ -3,10 +3,8 @@ package com.bsuir.ftpclient.ui.window.controller;
 import com.bsuir.ftpclient.connection.ftp.Connection;
 import com.bsuir.ftpclient.connection.ftp.control.exception.ControlConnectionException;
 import com.bsuir.ftpclient.connection.ftp.control.manager.SendingManager;
-import com.bsuir.ftpclient.connection.ftp.data.file.FileComponent;
-import com.bsuir.ftpclient.connection.ftp.data.file.impl.AbstractFileComponent;
+import com.bsuir.ftpclient.connection.ftp.data.file.ServerFile;
 import com.bsuir.ftpclient.connection.ftp.data.manager.DataManager;
-import com.bsuir.ftpclient.connection.ftp.data.manager.work.CatalogueReceiving;
 import com.bsuir.ftpclient.connection.ftp.data.manager.work.FileListReceiving;
 import com.bsuir.ftpclient.connection.ftp.data.manager.work.FileReceiving;
 import com.bsuir.ftpclient.connection.ftp.exception.ConnectionExistException;
@@ -14,6 +12,7 @@ import com.bsuir.ftpclient.connection.ftp.exception.ConnectionNotExistException;
 import com.bsuir.ftpclient.ui.window.controller.exception.MainControllerException;
 import javafx.util.Pair;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.Exchanger;
 import java.util.concurrent.TimeUnit;
@@ -26,9 +25,10 @@ public class MainWindowController {
 
     private Connection controlConnection = new Connection();
 
-    private static final int TIMEOUT = 5;
+    private static final int TIMEOUT = 100;
     private Exchanger<String> responseExchanger = new Exchanger<>();
     private SendingManager sendingManager = new SendingManager(controlConnection, responseExchanger);
+    private DataManager dataManager = new DataManager();
 
     public void controlConnecting(String connectInformation)
             throws ConnectionExistException, ControlConnectionException {
@@ -61,16 +61,34 @@ public class MainWindowController {
         sendingManager.send(catalogueDeletingCommand);
     }
 
-    public void controlLoadingCatalogue(String fromPath, String toPath)
+    public void controlLoadingCatalogue(String fromDirectoryPath, String toDirectoryPath)
             throws ConnectionExistException, ControlConnectionException, MainControllerException {
-        Connection dataConnection = establishDataConnection();
+        File file = new File(toDirectoryPath);
+        if (!file.exists()) {
+            file.mkdir();
+        }
 
-        String catalogueLoadingCommand = "RETR " + fromPath;
-        sendingManager.send(catalogueLoadingCommand);
+        List<ServerFile> files = controlLoadingFileList(fromDirectoryPath);
+        for (ServerFile serverFile : files) {
+            if (serverFile.isDirectory()) {
+                String dirName = serverFile.getName();
 
-        CatalogueReceiving catalogueReceiving = new CatalogueReceiving(dataConnection, toPath);
-        DataManager dataManager = new DataManager();
-        dataManager.manageWork(catalogueReceiving);
+                String newFromPath;
+                if ("/".equals(fromDirectoryPath)) {
+                    newFromPath = fromDirectoryPath + dirName;
+                } else {
+                    newFromPath = fromDirectoryPath + "/" + dirName;
+                }
+
+                String newToPath = toDirectoryPath + "/" + dirName;
+                controlLoadingCatalogue(newFromPath, newToPath);
+            } else {
+                String catalogueLoadingCommand = "RETR " + fromDirectoryPath;
+                sendingManager.send(catalogueLoadingCommand);
+
+                controlLoadingFile(serverFile.getName(), toDirectoryPath);
+            }
+        }
     }
 
     public void controlLoadingFile(String fileName, String toDirectoryPath)
@@ -81,7 +99,6 @@ public class MainWindowController {
         sendingManager.send(catalogueLoadingCommand);
 
         FileReceiving fileReceiving = new FileReceiving(dataConnection, toDirectoryPath + '/' + fileName);
-        DataManager dataManager = new DataManager();
         dataManager.manageWork(fileReceiving);
     }
 
@@ -115,49 +132,26 @@ public class MainWindowController {
 
     public void controlClose() {
         sendingManager.killAllSenders();
+        dataManager.shutdown();
     }
 
-    public List<FileComponent> controlLoadingFileList()
-            throws ConnectionExistException, ControlConnectionException, MainControllerException {
-        Connection dataConnection = establishDataConnection();
-        return recursiveLoadFileList(dataConnection);
-    }
-
-    private List<FileComponent> recursiveLoadFileList(Connection dataConnection) throws MainControllerException {
-        List<FileComponent> fileComponents;
+    public List<ServerFile> controlLoadingFileList(String directoryName)
+            throws MainControllerException, ConnectionExistException, ControlConnectionException {
+        List<ServerFile> fileComponents;
         try {
-            String fileListLoadingCommand = "LIST";
+            Connection dataConnection = establishDataConnection();
+            String fileListLoadingCommand = "LIST " + directoryName; // or MLSD (another format of request - another parser)
             sendingManager.send(fileListLoadingCommand);
 
-            Exchanger<List<FileComponent>> listExchanger = new Exchanger<>();
+            Exchanger<List<ServerFile>> listExchanger = new Exchanger<>();
             FileListReceiving fileListReceiving = new FileListReceiving(dataConnection, listExchanger);
-
-            DataManager dataManager = new DataManager();
             dataManager.manageWork(fileListReceiving);
 
             fileComponents = listExchanger.exchange(null, TIMEOUT, TimeUnit.SECONDS);
-
-            addChildrenToDirectories(fileComponents, dataConnection);
         } catch (InterruptedException | TimeoutException e) {
             throw new MainControllerException("Error when getting file list.", e);
         }
         return fileComponents;
-    }
-
-    private void addChildrenToDirectories(List<FileComponent> fileComponents, Connection dataConnection)
-            throws MainControllerException {
-        for (FileComponent fileComponent : fileComponents) {
-            String fileName = ((AbstractFileComponent) fileComponent).getName();
-
-            if (fileComponent.getChildren() != null) {
-                changeWorkingDirectory(fileName);
-
-                List<FileComponent> childrenFileComponents = recursiveLoadFileList(dataConnection);
-                childrenFileComponents.forEach(fileComponent::add);
-
-                changeWorkingDirectoryToParent();
-            }
-        }
     }
 
     public void changeWorkingDirectory(String directoryName) throws MainControllerException {

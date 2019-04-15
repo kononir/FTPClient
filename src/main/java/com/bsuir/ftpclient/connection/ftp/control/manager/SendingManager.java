@@ -1,8 +1,8 @@
 package com.bsuir.ftpclient.connection.ftp.control.manager;
 
+import com.bsuir.ftpclient.connection.database.exception.DatabaseConnectionException;
 import com.bsuir.ftpclient.connection.ftp.Connection;
 import com.bsuir.ftpclient.connection.database.DatabaseConnection;
-import com.bsuir.ftpclient.connection.database.exception.ControlStructureException;
 import com.bsuir.ftpclient.connection.ftp.exception.ConnectionNotExistException;
 import com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions;
 import com.bsuir.ftpclient.connection.ftp.control.ControlStructure;
@@ -51,7 +51,7 @@ public class SendingManager {
                     request = "";
                 } while ("1".equals(firstCode));
             } catch (ConnectionNotExistException | ControlConnectionException
-                    | ControlStructureException | TimeoutException | InterruptedException e) {
+                    | TimeoutException | InterruptedException | DatabaseConnectionException e) {
                 e.printStackTrace();
             }
         }

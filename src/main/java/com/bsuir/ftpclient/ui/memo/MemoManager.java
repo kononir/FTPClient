@@ -1,15 +1,14 @@
-package com.bsuir.ftpclient.ui.manager;
+package com.bsuir.ftpclient.ui.memo;
 
 import com.bsuir.ftpclient.connection.ftp.control.ControlStructure;
-import com.bsuir.ftpclient.ui.manager.controller.ViewManagerController;
-import com.bsuir.ftpclient.ui.updater.MemoUpdater;
+import com.bsuir.ftpclient.ui.memo.controller.MemoManagerController;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.TextArea;
 
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
-public class ControlConnectionViewManager {
+public class MemoManager {
     private AnimationTimer timer = new AnimationTimer() {
         @Override
         public void handle(long now) {
@@ -19,9 +18,9 @@ public class ControlConnectionViewManager {
 
     private MemoUpdater memoUpdater;
 
-    private ViewManagerController controller = new ViewManagerController();
+    private MemoManagerController controller = new MemoManagerController();
 
-    public ControlConnectionViewManager(TextArea memo) {
+    public MemoManager(TextArea memo) {
         this.memoUpdater = new MemoUpdater(memo);
     }
 
@@ -31,7 +30,7 @@ public class ControlConnectionViewManager {
         timer.start();
     }
 
-    private void showLastAnswers(ViewManagerController controller) {
+    private void showLastAnswers(MemoManagerController controller) {
         try {
             List<ControlStructure> controlStructures = controller.controlGettingControlStructures();
 

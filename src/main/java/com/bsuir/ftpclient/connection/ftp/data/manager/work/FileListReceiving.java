@@ -3,7 +3,7 @@ package com.bsuir.ftpclient.connection.ftp.data.manager.work;
 import com.bsuir.ftpclient.connection.ftp.Connection;
 import com.bsuir.ftpclient.connection.ftp.data.DataConnectionActions;
 import com.bsuir.ftpclient.connection.ftp.data.exception.DataConnectionException;
-import com.bsuir.ftpclient.connection.ftp.data.file.FileComponent;
+import com.bsuir.ftpclient.connection.ftp.data.file.ServerFile;
 import com.bsuir.ftpclient.connection.ftp.data.file.parser.FileNameParser;
 import com.bsuir.ftpclient.connection.ftp.exception.ConnectionNotExistException;
 
@@ -15,10 +15,10 @@ import java.util.concurrent.TimeoutException;
 public class FileListReceiving implements Runnable {
     private Connection dataConnection;
 
-    private Exchanger<List<FileComponent>> exchanger;
-    private static final int TIMEOUT = 10;
+    private Exchanger<List<ServerFile>> exchanger;
+    private static final int TIMEOUT = 100;
 
-    public FileListReceiving(Connection dataConnection, Exchanger<List<FileComponent>> exchanger) {
+    public FileListReceiving(Connection dataConnection, Exchanger<List<ServerFile>> exchanger) {
         this.dataConnection = dataConnection;
         this.exchanger = exchanger;
     }
@@ -30,7 +30,7 @@ public class FileListReceiving implements Runnable {
             List<String> filesInfo = actions.loadFileList();
 
             FileNameParser parser = new FileNameParser();
-            List<FileComponent> fileComponents = parser.parse(filesInfo);
+            List<ServerFile> fileComponents = parser.parse(filesInfo);
 
             exchanger.exchange(fileComponents, TIMEOUT, TimeUnit.MILLISECONDS);
         } catch (ConnectionNotExistException | DataConnectionException

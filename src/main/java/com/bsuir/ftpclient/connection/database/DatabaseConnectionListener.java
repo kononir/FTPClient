@@ -1,6 +1,6 @@
 package com.bsuir.ftpclient.connection.database;
 
-import com.bsuir.ftpclient.connection.database.exception.ControlStructureException;
+import com.bsuir.ftpclient.connection.database.exception.DatabaseConnectionException;
 import com.bsuir.ftpclient.connection.ftp.control.ControlStructure;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class DatabaseConnectionListener implements Runnable {
             if (!controlStructures.isEmpty()) {
                 exchanger.exchange(controlStructures);
             }
-        } catch (ControlStructureException e) {
+        } catch (DatabaseConnectionException e) {
             e.printStackTrace();
         } catch (InterruptedException ignored) {
         }

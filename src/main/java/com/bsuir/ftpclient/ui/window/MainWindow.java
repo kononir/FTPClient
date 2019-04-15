@@ -1,14 +1,15 @@
 package com.bsuir.ftpclient.ui.window;
 
 import com.bsuir.ftpclient.connection.ftp.control.exception.ControlConnectionException;
-import com.bsuir.ftpclient.connection.ftp.data.file.FileComponent;
+import com.bsuir.ftpclient.connection.ftp.data.file.ServerFile;
 import com.bsuir.ftpclient.connection.ftp.exception.ConnectionExistException;
 import com.bsuir.ftpclient.connection.ftp.exception.ConnectionNotExistException;
 import com.bsuir.ftpclient.ui.alert.ConnectionErrorAlert;
 import com.bsuir.ftpclient.ui.alert.DisconnectAlert;
 import com.bsuir.ftpclient.ui.dialog.*;
-import com.bsuir.ftpclient.ui.manager.ControlConnectionViewManager;
-import com.bsuir.ftpclient.ui.updater.TreeUpdater;
+import com.bsuir.ftpclient.ui.memo.MemoManager;
+import com.bsuir.ftpclient.ui.tree.TreeUpdater;
+import com.bsuir.ftpclient.ui.tree.TypedTreeItem;
 import com.bsuir.ftpclient.ui.window.controller.MainWindowController;
 import com.bsuir.ftpclient.ui.window.controller.exception.MainControllerException;
 import javafx.application.Platform;
@@ -26,7 +27,7 @@ import java.util.Optional;
 
 public class MainWindow {
     private TreeUpdater fileTreeUpdater;
-    private ControlConnectionViewManager controlConnectionViewManager;
+    private MemoManager memoManager;
 
     private MainWindowController controller = new MainWindowController();
 
@@ -40,11 +41,8 @@ public class MainWindow {
         MenuItem disconnect = new MenuItem("Disconnect");
         disconnect.setOnAction(event -> disconnect());
 
-        MenuItem filesList = new MenuItem("Files list");
-        filesList.setOnAction(event -> loadFileList());
-
         Menu connectionMenu = new Menu("Server");
-        connectionMenu.getItems().addAll(connect, disconnect, filesList);
+        connectionMenu.getItems().addAll(connect, disconnect);
 
         MenuItem createCatalogue = new MenuItem("Create");
         createCatalogue.setOnAction(event -> createCatalogue());
@@ -76,15 +74,22 @@ public class MainWindow {
         TextArea answerMemo = new TextArea();
         answerMemo.setEditable(false);
 
-        controlConnectionViewManager = new ControlConnectionViewManager(answerMemo);
+        memoManager = new MemoManager(answerMemo);
 
         ScrollPane memoScrolling = new ScrollPane();
         memoScrolling.setContent(answerMemo);
         memoScrolling.setFitToHeight(true);
         memoScrolling.setFitToWidth(true);
 
-        TreeItem<String> root = new TreeItem<>("/");
+        TreeItem<String> root = new TypedTreeItem<>("/", true);
         TreeView<String> fileTree = new TreeView<>(root);
+        fileTree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            TypedTreeItem<String> node = (TypedTreeItem<String>) newValue;
+            if (node.isLeaf() && node.isPackage()) {
+                loadFileList(newValue);
+            }
+        });
+
         fileTreeUpdater = new TreeUpdater(fileTree);
 
         ScrollPane treeScrolling = new ScrollPane();
@@ -124,14 +129,14 @@ public class MainWindow {
         result.ifPresent(connectInformation -> {
             try {
                 controller.controlConnecting(connectInformation);
-                controlConnectionViewManager.startShowingServerAnswers();
+                memoManager.startShowingServerAnswers();
 
                 Optional<Pair<String, String>> authenticationOptional = new AuthenticationDialog().showAndWait();
 
                 if (authenticationOptional.isPresent()) {
                     controller.controlAuthenticating(authenticationOptional.get());
 
-                    loadFileList();
+                    loadFileList(fileTreeUpdater.getTree().getRoot());
                 } else {
                     controller.controlDisconnecting();
                 }
@@ -151,10 +156,21 @@ public class MainWindow {
         }
     }
 
-    private void loadFileList() {
+    private String getAbsolutePath(TreeItem<String> node) {
+        TreeItem<String> parent = node.getParent();
+
+        if ((parent != null)) {
+            return  getAbsolutePath(parent) + "/" + node.getValue();
+        } else {
+            return "";
+        }
+    }
+
+    private void loadFileList(TreeItem<String> node) {
         try {
-            List<FileComponent> fileComponents = controller.controlLoadingFileList();
-            fileTreeUpdater.addAllToTree(fileComponents);
+            String path = getAbsolutePath(node);
+            List<ServerFile> fileComponents = controller.controlLoadingFileList(path);
+            fileTreeUpdater.addAllComponents(fileComponents, node);
         } catch (ControlConnectionException | ConnectionExistException | MainControllerException e) {
             new ConnectionErrorAlert(e);
         }
@@ -202,7 +218,7 @@ public class MainWindow {
 
     private void close() {
         try {
-            controlConnectionViewManager.stopShowingServerAnswers();
+            memoManager.stopShowingServerAnswers();
 
             controller.controlDisconnecting();
             controller.controlClose();

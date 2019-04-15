@@ -1,7 +1,7 @@
 package com.bsuir.ftpclient.connection.database;
 
+import com.bsuir.ftpclient.connection.database.exception.DatabaseConnectionException;
 import com.bsuir.ftpclient.connection.ftp.control.ControlStructure;
-import com.bsuir.ftpclient.connection.database.exception.ControlStructureException;
 import com.mysql.cj.jdbc.Driver;
 
 import java.sql.*;
@@ -19,28 +19,26 @@ public class DatabaseConnection {
     private static final String USER = "root";
     private static final String PASSWORD = "root";
 
-    private void connect() {
+    private void connect() throws DatabaseConnectionException {
         try {
             Driver driver = new Driver();
             DriverManager.registerDriver(driver);
 
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {
-            System.out.println("Connection problems!");
-            e.printStackTrace();
+            throw new DatabaseConnectionException("Connection problems!", e);
         }
     }
 
-    private void disconnect() {
+    private void disconnect() throws DatabaseConnectionException {
         try {
             connection.close();
         } catch (SQLException e) {
-            System.out.println("Problems with disconnect!");
-            e.printStackTrace();
+            throw new DatabaseConnectionException("Problems with disconnect!", e);
         }
     }
 
-    public void insertControlStructure(ControlStructure controlStructure) throws ControlStructureException {
+    public void insertControlStructure(ControlStructure controlStructure) throws DatabaseConnectionException {
         connect();
 
         try {
@@ -52,13 +50,13 @@ public class DatabaseConnection {
 
             preparedStatement.execute();
         } catch (SQLException e) {
-            throw new ControlStructureException("Error when saving request/response to database!", e);
+            throw new DatabaseConnectionException("Error when saving request/response to database!", e);
         } finally {
             disconnect();
         }
     }
 
-    public List<ControlStructure> selectControlStructures() throws ControlStructureException {
+    public List<ControlStructure> selectControlStructures() throws DatabaseConnectionException {
         List<ControlStructure> controlStructures = new ArrayList<>();
 
         connect();
@@ -76,7 +74,7 @@ public class DatabaseConnection {
                 resultSet.deleteRow();
             }
         } catch (SQLException e) {
-            throw new ControlStructureException("Error when load control structures from database", e);
+            throw new DatabaseConnectionException("Error when load control structures from database", e);
         } finally {
             disconnect();
         }

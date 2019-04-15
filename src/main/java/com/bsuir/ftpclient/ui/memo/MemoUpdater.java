@@ -1,4 +1,4 @@
-package com.bsuir.ftpclient.ui.updater;
+package com.bsuir.ftpclient.ui.memo;
 
 import javafx.scene.control.TextArea;
 
