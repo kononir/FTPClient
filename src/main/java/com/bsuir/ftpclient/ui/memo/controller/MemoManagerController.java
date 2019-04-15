@@ -27,7 +27,12 @@ public class MemoManagerController {
         service.shutdown();
     }
 
-    public List<ControlStructure> controlGettingControlStructures() throws TimeoutException, InterruptedException {
-        return exchanger.exchange(null, TIMEOUT, TimeUnit.MILLISECONDS);
+    public List<ControlStructure> controlGettingControlStructures() {
+        List<ControlStructure> controlStructures = null;
+        try {
+            controlStructures = exchanger.exchange(null, TIMEOUT, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException | TimeoutException ignored) {
+        }
+        return controlStructures;
     }
 }

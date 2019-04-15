@@ -1,9 +1,6 @@
 package com.bsuir.ftpclient.ui.window;
 
-import com.bsuir.ftpclient.connection.ftp.control.exception.ControlConnectionException;
 import com.bsuir.ftpclient.connection.ftp.data.file.ServerFile;
-import com.bsuir.ftpclient.connection.ftp.exception.ConnectionExistException;
-import com.bsuir.ftpclient.connection.ftp.exception.ConnectionNotExistException;
 import com.bsuir.ftpclient.ui.alert.ConnectionErrorAlert;
 import com.bsuir.ftpclient.ui.alert.DisconnectAlert;
 import com.bsuir.ftpclient.ui.dialog.*;
@@ -140,20 +137,17 @@ public class MainWindow {
                 } else {
                     controller.controlDisconnecting();
                 }
-            } catch (ConnectionExistException | ControlConnectionException | ConnectionNotExistException e) {
+            } catch (MainControllerException e) {
                 new ConnectionErrorAlert(e);
             }
         });
     }
 
     private void disconnect() {
-        try {
-            controller.controlDisconnecting();
+        fileTreeUpdater.clearTree();
+        controller.controlDisconnecting();
 
-            new DisconnectAlert();
-        } catch (ConnectionNotExistException | ControlConnectionException e) {
-            new ConnectionErrorAlert(e);
-        }
+        new DisconnectAlert();
     }
 
     private String getAbsolutePath(TreeItem<String> node) {
@@ -171,7 +165,7 @@ public class MainWindow {
             String path = getAbsolutePath(node);
             List<ServerFile> fileComponents = controller.controlLoadingFileList(path);
             fileTreeUpdater.addAllComponents(fileComponents, node);
-        } catch (ControlConnectionException | ConnectionExistException | MainControllerException e) {
+        } catch (MainControllerException e) {
             new ConnectionErrorAlert(e);
         }
     }
@@ -193,8 +187,7 @@ public class MainWindow {
             optionalTo.ifPresent(toPath -> {
                 try {
                     controller.controlLoadingCatalogue(fromPath, toPath);
-                } catch (ConnectionExistException | ControlConnectionException
-                        | MainControllerException e) {
+                } catch (MainControllerException e) {
                     new ConnectionErrorAlert(e);
                 }
             });
@@ -208,8 +201,7 @@ public class MainWindow {
             optionalTo.ifPresent(toPath -> {
                 try {
                     controller.controlLoadingFile(fromPath, toPath);
-                } catch (ConnectionExistException | ControlConnectionException
-                        | MainControllerException e) {
+                } catch (MainControllerException e) {
                     new ConnectionErrorAlert(e);
                 }
             });
@@ -217,14 +209,8 @@ public class MainWindow {
     }
 
     private void close() {
-        try {
-            memoManager.stopShowingServerAnswers();
-
-            controller.controlDisconnecting();
-            controller.controlClose();
-        } catch (ConnectionNotExistException | ControlConnectionException ignored) {
-        } finally {
-            Platform.exit();
-        }
+        controller.controlClose();
+        memoManager.stopShowingServerAnswers();
+        Platform.exit();
     }
 }

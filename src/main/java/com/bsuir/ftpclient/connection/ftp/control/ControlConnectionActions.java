@@ -2,7 +2,6 @@ package com.bsuir.ftpclient.connection.ftp.control;
 
 import com.bsuir.ftpclient.connection.ftp.Connection;
 import com.bsuir.ftpclient.connection.ftp.control.exception.ControlConnectionException;
-import com.bsuir.ftpclient.connection.ftp.exception.ConnectionNotExistException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,12 +17,8 @@ public class ControlConnectionActions {
     }
 
     public void sendRequest(String request)
-            throws ControlConnectionException, ConnectionNotExistException {
+            throws ControlConnectionException {
         Socket socket = controlConnection.getSocket();
-
-        if (socket == null) {
-            throw new ConnectionNotExistException();
-        }
 
         try {
             PrintStream output = new PrintStream(socket.getOutputStream());
@@ -33,12 +28,8 @@ public class ControlConnectionActions {
         }
     }
 
-    public String receiveResponse() throws ConnectionNotExistException, ControlConnectionException {
+    public String receiveResponse() throws ControlConnectionException {
         Socket socket = controlConnection.getSocket();
-
-        if (socket == null) {
-            throw new ConnectionNotExistException();
-        }
 
         StringBuilder response;
 

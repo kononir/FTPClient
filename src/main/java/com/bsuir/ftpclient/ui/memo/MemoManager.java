@@ -6,7 +6,6 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.control.TextArea;
 
 import java.util.List;
-import java.util.concurrent.TimeoutException;
 
 public class MemoManager {
     private AnimationTimer timer = new AnimationTimer() {
@@ -31,11 +30,10 @@ public class MemoManager {
     }
 
     private void showLastAnswers(MemoManagerController controller) {
-        try {
-            List<ControlStructure> controlStructures = controller.controlGettingControlStructures();
+        List<ControlStructure> controlStructures = controller.controlGettingControlStructures();
 
+        if (controlStructures != null) {
             workWithControlStructures(controlStructures);
-        } catch (TimeoutException | InterruptedException ignored) {
         }
     }
 
@@ -63,7 +61,7 @@ public class MemoManager {
                 || serviceNotAvailable.equals(answerCode);
 
         if (controlConnectionIsClosed) {
-            stopShowingServerAnswers();
+            timer.stop();
         }
     }
 

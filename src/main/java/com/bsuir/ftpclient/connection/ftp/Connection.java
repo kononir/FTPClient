@@ -7,10 +7,11 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 
 public class Connection {
-    private Socket socket;
+    private Socket socket = new Socket();
     private String hostname;
 
     public Socket getSocket() {
@@ -18,13 +19,13 @@ public class Connection {
     }
 
     public void connect(String connectInformation, int port)
-            throws ConnectionExistException, ControlConnectionException {
+            throws ControlConnectionException {
         try {
-            if (!isClosed()) {
-                throw new ConnectionExistException();
+            if (!socket.isClosed()) {
+                socket.connect(new InetSocketAddress(connectInformation, port));
+            } else {
+                socket = new Socket(connectInformation, port);
             }
-
-            socket = new Socket(connectInformation, port);
 
             hostname = connectInformation;
         } catch (IOException e) {
@@ -32,20 +33,16 @@ public class Connection {
         }
     }
 
-    public void disconnect() throws ConnectionNotExistException, ControlConnectionException {
-        if (!isClosed()) {
-            try {
-                socket.close();
-            } catch (IOException e) {
-                throw new ControlConnectionException("Socket close error!", e);
-            }
-        } else {
-            throw new ConnectionNotExistException();
+    public void disconnect() throws ControlConnectionException {
+        try {
+            socket.close();
+        } catch (IOException e) {
+            throw new ControlConnectionException("Socket close error!", e);
         }
     }
 
     @Test
-    public void disconnectPositiveTest() throws ConnectionNotExistException, ControlConnectionException, IOException {
+    public void disconnectPositiveTest() throws ControlConnectionException, IOException {
         Connection connection = new Connection();
 
         connection.socket = new Socket("localhost", 21);
@@ -55,7 +52,7 @@ public class Connection {
     }
 
     @Test(expected = ConnectionNotExistException.class)
-    public void disconnectConnectionNotExistException() throws ConnectionNotExistException, ControlConnectionException {
+    public void disconnectConnectionNotExistException() throws ControlConnectionException {
         Connection connection = new Connection();
 
         connection.disconnect();
@@ -63,46 +60,42 @@ public class Connection {
         Assert.fail("Negative test (Expected ConnectionNotExistException) of 'disconnect' failed!");
     }
 
-    private boolean isClosed() {
-        if (socket == null) {
-            return true;
-        } else {
-            return socket.isClosed();
-        }
+    public boolean isConnected() {
+        return socket.isConnected();
     }
 
     @Test
-    public void isClosedSocketNullTest() {
+    public void isConnectedSocketNullTest() {
         Connection connection = new Connection();
 
-        boolean isClosed = connection.isClosed();
+        boolean isClosed = connection.isConnected();
 
-        Assert.assertTrue("True test of 'isClosed' (only build connection) failed", isClosed);
+        Assert.assertTrue("True test of 'isConnected' (only build connection) failed", isClosed);
     }
 
     @Test
-    public void isClosedSocketIsClosedTest() throws IOException, ConnectionNotExistException, ControlConnectionException {
+    public void isConnectedSocketIsClosedTest() throws IOException, ControlConnectionException {
         Connection connection = new Connection();
         connection.socket = new Socket("localhost", 21);
         connection.disconnect();
 
-        boolean isClosed = connection.isClosed();
+        boolean isClosed = connection.isConnected();
 
-        Assert.assertTrue("True test of 'isClosed' (build connection, connect and disconnect) failed", isClosed);
+        Assert.assertTrue("True test of 'isConnected' (build connection, connect and disconnect) failed", isClosed);
     }
 
     @Test
-    public void isClosedSocketIsNotClosedTest() throws IOException {
+    public void isConnectedSocketIsNotClosedTest() throws IOException {
         Connection connection = new Connection();
 
         connection.socket = new Socket("localhost", 21);
 
-        Assert.assertTrue("False test of 'isClosed' (build connection, connect) failed", !connection.isClosed());
+        Assert.assertTrue("False test of 'isConnected' (build connection, connect) failed", !connection.isConnected());
     }
 
     @Test
     public void testConnectShouldCreateSocketAndSetHostnameWhenItIsNewConnecting()
-            throws ConnectionExistException, ControlConnectionException {
+            throws ControlConnectionException {
         Connection connection = new Connection();
         String expectedHostname = "localhost";
 
@@ -114,7 +107,7 @@ public class Connection {
 
     @Test (expected = ConnectionExistException.class)
     public void testConnectShouldThrowConnectionExistExceptionWhenConnectionAlreadyExist()
-            throws ConnectionExistException, ControlConnectionException, IOException {
+            throws ControlConnectionException, IOException {
         Connection connection = new Connection();
 
         connection.socket = new Socket("localhost", 21);

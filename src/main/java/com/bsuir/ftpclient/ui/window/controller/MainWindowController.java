@@ -7,8 +7,6 @@ import com.bsuir.ftpclient.connection.ftp.data.file.ServerFile;
 import com.bsuir.ftpclient.connection.ftp.data.manager.DataManager;
 import com.bsuir.ftpclient.connection.ftp.data.manager.work.FileListReceiving;
 import com.bsuir.ftpclient.connection.ftp.data.manager.work.FileReceiving;
-import com.bsuir.ftpclient.connection.ftp.exception.ConnectionExistException;
-import com.bsuir.ftpclient.connection.ftp.exception.ConnectionNotExistException;
 import com.bsuir.ftpclient.ui.window.controller.exception.MainControllerException;
 import javafx.util.Pair;
 
@@ -25,22 +23,26 @@ public class MainWindowController {
 
     private Connection controlConnection = new Connection();
 
-    private static final int TIMEOUT = 100;
+    private static final int TIMEOUT = 5000;
     private Exchanger<String> responseExchanger = new Exchanger<>();
+
     private SendingManager sendingManager = new SendingManager(controlConnection, responseExchanger);
     private DataManager dataManager = new DataManager();
 
-    public void controlConnecting(String connectInformation)
-            throws ConnectionExistException, ControlConnectionException {
-        controlConnection.connect(connectInformation, CONTROL_PORT);
+    public void controlConnecting(String connectInformation) throws MainControllerException {
+        try {
+            controlConnection.connect(connectInformation, CONTROL_PORT);
+            String connectCommand = "";
+            sendingManager.send(connectCommand);
+        } catch (ControlConnectionException e) {
+            throw new MainControllerException("Error when connect", e);
+        }
 
-        String connectCommand = "";
-        sendingManager.send(connectCommand);
     }
 
-    public void controlDisconnecting()
-            throws ConnectionNotExistException, ControlConnectionException {
-        controlConnection.disconnect();
+    public void controlDisconnecting() {
+        String exitCommand = "QUIT";
+        sendingManager.send(exitCommand);
     }
 
     public void controlAuthenticating(Pair<String, String> authenticationPair) {
@@ -62,7 +64,7 @@ public class MainWindowController {
     }
 
     public void controlLoadingCatalogue(String fromDirectoryPath, String toDirectoryPath)
-            throws ConnectionExistException, ControlConnectionException, MainControllerException {
+            throws MainControllerException {
         File file = new File(toDirectoryPath);
         if (!file.exists()) {
             file.mkdir();
@@ -91,8 +93,7 @@ public class MainWindowController {
         }
     }
 
-    public void controlLoadingFile(String fileName, String toDirectoryPath)
-            throws ConnectionExistException, ControlConnectionException, MainControllerException {
+    public void controlLoadingFile(String fileName, String toDirectoryPath) throws MainControllerException {
         Connection dataConnection = establishDataConnection();
 
         String catalogueLoadingCommand = "RETR " + fileName;
@@ -102,14 +103,13 @@ public class MainWindowController {
         dataManager.manageWork(fileReceiving);
     }
 
-    private Connection establishDataConnection()
-            throws ConnectionExistException, ControlConnectionException, MainControllerException {
+    private Connection establishDataConnection() throws MainControllerException {
         String passiveModeCommand = "PASV";
         sendingManager.send(passiveModeCommand);
 
         Connection dataConnection = new Connection();
         try {
-            String response = responseExchanger.exchange(null, TIMEOUT, TimeUnit.SECONDS);
+            String response = responseExchanger.exchange(null, TIMEOUT, TimeUnit.MILLISECONDS);
 
             Pattern pattern = Pattern.compile("(\\d)+(,(\\d)+){5}");
             Matcher matcher = pattern.matcher(response);
@@ -123,7 +123,7 @@ public class MainWindowController {
             int port = Integer.parseInt(addressDigits[4]) * 256 + Integer.parseInt(addressDigits[5]);
 
             dataConnection.connect(ipAddress, port);
-        } catch (InterruptedException | TimeoutException e) {
+        } catch (InterruptedException | TimeoutException | ControlConnectionException e) {
             throw new MainControllerException("Error when establish data connection", e);
         }
 
@@ -136,7 +136,7 @@ public class MainWindowController {
     }
 
     public List<ServerFile> controlLoadingFileList(String directoryName)
-            throws MainControllerException, ConnectionExistException, ControlConnectionException {
+            throws MainControllerException {
         List<ServerFile> fileComponents;
         try {
             Connection dataConnection = establishDataConnection();
@@ -147,7 +147,7 @@ public class MainWindowController {
             FileListReceiving fileListReceiving = new FileListReceiving(dataConnection, listExchanger);
             dataManager.manageWork(fileListReceiving);
 
-            fileComponents = listExchanger.exchange(null, TIMEOUT, TimeUnit.SECONDS);
+            fileComponents = listExchanger.exchange(null, TIMEOUT, TimeUnit.MILLISECONDS);
         } catch (InterruptedException | TimeoutException e) {
             throw new MainControllerException("Error when getting file list.", e);
         }
