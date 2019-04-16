@@ -32,8 +32,7 @@ public class TreeUpdater {
     }
 
     public void clearTree() {
-        TreeItem<String> rootNode = tree.getRoot();
-        ObservableList<TreeItem<String>> list = rootNode.getChildren();
-        list.clear();
+        TreeItem<String> treeItem = new TreeItem<>("/");
+        tree.setRoot(treeItem);
     }
 }

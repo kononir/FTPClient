@@ -1,6 +1,6 @@
 package com.bsuir.ftpclient.connection.ftp.control.manager;
 
-import com.bsuir.ftpclient.connection.database.DatabaseConnection;
+import com.bsuir.ftpclient.connection.database.DatabaseConnectionActions;
 import com.bsuir.ftpclient.connection.database.exception.DatabaseConnectionException;
 import com.bsuir.ftpclient.connection.ftp.Connection;
 import com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions;
@@ -36,9 +36,11 @@ public class SendingManager {
                 ControlConnectionActions connectionActions = new ControlConnectionActions(controlConnection);
                 connectionActions.sendRequest(request);
 
-                DatabaseConnection databaseConnection = new DatabaseConnection();
+                DatabaseConnectionActions databaseConnectionActions = new DatabaseConnectionActions();
 
                 String firstCode;
+                /* !!!!! when response has digit '1' at first place of answer code
+                         and there is no second response this cycle block executor !!!!! */
                 do {
                     String response = connectionActions.receiveResponse();
                     firstCode = response.substring(0, 1);
@@ -46,7 +48,7 @@ public class SendingManager {
                     handleAnswerCode(response);
 
                     ControlStructure controlStructure = new ControlStructure(request, response);
-                    databaseConnection.insertControlStructure(controlStructure);
+                    databaseConnectionActions.insertControlStructure(controlStructure);
 
                     request = "";
                 } while ("1".equals(firstCode));

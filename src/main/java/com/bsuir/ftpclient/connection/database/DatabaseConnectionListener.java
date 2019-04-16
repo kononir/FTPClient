@@ -9,7 +9,7 @@ import java.util.concurrent.Exchanger;
 public class DatabaseConnectionListener implements Runnable {
 
     private Exchanger<List<ControlStructure>> exchanger;
-    private DatabaseConnection connection = new DatabaseConnection();
+    private DatabaseConnectionActions connection = new DatabaseConnectionActions();
 
     public DatabaseConnectionListener(Exchanger<List<ControlStructure>> exchanger) {
         this.exchanger = exchanger;

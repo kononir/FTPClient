@@ -7,7 +7,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.net.Socket;
 
 public class Connection {
@@ -21,12 +20,7 @@ public class Connection {
     public void connect(String connectInformation, int port)
             throws ControlConnectionException {
         try {
-            if (!socket.isClosed()) {
-                socket.connect(new InetSocketAddress(connectInformation, port));
-            } else {
-                socket = new Socket(connectInformation, port);
-            }
-
+            socket = new Socket(connectInformation, port);
             hostname = connectInformation;
         } catch (IOException e) {
             throw new ControlConnectionException("Socket open error!", e);

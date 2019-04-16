@@ -1,46 +1,17 @@
 package com.bsuir.ftpclient.connection.database;
 
+import com.bsuir.ftpclient.connection.database.exception.ConnectionPoolException;
 import com.bsuir.ftpclient.connection.database.exception.DatabaseConnectionException;
 import com.bsuir.ftpclient.connection.ftp.control.ControlStructure;
-import com.mysql.cj.jdbc.Driver;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseConnection {
-    private Connection connection;
-
-    private static final String URL = "jdbc:mysql://localhost:3306/request_response" +
-            "?useUnicode=true" +
-            "&useJDBCCompliantTimezoneShift=true" +
-            "&useLegacyDatetimeCode=false" +
-            "&serverTimezone=UTC";
-    private static final String USER = "root";
-    private static final String PASSWORD = "root";
-
-    private void connect() throws DatabaseConnectionException {
-        try {
-            Driver driver = new Driver();
-            DriverManager.registerDriver(driver);
-
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (SQLException e) {
-            throw new DatabaseConnectionException("Connection problems!", e);
-        }
-    }
-
-    private void disconnect() throws DatabaseConnectionException {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            throw new DatabaseConnectionException("Problems with disconnect!", e);
-        }
-    }
+public class DatabaseConnectionActions {
 
     public void insertControlStructure(ControlStructure controlStructure) throws DatabaseConnectionException {
-        connect();
-
+        Connection connection = connect();
         try {
             String sqlQuery = "INSERT INTO ftp_control (request, response) values(?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
@@ -52,15 +23,14 @@ public class DatabaseConnection {
         } catch (SQLException e) {
             throw new DatabaseConnectionException("Error when saving request/response to database!", e);
         } finally {
-            disconnect();
+            disconnect(connection);
         }
     }
 
     public List<ControlStructure> selectControlStructures() throws DatabaseConnectionException {
         List<ControlStructure> controlStructures = new ArrayList<>();
 
-        connect();
-
+        Connection connection = connect();
         try {
             Statement selectStatement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
             String sqlQuerySelect = "SELECT * FROM ftp_control";
@@ -76,9 +46,33 @@ public class DatabaseConnection {
         } catch (SQLException e) {
             throw new DatabaseConnectionException("Error when load control structures from database", e);
         } finally {
-            disconnect();
+            disconnect(connection);
         }
 
         return controlStructures;
+    }
+
+    private Connection connect() throws DatabaseConnectionException {
+        Connection connection;
+
+        try {
+            ConnectionPool pool = ConnectionPool.getInstance();
+            connection = pool.getConnection();
+        } catch (ConnectionPoolException e) {
+            throw new DatabaseConnectionException("Working with connection pool error", e);
+        }
+
+        return connection;
+    }
+
+    private void disconnect(Connection connection) throws DatabaseConnectionException {
+        try {
+            if (connection != null) {
+                ConnectionPool pool = ConnectionPool.getInstance();
+                pool.returnConnection(connection);
+            }
+        } catch (ConnectionPoolException e) {
+            throw new DatabaseConnectionException("Working with connection pool error", e);
+        }
     }
 }

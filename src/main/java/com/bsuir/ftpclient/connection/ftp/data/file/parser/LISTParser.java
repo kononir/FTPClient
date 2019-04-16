@@ -5,10 +5,11 @@ import com.bsuir.ftpclient.connection.ftp.data.file.ServerFile;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileNameParser {
+public class LISTParser extends AbstractParser implements FileNamesParser {
     private static final String DIRECTORY_REGEXP = "d[rwx-]{9}.*";
     private static final String INFORMATION_SPLITTER_REGEXP = "(\\s|\\t)+";
 
+    @Override
     public List<ServerFile> parse(List<String> filesInformation) {
         List<ServerFile> fileComponents = new ArrayList<>();
 
@@ -24,7 +25,8 @@ public class FileNameParser {
         return fileComponents;
     }
 
-    private boolean isDirectory(String fileInformation) {
-        return fileInformation.matches(DIRECTORY_REGEXP);
+    @Override
+    protected String getDirectoryRegexp() {
+        return DIRECTORY_REGEXP;
     }
 }

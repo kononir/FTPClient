@@ -4,6 +4,8 @@ import com.bsuir.ftpclient.connection.ftp.Connection;
 import com.bsuir.ftpclient.connection.ftp.control.exception.ControlConnectionException;
 import com.bsuir.ftpclient.connection.ftp.control.manager.SendingManager;
 import com.bsuir.ftpclient.connection.ftp.data.file.ServerFile;
+import com.bsuir.ftpclient.connection.ftp.data.file.parser.FileNamesParser;
+import com.bsuir.ftpclient.connection.ftp.data.file.parser.NLSTParser;
 import com.bsuir.ftpclient.connection.ftp.data.manager.DataManager;
 import com.bsuir.ftpclient.connection.ftp.data.manager.work.FileListReceiving;
 import com.bsuir.ftpclient.connection.ftp.data.manager.work.FileReceiving;
@@ -140,11 +142,12 @@ public class MainWindowController {
         List<ServerFile> fileComponents;
         try {
             Connection dataConnection = establishDataConnection();
-            String fileListLoadingCommand = "LIST " + directoryName; // or MLSD (another format of request - another parser)
+            String fileListLoadingCommand = "NLST " + directoryName; // or MLSD/LIST/NLST (another format of request - another parser)
             sendingManager.send(fileListLoadingCommand);
 
             Exchanger<List<ServerFile>> listExchanger = new Exchanger<>();
-            FileListReceiving fileListReceiving = new FileListReceiving(dataConnection, listExchanger);
+            FileNamesParser parser = new NLSTParser();
+            FileListReceiving fileListReceiving = new FileListReceiving(dataConnection, parser, listExchanger);
             dataManager.manageWork(fileListReceiving);
 
             fileComponents = listExchanger.exchange(null, TIMEOUT, TimeUnit.MILLISECONDS);

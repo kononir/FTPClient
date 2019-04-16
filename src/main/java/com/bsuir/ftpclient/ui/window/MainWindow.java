@@ -82,7 +82,7 @@ public class MainWindow {
         TreeView<String> fileTree = new TreeView<>(root);
         fileTree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             TypedTreeItem<String> node = (TypedTreeItem<String>) newValue;
-            if (node.isLeaf() && node.isPackage()) {
+            if (node != null && node.isLeaf() && node.isPackage()) {
                 loadFileList(newValue);
             }
         });

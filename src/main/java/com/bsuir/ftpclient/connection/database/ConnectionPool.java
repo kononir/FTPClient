@@ -26,7 +26,7 @@ public class ConnectionPool {
     private static final int TIMEOUT = 10;
     private BlockingQueue<Connection> connections = new LinkedBlockingDeque<>();
 
-    private ConnectionPool() throws DatabaseConnectionException {
+    private ConnectionPool() throws ConnectionPoolException {
         try {
             Driver driver = new Driver();
             DriverManager.registerDriver(driver);
@@ -35,12 +35,12 @@ public class ConnectionPool {
                 connections.put(DriverManager.getConnection(URL, USER, PASSWORD));
             }
         } catch (SQLException | InterruptedException e) {
-            throw new DatabaseConnectionException("Problems with making connections pool", e);
+            throw new ConnectionPoolException("Problems with making connections pool", e);
         }
     }
 
     // Double Checked Locking & volatile
-    public ConnectionPool getInstance() throws DatabaseConnectionException {
+    public static ConnectionPool getInstance() throws ConnectionPoolException {
         ConnectionPool localInstance = instance;
         if (localInstance == null) {
             synchronized (ConnectionPool.class) {
