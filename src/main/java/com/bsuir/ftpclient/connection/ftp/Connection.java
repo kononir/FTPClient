@@ -1,8 +1,6 @@
 package com.bsuir.ftpclient.connection.ftp;
 
 import com.bsuir.ftpclient.connection.ftp.control.exception.ControlConnectionException;
-import com.bsuir.ftpclient.connection.ftp.exception.ConnectionExistException;
-import com.bsuir.ftpclient.connection.ftp.exception.ConnectionNotExistException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -10,8 +8,9 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class Connection {
-    private Socket socket = new Socket();
-    private String hostname;
+    private static final int TIMEOUT = 10000;
+
+    private Socket socket;
 
     public Socket getSocket() {
         return socket;
@@ -19,15 +18,23 @@ public class Connection {
 
     public void connect(String connectInformation, int port)
             throws ControlConnectionException {
+        if (socket != null && !socket.isClosed()) {
+            throw new ControlConnectionException("Connection is already established!");
+        }
+
         try {
             socket = new Socket(connectInformation, port);
-            hostname = connectInformation;
+            socket.setSoTimeout(TIMEOUT);
         } catch (IOException e) {
             throw new ControlConnectionException("Socket open error!", e);
         }
     }
 
     public void disconnect() throws ControlConnectionException {
+        if (socket == null || socket.isClosed()) {
+            throw new ControlConnectionException("Connection is not established!");
+        }
+
         try {
             socket.close();
         } catch (IOException e) {
@@ -45,46 +52,38 @@ public class Connection {
         Assert.assertTrue("Positive test of 'connect' failed!", connection.socket.isClosed());
     }
 
-    @Test(expected = ConnectionNotExistException.class)
+    @Test(expected = ControlConnectionException.class)
     public void disconnectConnectionNotExistException() throws ControlConnectionException {
         Connection connection = new Connection();
 
         connection.disconnect();
 
-        Assert.fail("Negative test (Expected ConnectionNotExistException) of 'disconnect' failed!");
+        Assert.fail("Negative test (Expected ControlConnectionException) of 'disconnect' failed!");
     }
 
-    public boolean isConnected() {
-        return socket.isConnected();
-    }
-
-    @Test
-    public void isConnectedSocketNullTest() {
-        Connection connection = new Connection();
-
-        boolean isClosed = connection.isConnected();
-
-        Assert.assertTrue("True test of 'isConnected' (only build connection) failed", isClosed);
+    public boolean isClosed() {
+        return socket == null || socket.isClosed();
     }
 
     @Test
-    public void isConnectedSocketIsClosedTest() throws IOException, ControlConnectionException {
+    public void isClosedSocketIsClosedTest() throws IOException {
         Connection connection = new Connection();
         connection.socket = new Socket("localhost", 21);
-        connection.disconnect();
+        connection.socket.close();
 
-        boolean isClosed = connection.isConnected();
+        boolean isClosed = connection.isClosed();
 
-        Assert.assertTrue("True test of 'isConnected' (build connection, connect and disconnect) failed", isClosed);
+        Assert.assertTrue("True test of 'isClosed' (build connection, connect and disconnect) failed", isClosed);
     }
 
     @Test
-    public void isConnectedSocketIsNotClosedTest() throws IOException {
+    public void isClosedSocketIsNotClosedTest() throws IOException {
         Connection connection = new Connection();
-
         connection.socket = new Socket("localhost", 21);
 
-        Assert.assertTrue("False test of 'isConnected' (build connection, connect) failed", !connection.isConnected());
+        boolean isClosed = connection.isClosed();
+
+        Assert.assertFalse("False test of 'isClosed' (build connection, connect) failed", isClosed);
     }
 
     @Test
@@ -96,10 +95,9 @@ public class Connection {
         connection.connect("localhost", 21);
 
         Assert.assertFalse("Create new connection test is failed: socket isn't created", connection.socket.isClosed());
-        Assert.assertEquals("Create new connection test is failed: hostname isn't set", expectedHostname, connection.hostname);
     }
 
-    @Test (expected = ConnectionExistException.class)
+    @Test (expected = ControlConnectionException.class)
     public void testConnectShouldThrowConnectionExistExceptionWhenConnectionAlreadyExist()
             throws ControlConnectionException, IOException {
         Connection connection = new Connection();
@@ -108,6 +106,6 @@ public class Connection {
 
         connection.connect("localhost", 21);
 
-        Assert.fail("Test should throw ConnectionExistException");
+        Assert.fail("Test should throw ControlConnectionException");
     }
 }

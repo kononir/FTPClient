@@ -1,4 +1,4 @@
-package com.bsuir.ftpclient.ui.dialog;
+package com.bsuir.ftpclient.ui.dialog.choose;
 
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.util.Optional;
 
-public class ClientCatalogueDialog {
+public class ClientCatalogueDialog extends ChoiceFileDialog {
     private DirectoryChooser chooser = new DirectoryChooser();
 
     public ClientCatalogueDialog() {
@@ -17,14 +17,6 @@ public class ClientCatalogueDialog {
         Stage stage = new Stage();
         File choosingCatalogue = chooser.showDialog(stage);
 
-        Optional<String> path;
-
-        if (choosingCatalogue == null) {
-            path = Optional.empty();
-        } else {
-            path = Optional.of(choosingCatalogue.getAbsolutePath());
-        }
-
-        return path;
+        return getOptionalPath(choosingCatalogue);
     }
 }

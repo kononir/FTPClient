@@ -1,4 +1,4 @@
-package com.bsuir.ftpclient.ui.window.controller.exception;
+package com.bsuir.ftpclient.ui.window.exception;
 
 public class MainControllerException extends Exception {
 

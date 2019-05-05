@@ -1,16 +1,20 @@
-package com.bsuir.ftpclient.ui.window.controller;
+package com.bsuir.ftpclient.ui.window;
 
+import com.bsuir.ftpclient.connection.ftp.data.DataType;
 import com.bsuir.ftpclient.connection.ftp.Connection;
 import com.bsuir.ftpclient.connection.ftp.control.exception.ControlConnectionException;
 import com.bsuir.ftpclient.connection.ftp.control.manager.SendingManager;
+import com.bsuir.ftpclient.connection.ftp.data.DataConnectionActions;
 import com.bsuir.ftpclient.connection.ftp.data.file.ServerFile;
 import com.bsuir.ftpclient.connection.ftp.data.file.parser.FileNamesParser;
-import com.bsuir.ftpclient.connection.ftp.data.file.parser.NLSTParser;
+import com.bsuir.ftpclient.connection.ftp.data.file.parser.impl.NLSTParser;
 import com.bsuir.ftpclient.connection.ftp.data.manager.DataManager;
 import com.bsuir.ftpclient.connection.ftp.data.manager.work.FileListReceiving;
 import com.bsuir.ftpclient.connection.ftp.data.manager.work.FileReceiving;
-import com.bsuir.ftpclient.ui.window.controller.exception.MainControllerException;
+import com.bsuir.ftpclient.connection.ftp.data.manager.work.FileSending;
+import com.bsuir.ftpclient.ui.window.exception.MainControllerException;
 import javafx.util.Pair;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.util.List;
@@ -21,11 +25,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MainWindowController {
+    private static final Logger LOGGER = Logger.getRootLogger();
+
     private static final int CONTROL_PORT = 21;
 
     private Connection controlConnection = new Connection();
 
-    private static final int TIMEOUT = 5000;
+    private static final int TIMEOUT = 1000;
     private Exchanger<String> responseExchanger = new Exchanger<>();
 
     private SendingManager sendingManager = new SendingManager(controlConnection, responseExchanger);
@@ -37,9 +43,9 @@ public class MainWindowController {
             String connectCommand = "";
             sendingManager.send(connectCommand);
         } catch (ControlConnectionException e) {
-            throw new MainControllerException("Error when connect", e);
+            LOGGER.error("Connecting error.", e);
+            throw new MainControllerException("Connecting error.", e);
         }
-
     }
 
     public void controlDisconnecting() {
@@ -74,35 +80,80 @@ public class MainWindowController {
 
         List<ServerFile> files = controlLoadingFileList(fromDirectoryPath);
         for (ServerFile serverFile : files) {
+            String fileName = serverFile.getName();
+            String newFromPath = getNewServerDirectoryPath(fromDirectoryPath, fileName);
+            String newToPath = getNewClientDirectoryPath(toDirectoryPath, fileName);
+
             if (serverFile.isDirectory()) {
-                String dirName = serverFile.getName();
-
-                String newFromPath;
-                if ("/".equals(fromDirectoryPath)) {
-                    newFromPath = fromDirectoryPath + dirName;
-                } else {
-                    newFromPath = fromDirectoryPath + "/" + dirName;
-                }
-
-                String newToPath = toDirectoryPath + "/" + dirName;
                 controlLoadingCatalogue(newFromPath, newToPath);
             } else {
-                String catalogueLoadingCommand = "RETR " + fromDirectoryPath;
-                sendingManager.send(catalogueLoadingCommand);
-
-                controlLoadingFile(serverFile.getName(), toDirectoryPath);
+                controlLoadingFile(newFromPath, newToPath);
             }
         }
     }
 
+    public void controlSavingCatalogue(String fromDirectoryPath, String toDirectoryPath)
+            throws MainControllerException {
+        controlCreatingCatalogue(toDirectoryPath);
+
+        File directory = new File(fromDirectoryPath);
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                String dirName = file.getName();
+                String newFromPath = getNewClientDirectoryPath(fromDirectoryPath, dirName);
+                String newToPath = getNewServerDirectoryPath(toDirectoryPath, dirName);
+
+                if (file.isDirectory()) {
+                    controlSavingCatalogue(newFromPath, newToPath);
+                } else {
+                    controlSavingFile(newFromPath, newToPath);
+                }
+            }
+        }
+    }
+
+    private String getNewClientDirectoryPath(String oldPath, String name) {
+        return oldPath + "/" + name;
+    }
+
+    private String getNewServerDirectoryPath(String oldPath, String dirName) {
+        String newToPath;
+
+        if ("/".equals(oldPath)) {
+            newToPath = oldPath + dirName;
+        } else {
+            newToPath = oldPath + "/" + dirName;
+        }
+
+        return newToPath;
+    }
+
+    public void controlDeletingFile(String fileName) {
+        String fileDeletingCommand = "DELE " + fileName;
+        sendingManager.send(fileDeletingCommand);
+    }
+
     public void controlLoadingFile(String fileName, String toDirectoryPath) throws MainControllerException {
         Connection dataConnection = establishDataConnection();
+        DataConnectionActions actions = new DataConnectionActions(dataConnection);
 
         String catalogueLoadingCommand = "RETR " + fileName;
         sendingManager.send(catalogueLoadingCommand);
 
-        FileReceiving fileReceiving = new FileReceiving(dataConnection, toDirectoryPath + '/' + fileName);
+        FileReceiving fileReceiving = new FileReceiving(actions, toDirectoryPath);
         dataManager.manageWork(fileReceiving);
+    }
+
+    public void controlSavingFile(String fromFile, String toFile) throws MainControllerException {
+        Connection dataConnection = establishDataConnection();
+        DataConnectionActions actions = new DataConnectionActions(dataConnection);
+
+        String catalogueSavingCommand = "STOR " + toFile;
+        sendingManager.send(catalogueSavingCommand);
+
+        FileSending fileSending = new FileSending(actions, fromFile);
+        dataManager.manageWork(fileSending);
     }
 
     private Connection establishDataConnection() throws MainControllerException {
@@ -126,7 +177,8 @@ public class MainWindowController {
 
             dataConnection.connect(ipAddress, port);
         } catch (InterruptedException | TimeoutException | ControlConnectionException e) {
-            throw new MainControllerException("Error when establish data connection", e);
+            LOGGER.error("Error when establish data connection.", e);
+            throw new MainControllerException("Error when establish data connection.", e);
         }
 
         return dataConnection;
@@ -137,12 +189,16 @@ public class MainWindowController {
         dataManager.shutdown();
     }
 
+    public void controlRestartSendingMessages() {
+        sendingManager.restart();
+    }
+
     public List<ServerFile> controlLoadingFileList(String directoryName)
             throws MainControllerException {
         List<ServerFile> fileComponents;
         try {
             Connection dataConnection = establishDataConnection();
-            String fileListLoadingCommand = "NLST " + directoryName; // or MLSD/LIST/NLST (another format of request - another parser)
+            String fileListLoadingCommand = "NLST " + directoryName; // MLSD/LIST/NLST (another format of request - another parser)
             sendingManager.send(fileListLoadingCommand);
 
             Exchanger<List<ServerFile>> listExchanger = new Exchanger<>();
@@ -152,12 +208,13 @@ public class MainWindowController {
 
             fileComponents = listExchanger.exchange(null, TIMEOUT, TimeUnit.MILLISECONDS);
         } catch (InterruptedException | TimeoutException e) {
+            LOGGER.error("Error when getting file list.", e);
             throw new MainControllerException("Error when getting file list.", e);
         }
         return fileComponents;
     }
 
-    public void changeWorkingDirectory(String directoryName) throws MainControllerException {
+    public void controlChangeWorkingDirectory(String directoryName) throws MainControllerException {
         if (directoryName == null) {
             throw new MainControllerException("Null directory name.");
         }
@@ -166,8 +223,8 @@ public class MainWindowController {
         sendingManager.send(changingDirectoryCommand);
     }
 
-    public void changeWorkingDirectoryToParent() {
-        String changingDirectoryCommand = "CDUP";
-        sendingManager.send(changingDirectoryCommand);
+    public void controlChangeDataType(DataType dataType) {
+        String changeDataTypeCommand = "TYPE " + dataType.getCode() + " " + "N";
+        sendingManager.send(changeDataTypeCommand);
     }
 }

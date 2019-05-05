@@ -1,14 +1,13 @@
 package com.bsuir.ftpclient.connection.database;
 
 import com.bsuir.ftpclient.connection.database.exception.ConnectionPoolException;
-import com.bsuir.ftpclient.connection.database.exception.DatabaseConnectionException;
 import com.mysql.cj.jdbc.Driver;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
 public class ConnectionPool {
@@ -23,8 +22,7 @@ public class ConnectionPool {
     private static final String USER = "root";
     private static final String PASSWORD = "root";
 
-    private static final int TIMEOUT = 10;
-    private BlockingQueue<Connection> connections = new LinkedBlockingDeque<>();
+    private BlockingQueue<Connection> connections = new ArrayBlockingQueue<>(CONNECTIONS_NUMBER);
 
     private ConnectionPool() throws ConnectionPoolException {
         try {
@@ -35,7 +33,7 @@ public class ConnectionPool {
                 connections.put(DriverManager.getConnection(URL, USER, PASSWORD));
             }
         } catch (SQLException | InterruptedException e) {
-            throw new ConnectionPoolException("Problems with making connections pool", e);
+            throw new ConnectionPoolException("Problems with making connections", e);
         }
     }
 
@@ -56,7 +54,7 @@ public class ConnectionPool {
 
     public Connection getConnection() throws ConnectionPoolException {
         try {
-            return connections.poll(TIMEOUT, TimeUnit.MILLISECONDS);
+            return connections.poll(5, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             throw new ConnectionPoolException("Getting pool connection error", e);
         }

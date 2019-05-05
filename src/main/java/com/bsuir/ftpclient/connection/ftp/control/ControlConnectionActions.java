@@ -18,6 +18,10 @@ public class ControlConnectionActions {
 
     public void sendRequest(String request)
             throws ControlConnectionException {
+        if (controlConnection.isClosed()) {
+            throw new ControlConnectionException("Connection doesn't exist");
+        }
+
         Socket socket = controlConnection.getSocket();
 
         try {
@@ -29,6 +33,10 @@ public class ControlConnectionActions {
     }
 
     public String receiveResponse() throws ControlConnectionException {
+        if (controlConnection.isClosed()) {
+            throw new ControlConnectionException("Connection doesn't exist");
+        }
+
         Socket socket = controlConnection.getSocket();
 
         StringBuilder response;

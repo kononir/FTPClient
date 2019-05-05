@@ -1,4 +1,4 @@
-package com.bsuir.ftpclient.ui.dialog;
+package com.bsuir.ftpclient.ui.dialog.choose;
 
 import javafx.scene.control.TextInputDialog;
 

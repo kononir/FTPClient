@@ -1,14 +1,15 @@
 package com.bsuir.ftpclient.ui.window;
 
+import com.bsuir.ftpclient.connection.ftp.data.DataType;
 import com.bsuir.ftpclient.connection.ftp.data.file.ServerFile;
 import com.bsuir.ftpclient.ui.alert.ConnectionErrorAlert;
 import com.bsuir.ftpclient.ui.alert.DisconnectAlert;
 import com.bsuir.ftpclient.ui.dialog.*;
-import com.bsuir.ftpclient.ui.memo.MemoManager;
+import com.bsuir.ftpclient.ui.dialog.choose.*;
+import com.bsuir.ftpclient.ui.manager.MainWindowManager;
 import com.bsuir.ftpclient.ui.tree.TreeUpdater;
 import com.bsuir.ftpclient.ui.tree.TypedTreeItem;
-import com.bsuir.ftpclient.ui.window.controller.MainWindowController;
-import com.bsuir.ftpclient.ui.window.controller.exception.MainControllerException;
+import com.bsuir.ftpclient.ui.window.exception.MainControllerException;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -24,7 +25,7 @@ import java.util.Optional;
 
 public class MainWindow {
     private TreeUpdater fileTreeUpdater;
-    private MemoManager memoManager;
+    private MainWindowManager mainWindowManager;
 
     private MainWindowController controller = new MainWindowController();
 
@@ -50,28 +51,49 @@ public class MainWindow {
         MenuItem loadCatalogue = new MenuItem("Load");
         loadCatalogue.setOnAction(event -> loadCatalogue());
 
+        MenuItem saveCatalogue = new MenuItem("Save");
+        saveCatalogue.setOnAction(event -> saveCatalogue());
+
         Menu catalogueMenu = new Menu("Catalogue");
         catalogueMenu.getItems().addAll(
                 createCatalogue,
                 deleteCatalogue,
                 new SeparatorMenuItem(),
-                loadCatalogue
+                loadCatalogue,
+                saveCatalogue
         );
+
+        MenuItem deleteFile = new MenuItem("Delete");
+        deleteFile.setOnAction(event -> deleteFile());
 
         MenuItem loadFile = new MenuItem("Load");
         loadFile.setOnAction(event -> loadFile());
 
+        MenuItem saveFile = new MenuItem("Save");
+        saveFile.setOnAction(event -> saveFile());
+
         Menu fileMenu = new Menu("File");
         fileMenu.getItems().addAll(
-                loadFile
+                deleteFile,
+                new SeparatorMenuItem(),
+                loadFile,
+                saveFile
         );
 
-        menuBar.getMenus().addAll(connectionMenu, catalogueMenu, fileMenu);
+        MenuItem changeDataType = new MenuItem("Data type");
+        changeDataType.setOnAction(event -> changeDataType());
+
+        Menu optionsMenu = new Menu("Options");
+        optionsMenu.getItems().addAll(
+                changeDataType
+        );
+
+        menuBar.getMenus().addAll(connectionMenu, catalogueMenu, fileMenu, optionsMenu);
 
         TextArea answerMemo = new TextArea();
         answerMemo.setEditable(false);
 
-        memoManager = new MemoManager(answerMemo);
+        mainWindowManager = new MainWindowManager(answerMemo, new WaitingDialog(controller));
 
         ScrollPane memoScrolling = new ScrollPane();
         memoScrolling.setContent(answerMemo);
@@ -82,8 +104,12 @@ public class MainWindow {
         TreeView<String> fileTree = new TreeView<>(root);
         fileTree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             TypedTreeItem<String> node = (TypedTreeItem<String>) newValue;
-            if (node != null && node.isLeaf() && node.isPackage()) {
-                loadFileList(newValue);
+            if (node != null && node.isPackage()) {
+                if (node.isLeaf()) {
+                    loadFileList(newValue);
+                }
+
+                changeWorkingDirectory(newValue);
             }
         });
 
@@ -126,7 +152,7 @@ public class MainWindow {
         result.ifPresent(connectInformation -> {
             try {
                 controller.controlConnecting(connectInformation);
-                memoManager.startShowingServerAnswers();
+                mainWindowManager.startShowingServerAnswers();
 
                 Optional<Pair<String, String>> authenticationOptional = new AuthenticationDialog().showAndWait();
 
@@ -150,21 +176,20 @@ public class MainWindow {
         new DisconnectAlert();
     }
 
-    private String getAbsolutePath(TreeItem<String> node) {
-        TreeItem<String> parent = node.getParent();
-
-        if ((parent != null)) {
-            return  getAbsolutePath(parent) + "/" + node.getValue();
-        } else {
-            return "";
+    private void loadFileList(TreeItem<String> node) {
+        try {
+            String path = fileTreeUpdater.getAbsolutePath(node);
+            List<ServerFile> fileComponents = controller.controlLoadingFileList(path);
+            fileTreeUpdater.addAllComponents(fileComponents, node);
+        } catch (MainControllerException e) {
+            new ConnectionErrorAlert(e);
         }
     }
 
-    private void loadFileList(TreeItem<String> node) {
+    private void changeWorkingDirectory(TreeItem<String> node) {
         try {
-            String path = getAbsolutePath(node);
-            List<ServerFile> fileComponents = controller.controlLoadingFileList(path);
-            fileTreeUpdater.addAllComponents(fileComponents, node);
+            String path = fileTreeUpdater.getAbsolutePath(node);
+            controller.controlChangeWorkingDirectory(path);
         } catch (MainControllerException e) {
             new ConnectionErrorAlert(e);
         }
@@ -186,12 +211,31 @@ public class MainWindow {
             Optional<String> optionalTo = new ClientCatalogueDialog().chooseCataloguePath();
             optionalTo.ifPresent(toPath -> {
                 try {
-                    controller.controlLoadingCatalogue(fromPath, toPath);
+                    controller.controlLoadingCatalogue(fromPath, toPath + "/" + fromPath);
                 } catch (MainControllerException e) {
                     new ConnectionErrorAlert(e);
                 }
             });
         });
+    }
+
+    private void saveCatalogue() {
+        Optional<String> optionalFrom = new ClientCatalogueDialog().chooseCataloguePath();
+        optionalFrom.ifPresent(fromPath -> {
+            Optional<String> optionalTo = new ServerCatalogueDialog().showAndWait();
+            optionalTo.ifPresent(toPath -> {
+                try {
+                    controller.controlSavingCatalogue(fromPath, toPath);
+                } catch (MainControllerException e) {
+                    new ConnectionErrorAlert(e);
+                }
+            });
+        });
+    }
+
+    private void deleteFile() {
+        Optional<String> result = new ServerFileDialog().showAndWait();
+        result.ifPresent(fileName -> controller.controlDeletingFile(fileName));
     }
 
     private void loadFile() {
@@ -200,7 +244,7 @@ public class MainWindow {
             Optional<String> optionalTo = new ClientCatalogueDialog().chooseCataloguePath();
             optionalTo.ifPresent(toPath -> {
                 try {
-                    controller.controlLoadingFile(fromPath, toPath);
+                    controller.controlLoadingFile(fromPath, toPath + '/' + fromPath);
                 } catch (MainControllerException e) {
                     new ConnectionErrorAlert(e);
                 }
@@ -208,9 +252,28 @@ public class MainWindow {
         });
     }
 
+    private void saveFile() {
+        Optional<String> optionalFrom = new ClientFileDialog().chooseFilePath();
+        optionalFrom.ifPresent(fromFile -> {
+            Optional<String> optionalTo = new ServerFileDialog().showAndWait();
+            optionalTo.ifPresent(toFile -> {
+                try {
+                    controller.controlSavingFile(fromFile, toFile);
+                } catch (MainControllerException e) {
+                    new ConnectionErrorAlert(e);
+                }
+            });
+        });
+    }
+
+    private void changeDataType() {
+        Optional<String> optionalDataType = new ChoiceDataTypeDialog().showAndWait();
+        optionalDataType.ifPresent(dataType -> controller.controlChangeDataType(DataType.valueOf(dataType)));
+    }
+
     private void close() {
         controller.controlClose();
-        memoManager.stopShowingServerAnswers();
+        mainWindowManager.stopShowingServerAnswers();
         Platform.exit();
     }
 }

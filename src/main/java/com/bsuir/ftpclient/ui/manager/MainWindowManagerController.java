@@ -1,4 +1,4 @@
-package com.bsuir.ftpclient.ui.memo.controller;
+package com.bsuir.ftpclient.ui.manager;
 
 import com.bsuir.ftpclient.connection.database.DatabaseConnectionListener;
 import com.bsuir.ftpclient.connection.ftp.control.ControlStructure;
@@ -6,7 +6,7 @@ import com.bsuir.ftpclient.connection.ftp.control.ControlStructure;
 import java.util.List;
 import java.util.concurrent.*;
 
-public class MemoManagerController {
+public class MainWindowManagerController {
     private Exchanger<List<ControlStructure>> exchanger = new Exchanger<>();
 
     private static final int CORE_POOL_SIZE = 1;

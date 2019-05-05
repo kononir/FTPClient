@@ -1,4 +1,4 @@
-package com.bsuir.ftpclient.ui.tree.controller;
+package com.bsuir.ftpclient.ui.tree;
 
 import com.bsuir.ftpclient.connection.ftp.data.file.ServerFile;
 

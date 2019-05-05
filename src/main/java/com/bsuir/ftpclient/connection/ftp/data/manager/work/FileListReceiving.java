@@ -5,7 +5,7 @@ import com.bsuir.ftpclient.connection.ftp.data.DataConnectionActions;
 import com.bsuir.ftpclient.connection.ftp.data.exception.DataConnectionException;
 import com.bsuir.ftpclient.connection.ftp.data.file.ServerFile;
 import com.bsuir.ftpclient.connection.ftp.data.file.parser.FileNamesParser;
-import com.bsuir.ftpclient.connection.ftp.exception.ConnectionNotExistException;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.concurrent.Exchanger;
@@ -13,6 +13,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class FileListReceiving implements Runnable {
+    private static final Logger LOGGER = Logger.getLogger("dataWorkLogger");
+
     private Connection dataConnection;
 
     private FileNamesParser parser;
@@ -34,9 +36,8 @@ public class FileListReceiving implements Runnable {
 
             List<ServerFile> fileComponents = parser.parse(filesInfo);
             exchanger.exchange(fileComponents, TIMEOUT, TimeUnit.MILLISECONDS);
-        } catch (ConnectionNotExistException | DataConnectionException
-                | InterruptedException | TimeoutException e) {
-            e.printStackTrace();
+        } catch (DataConnectionException | InterruptedException | TimeoutException e) {
+            LOGGER.error("File list receiving error.", e);
         }
     }
 }

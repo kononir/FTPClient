@@ -1,13 +1,14 @@
-package com.bsuir.ftpclient.ui.memo;
+package com.bsuir.ftpclient.ui.manager;
 
 import com.bsuir.ftpclient.connection.ftp.control.ControlStructure;
-import com.bsuir.ftpclient.ui.memo.controller.MemoManagerController;
+import com.bsuir.ftpclient.ui.dialog.WaitingDialog;
+import com.bsuir.ftpclient.ui.memo.MemoUpdater;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.TextArea;
 
 import java.util.List;
 
-public class MemoManager {
+public class MainWindowManager {
     private AnimationTimer timer = new AnimationTimer() {
         @Override
         public void handle(long now) {
@@ -15,12 +16,14 @@ public class MemoManager {
         }
     };
 
+    private WaitingDialog waitingDialog;
     private MemoUpdater memoUpdater;
 
-    private MemoManagerController controller = new MemoManagerController();
+    private MainWindowManagerController controller = new MainWindowManagerController();
 
-    public MemoManager(TextArea memo) {
+    public MainWindowManager(TextArea memo, WaitingDialog waitingDialog) {
         this.memoUpdater = new MemoUpdater(memo);
+        this.waitingDialog = waitingDialog;
     }
 
     public void startShowingServerAnswers() {
@@ -29,7 +32,7 @@ public class MemoManager {
         timer.start();
     }
 
-    private void showLastAnswers(MemoManagerController controller) {
+    private void showLastAnswers(MainWindowManagerController controller) {
         List<ControlStructure> controlStructures = controller.controlGettingControlStructures();
 
         if (controlStructures != null) {
@@ -52,22 +55,23 @@ public class MemoManager {
     }
 
     private void workWithResponseCode(String serverAnswer) {
-        String serverCloseControlConnection = "221";
-        String serviceNotAvailable = "421";
-
         String answerCode = serverAnswer.substring(0, 3);
-
-        boolean controlConnectionIsClosed = serverCloseControlConnection.equals(answerCode)
-                || serviceNotAvailable.equals(answerCode);
-
+        boolean controlConnectionIsClosed = "221".equals(answerCode) || "421".equals(answerCode);
         if (controlConnectionIsClosed) {
             timer.stop();
+        }
+
+        String firstDigit = serverAnswer.substring(0, 1);
+        boolean expectedOneMoreCommand = "1".equals(firstDigit);
+        if (expectedOneMoreCommand && !waitingDialog.isShowing()) {
+            waitingDialog.show();
+        } else if (waitingDialog != null && waitingDialog.isShowing()) {
+            waitingDialog.close();
         }
     }
 
     public void stopShowingServerAnswers() {
         controller.controlStoppingListening();
-
         timer.stop();
     }
 }

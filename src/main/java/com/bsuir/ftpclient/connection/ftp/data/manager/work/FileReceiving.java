@@ -1,26 +1,26 @@
 package com.bsuir.ftpclient.connection.ftp.data.manager.work;
 
-import com.bsuir.ftpclient.connection.ftp.Connection;
 import com.bsuir.ftpclient.connection.ftp.data.DataConnectionActions;
 import com.bsuir.ftpclient.connection.ftp.data.exception.DataConnectionException;
-import com.bsuir.ftpclient.connection.ftp.exception.ConnectionNotExistException;
+import org.apache.log4j.Logger;
 
 public class FileReceiving implements Runnable {
-    private Connection dataConnection;
+    private static final Logger LOGGER = Logger.getLogger("dataWorkLogger");
+
+    private DataConnectionActions actions;
     private String toPath;
 
-    public FileReceiving(Connection dataConnection, String toPath) {
-        this.dataConnection = dataConnection;
+    public FileReceiving(DataConnectionActions actions, String toPath) {
+        this.actions = actions;
         this.toPath = toPath;
     }
 
     @Override
     public void run() {
         try {
-            DataConnectionActions actions = new DataConnectionActions(dataConnection);
             actions.loadFile(toPath);
-        } catch (DataConnectionException | ConnectionNotExistException e) {
-            e.printStackTrace();
+        } catch (DataConnectionException e) {
+            LOGGER.error("File receiving error.", e);
         }
     }
 }

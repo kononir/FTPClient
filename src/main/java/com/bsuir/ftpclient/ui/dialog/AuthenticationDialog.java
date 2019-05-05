@@ -8,8 +8,8 @@ import javafx.util.Pair;
 
 public class AuthenticationDialog extends Dialog<Pair<String, String>> {
     public AuthenticationDialog() {
-        this.setTitle("Text input");
-        this.setHeaderText("Authentication");
+        setTitle("Text input");
+        setHeaderText("Authentication");
 
         TextField loginTextField = new TextField("anonymous");
         loginTextField.setPromptText("Login");
@@ -28,11 +28,11 @@ public class AuthenticationDialog extends Dialog<Pair<String, String>> {
 
         ButtonType loginButtonType = new ButtonType("Login", ButtonBar.ButtonData.OK_DONE);
 
-        DialogPane dialogPane = this.getDialogPane();
+        DialogPane dialogPane = getDialogPane();
         ObservableList<ButtonType> buttonTypes = dialogPane.getButtonTypes();
         buttonTypes.addAll(loginButtonType, ButtonType.CANCEL);
 
-        this.setResultConverter(dialogButton -> {
+        setResultConverter(dialogButton -> {
             if (dialogButton == loginButtonType) {
                 return new Pair<>(loginTextField.getText(), passwordTextField.getText());
             }

@@ -1,8 +1,6 @@
 package com.bsuir.ftpclient.ui.tree;
 
 import com.bsuir.ftpclient.connection.ftp.data.file.ServerFile;
-import com.bsuir.ftpclient.ui.tree.controller.TreeUpdaterController;
-import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 
@@ -32,7 +30,27 @@ public class TreeUpdater {
     }
 
     public void clearTree() {
-        TreeItem<String> treeItem = new TreeItem<>("/");
-        tree.setRoot(treeItem);
+        TreeItem<String> root = new TypedTreeItem<>("/", true);
+        tree.setRoot(root);
+    }
+
+    public String getAbsolutePath(TreeItem<String> node) {
+        TreeItem<String> parent = node.getParent();
+
+        if ((parent != null)) {
+            return getParentsPath(parent) + "/" + node.getValue();
+        } else {
+            return "/";
+        }
+    }
+
+    public String getParentsPath(TreeItem<String> node) {
+        TreeItem<String> parent = node.getParent();
+
+        if ((parent != null)) {
+            return getParentsPath(parent) + "/" + node.getValue();
+        } else {
+            return "";
+        }
     }
 }

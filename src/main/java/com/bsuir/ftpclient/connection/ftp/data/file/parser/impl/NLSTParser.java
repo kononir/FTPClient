@@ -1,11 +1,10 @@
-package com.bsuir.ftpclient.connection.ftp.data.file.parser;
+package com.bsuir.ftpclient.connection.ftp.data.file.parser.impl;
 
 import com.bsuir.ftpclient.connection.ftp.data.file.ServerFile;
+import com.bsuir.ftpclient.connection.ftp.data.file.parser.FileNamesParser;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class NLSTParser extends AbstractParser implements FileNamesParser {
     private static final String DIRECTORY_REGEXP = "\\w+";

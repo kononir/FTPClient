@@ -6,14 +6,16 @@ import com.bsuir.ftpclient.connection.ftp.Connection;
 import com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions;
 import com.bsuir.ftpclient.connection.ftp.control.ControlStructure;
 import com.bsuir.ftpclient.connection.ftp.control.exception.ControlConnectionException;
+import org.apache.log4j.Logger;
 
 import java.util.concurrent.*;
 
 public class SendingManager {
+    private static final Logger LOGGER = Logger.getLogger("senderLogger");
+
     private Connection controlConnection;
 
-    private static final int ONE_THREAD = 1;
-    private ExecutorService executorService = Executors.newFixedThreadPool(ONE_THREAD);
+    private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     private static final int TIMEOUT = 5000;
     private Exchanger<String> responseExchanger;
@@ -40,7 +42,7 @@ public class SendingManager {
 
                 String firstCode;
                 /* !!!!! when response has digit '1' at first place of answer code
-                         and there is no second response this cycle block executor !!!!! */
+                         and there is no second response this cycle blocks executor !!!!! */
                 do {
                     String response = connectionActions.receiveResponse();
                     firstCode = response.substring(0, 1);
@@ -54,7 +56,7 @@ public class SendingManager {
                 } while ("1".equals(firstCode));
             } catch (ControlConnectionException | TimeoutException
                     | InterruptedException | DatabaseConnectionException e) {
-                e.printStackTrace();
+                LOGGER.error("Sending message error.", e);
             }
         }
 
@@ -83,5 +85,10 @@ public class SendingManager {
 
     public void killAllSenders() {
         executorService.shutdown();
+    }
+
+    public void restart() {
+        executorService.shutdown();
+        executorService = Executors.newSingleThreadExecutor();
     }
 }

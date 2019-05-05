@@ -1,6 +1,7 @@
-package com.bsuir.ftpclient.connection.ftp.data.file.parser;
+package com.bsuir.ftpclient.connection.ftp.data.file.parser.impl;
 
 import com.bsuir.ftpclient.connection.ftp.data.file.ServerFile;
+import com.bsuir.ftpclient.connection.ftp.data.file.parser.FileNamesParser;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,7 +2,6 @@ package com.bsuir.ftpclient.connection.ftp.control;
 
 import com.bsuir.ftpclient.connection.ftp.Connection;
 import com.bsuir.ftpclient.connection.ftp.control.exception.ControlConnectionException;
-import com.bsuir.ftpclient.connection.ftp.exception.ConnectionNotExistException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -22,9 +21,12 @@ public class ControlConnectionActionsTests {
 
     private static final Socket NULL_SOCKET = null;
 
+    private static final boolean CLOSED = true;
+    private static final boolean NOT_CLOSED = false;
+
     @Test
     public void testReceiveResponseShouldReturnOneLineWhenReceiveOneLine()
-            throws IOException, ConnectionNotExistException, ControlConnectionException {
+            throws IOException, ControlConnectionException {
         String actual = positiveTestReceive(ONE_LINE);
 
         Assert.assertEquals(ONE_LINE, actual);
@@ -32,7 +34,7 @@ public class ControlConnectionActionsTests {
 
     @Test
     public void testReceiveResponseShouldReturnTwoLinesWhenReceiveTwoLine()
-            throws ControlConnectionException, ConnectionNotExistException, IOException {
+            throws ControlConnectionException, IOException {
         String actual = positiveTestReceive(TWO_LINES);
 
         Assert.assertEquals(TWO_LINES, actual);
@@ -40,16 +42,17 @@ public class ControlConnectionActionsTests {
 
     @Test
     public void testReceiveResponseShouldReturnThreeLinesWhenReceiveThreeLine()
-            throws ControlConnectionException, ConnectionNotExistException, IOException {
+            throws ControlConnectionException, IOException {
         String actual = positiveTestReceive(THREE_LINES);
 
         Assert.assertEquals(THREE_LINES, actual);
     }
 
-    @Test (expected = ConnectionNotExistException.class)
+    @Test(expected = ControlConnectionException.class)
     public void testReceiveResponseShouldThrowConnectionNotExistExceptionWhenConnectionNotExist()
-            throws ConnectionNotExistException, ControlConnectionException {
+            throws ControlConnectionException {
         Connection connection = mock(Connection.class);
+        when(connection.isClosed()).thenReturn(CLOSED);
         when(connection.getSocket()).thenReturn(NULL_SOCKET);
 
         ControlConnectionActions actions = new ControlConnectionActions(connection);
@@ -60,8 +63,10 @@ public class ControlConnectionActionsTests {
     }
 
     private String positiveTestReceive(String expected)
-            throws IOException, ConnectionNotExistException, ControlConnectionException {
+            throws IOException, ControlConnectionException {
         Connection connection = mock(Connection.class);
+        when(connection.isClosed()).thenReturn(NOT_CLOSED);
+
         Socket socket = mock(Socket.class);
         when(connection.getSocket()).thenReturn(socket);
 
@@ -75,8 +80,10 @@ public class ControlConnectionActionsTests {
 
     @Test
     public void testSendRequestShouldReturnRequestWhenRetrieveStringFromStream()
-            throws IOException, ControlConnectionException, ConnectionNotExistException {
+            throws IOException, ControlConnectionException {
         Connection connection = mock(Connection.class);
+        when(connection.isClosed()).thenReturn(NOT_CLOSED);
+
         Socket socket = mock(Socket.class);
         when(connection.getSocket()).thenReturn(socket);
 
@@ -92,11 +99,12 @@ public class ControlConnectionActionsTests {
         Assert.assertEquals(REQUEST_WITH_NL, actual);
     }
 
-    @Test (expected = ConnectionNotExistException.class)
+    @Test(expected = ControlConnectionException.class)
     public void testSendRequestShouldThrowConnectionNotExistExceptionWhenConnectionNotExist()
-            throws ConnectionNotExistException, ControlConnectionException {
+            throws ControlConnectionException {
         Connection connection = mock(Connection.class);
         when(connection.getSocket()).thenReturn(NULL_SOCKET);
+        when(connection.isClosed()).thenReturn(CLOSED);
 
         ControlConnectionActions actions = new ControlConnectionActions(connection);
 
