@@ -4,6 +4,7 @@ import com.bsuir.ftpclient.connection.ftp.data.DataType;
 import javafx.scene.control.ChoiceDialog;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 public class ChoiceDataTypeDialog extends ChoiceDialog<String> {
 
@@ -17,5 +18,9 @@ public class ChoiceDataTypeDialog extends ChoiceDialog<String> {
         setTitle("Choice data type");
         setHeaderText("Choice data type");
         setContentText("Choose data type:");
+    }
+
+    public Optional<String> showDialog() {
+        return this.showAndWait();
     }
 }

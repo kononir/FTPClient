@@ -6,7 +6,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 
+import java.util.Optional;
+
 public class AuthenticationDialog extends Dialog<Pair<String, String>> {
+
     public AuthenticationDialog() {
         setTitle("Text input");
         setHeaderText("Authentication");
@@ -40,5 +43,9 @@ public class AuthenticationDialog extends Dialog<Pair<String, String>> {
         });
 
         dialogPane.setContent(pane);
+    }
+
+    public Optional<Pair<String, String>> showDialog() {
+        return this.showAndWait();
     }
 }

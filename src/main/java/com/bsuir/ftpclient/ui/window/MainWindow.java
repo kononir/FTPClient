@@ -4,13 +4,16 @@ import com.bsuir.ftpclient.connection.ftp.data.DataType;
 import com.bsuir.ftpclient.connection.ftp.data.file.ServerFile;
 import com.bsuir.ftpclient.ui.alert.ConnectionErrorAlert;
 import com.bsuir.ftpclient.ui.alert.DisconnectAlert;
-import com.bsuir.ftpclient.ui.dialog.*;
+import com.bsuir.ftpclient.ui.dialog.AuthenticationDialog;
+import com.bsuir.ftpclient.ui.dialog.HostnameDialog;
+import com.bsuir.ftpclient.ui.dialog.WaitingDialog;
 import com.bsuir.ftpclient.ui.dialog.choose.*;
 import com.bsuir.ftpclient.ui.manager.MainWindowManager;
 import com.bsuir.ftpclient.ui.tree.TreeUpdater;
 import com.bsuir.ftpclient.ui.tree.TypedTreeItem;
 import com.bsuir.ftpclient.ui.window.exception.MainControllerException;
 import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,9 +22,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.List;
 import java.util.Optional;
+
+import static org.mockito.Mockito.*;
 
 public class MainWindow {
     private TreeUpdater fileTreeUpdater;
@@ -29,30 +37,61 @@ public class MainWindow {
 
     private MainWindowController controller = new MainWindowController();
 
-    public MainWindow() {
+    //-------- For tests ---------
+    private MainWindow mainWindow;
+
+    @Before
+    public void setUp() {
+        System.out.println("In setUp");
+
+        mainWindow = new MainWindow();
+        mainWindow.controller = mock(MainWindowController.class);
+        mainWindow.fileTreeUpdater = mock(TreeUpdater.class);
+        mainWindow.mainWindowManager = mock(MainWindowManager.class);
+    }
+
+    @After
+    public void tearDown() {
+        mainWindow = null;
+    }
+    // ---------------------------
+
+    public void show(Stage stage) {
         MenuBar menuBar = new MenuBar();
         StackPane.setAlignment(menuBar, Pos.TOP_CENTER);
 
         MenuItem connect = new MenuItem("Connect");
-        connect.setOnAction(event -> connect());
+        connect.setOnAction(event -> connect(
+                new HostnameDialog(),
+                new AuthenticationDialog(),
+                new ConnectionErrorAlert()
+        ));
 
         MenuItem disconnect = new MenuItem("Disconnect");
-        disconnect.setOnAction(event -> disconnect());
+        disconnect.setOnAction(event -> disconnect(new DisconnectAlert()));
 
         Menu connectionMenu = new Menu("Server");
         connectionMenu.getItems().addAll(connect, disconnect);
 
         MenuItem createCatalogue = new MenuItem("Create");
-        createCatalogue.setOnAction(event -> createCatalogue());
+        createCatalogue.setOnAction(event -> createCatalogue(new ServerCatalogueDialog()));
 
         MenuItem deleteCatalogue = new MenuItem("Delete");
-        deleteCatalogue.setOnAction(event -> deleteCatalogue());
+        deleteCatalogue.setOnAction(event -> deleteCatalogue(new ServerCatalogueDialog()));
 
         MenuItem loadCatalogue = new MenuItem("Load");
-        loadCatalogue.setOnAction(event -> loadCatalogue());
+        loadCatalogue.setOnAction(event -> loadCatalogue(
+                new ServerCatalogueDialog(),
+                new ClientCatalogueDialog(),
+                new ConnectionErrorAlert()
+        ));
 
         MenuItem saveCatalogue = new MenuItem("Save");
-        saveCatalogue.setOnAction(event -> saveCatalogue());
+        saveCatalogue.setOnAction(event -> saveCatalogue(
+                new ClientCatalogueDialog(),
+                new ServerCatalogueDialog(),
+                new ConnectionErrorAlert()
+        ));
 
         Menu catalogueMenu = new Menu("Catalogue");
         catalogueMenu.getItems().addAll(
@@ -64,13 +103,23 @@ public class MainWindow {
         );
 
         MenuItem deleteFile = new MenuItem("Delete");
-        deleteFile.setOnAction(event -> deleteFile());
+        deleteFile.setOnAction(event -> deleteFile(
+                new ServerFileDialog()
+        ));
 
         MenuItem loadFile = new MenuItem("Load");
-        loadFile.setOnAction(event -> loadFile());
+        loadFile.setOnAction(event -> loadFile(
+                new ServerFileDialog(),
+                new ClientCatalogueDialog(),
+                new ConnectionErrorAlert()
+        ));
 
         MenuItem saveFile = new MenuItem("Save");
-        saveFile.setOnAction(event -> saveFile());
+        saveFile.setOnAction(event -> saveFile(
+                new ClientFileDialog(),
+                new ServerFileDialog(),
+                new ConnectionErrorAlert()
+        ));
 
         Menu fileMenu = new Menu("File");
         fileMenu.getItems().addAll(
@@ -81,7 +130,9 @@ public class MainWindow {
         );
 
         MenuItem changeDataType = new MenuItem("Data type");
-        changeDataType.setOnAction(event -> changeDataType());
+        changeDataType.setOnAction(event -> changeDataType(
+                new ChoiceDataTypeDialog()
+        ));
 
         Menu optionsMenu = new Menu("Options");
         optionsMenu.getItems().addAll(
@@ -106,10 +157,10 @@ public class MainWindow {
             TypedTreeItem<String> node = (TypedTreeItem<String>) newValue;
             if (node != null && node.isPackage()) {
                 if (node.isLeaf()) {
-                    loadFileList(newValue);
+                    loadFileList(newValue, new ConnectionErrorAlert());
                 }
 
-                changeWorkingDirectory(newValue);
+                changeWorkingDirectory(newValue, new ConnectionErrorAlert());
             }
         });
 
@@ -137,137 +188,186 @@ public class MainWindow {
 
         Scene scene = new Scene(pane);
 
-        Stage stage = new Stage();
-
         stage.setOnCloseRequest(event -> close());
-
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }
 
-    private void connect() {
-        Optional<String> result = new HostnameDialog().showAndWait();
+    @Test
+    public void testShow() throws InterruptedException {
+        new Thread(() -> {
+            new JFXPanel();
+            Platform.runLater(() -> {
+                Stage stage = new Stage();
+
+                mainWindow.show(stage);
+
+                stage.close();
+            });
+        }).start();
+
+        Thread.sleep(5000);
+    }
+
+    private void connect(HostnameDialog hostnameDialog, AuthenticationDialog authenticationDialog,
+                         ConnectionErrorAlert connectionErrorAlert) {
+        Optional<String> result = hostnameDialog.showDialog();
 
         result.ifPresent(connectInformation -> {
             try {
                 controller.controlConnecting(connectInformation);
                 mainWindowManager.startShowingServerAnswers();
 
-                Optional<Pair<String, String>> authenticationOptional = new AuthenticationDialog().showAndWait();
+                Optional<Pair<String, String>> authenticationOptional = authenticationDialog.showDialog();
 
                 if (authenticationOptional.isPresent()) {
                     controller.controlAuthenticating(authenticationOptional.get());
 
-                    loadFileList(fileTreeUpdater.getTree().getRoot());
+                    loadFileList(fileTreeUpdater.getTree().getRoot(), new ConnectionErrorAlert());
                 } else {
                     controller.controlDisconnecting();
                 }
             } catch (MainControllerException e) {
-                new ConnectionErrorAlert(e);
+                connectionErrorAlert.show(e);
             }
         });
     }
 
-    private void disconnect() {
+    @Test
+    public void testConnect() throws MainControllerException {
+        HostnameDialog hostnameDialog = mock(HostnameDialog.class);
+        when(hostnameDialog.showDialog()).thenReturn(Optional.of("any"));
+        AuthenticationDialog authenticationDialog = mock(AuthenticationDialog.class);
+        when(authenticationDialog.showDialog()).thenReturn(Optional.of(new Pair<>("any", "any")));
+        ConnectionErrorAlert connectionErrorAlert = mock(ConnectionErrorAlert.class);
+
+        TreeView<String> treeView = (TreeView<String>) mock(TreeView.class);
+        when(mainWindow.fileTreeUpdater.getTree()).thenReturn(treeView);
+
+        mainWindow.connect(hostnameDialog, authenticationDialog, connectionErrorAlert);
+
+        verify(mainWindow.controller, atLeastOnce()).controlConnecting(anyString());
+        verify(mainWindow.controller, atLeastOnce()).controlAuthenticating(anyObject());
+        verify(mainWindow.mainWindowManager, atLeastOnce()).startShowingServerAnswers();
+        verify(mainWindow.fileTreeUpdater, atLeastOnce()).getTree();
+    }
+
+    private void disconnect(DisconnectAlert disconnectAlert) {
         fileTreeUpdater.clearTree();
         controller.controlDisconnecting();
 
-        new DisconnectAlert();
+        disconnectAlert.show();
     }
 
-    private void loadFileList(TreeItem<String> node) {
+    @Test
+    public void testDisconnect() {
+        DisconnectAlert disconnectAlert = mock(DisconnectAlert.class);
+
+        mainWindow.disconnect(disconnectAlert);
+
+        verify(mainWindow.fileTreeUpdater, atLeastOnce()).clearTree();
+        verify(mainWindow.controller, atLeastOnce()).controlDisconnecting();
+    }
+
+    private void loadFileList(TreeItem<String> node, ConnectionErrorAlert connectionErrorAlert) {
         try {
             String path = fileTreeUpdater.getAbsolutePath(node);
             List<ServerFile> fileComponents = controller.controlLoadingFileList(path);
             fileTreeUpdater.addAllComponents(fileComponents, node);
         } catch (MainControllerException e) {
-            new ConnectionErrorAlert(e);
+            connectionErrorAlert.show(e);
         }
     }
 
-    private void changeWorkingDirectory(TreeItem<String> node) {
+    private void changeWorkingDirectory(TreeItem<String> node, ConnectionErrorAlert connectionErrorAlert) {
         try {
             String path = fileTreeUpdater.getAbsolutePath(node);
             controller.controlChangeWorkingDirectory(path);
         } catch (MainControllerException e) {
-            new ConnectionErrorAlert(e);
+            connectionErrorAlert.show(e);
         }
     }
 
-    private void createCatalogue() {
-        Optional<String> result = new ServerCatalogueDialog().showAndWait();
+    private void createCatalogue(ServerCatalogueDialog serverCatalogueDialog) {
+        Optional<String> result = serverCatalogueDialog.showDialog();
         result.ifPresent(catalogueName -> controller.controlCreatingCatalogue(catalogueName));
     }
 
-    private void deleteCatalogue() {
-        Optional<String> result = new ServerCatalogueDialog().showAndWait();
+    private void deleteCatalogue(ServerCatalogueDialog serverCatalogueDialog) {
+        Optional<String> result = serverCatalogueDialog.showDialog();
         result.ifPresent(catalogueName -> controller.controlDeletingCatalogue(catalogueName));
     }
 
-    private void loadCatalogue() {
-        Optional<String> optionalFrom = new ServerCatalogueDialog().showAndWait();
+    private void loadCatalogue(ServerCatalogueDialog serverCatalogueDialog,
+                               ClientCatalogueDialog clientCatalogueDialog,
+                               ConnectionErrorAlert connectionErrorAlert) {
+        Optional<String> optionalFrom = serverCatalogueDialog.showDialog();
         optionalFrom.ifPresent(fromPath -> {
-            Optional<String> optionalTo = new ClientCatalogueDialog().chooseCataloguePath();
+            Optional<String> optionalTo = clientCatalogueDialog.chooseCataloguePath();
             optionalTo.ifPresent(toPath -> {
                 try {
                     controller.controlLoadingCatalogue(fromPath, toPath + "/" + fromPath);
                 } catch (MainControllerException e) {
-                    new ConnectionErrorAlert(e);
+                    connectionErrorAlert.show(e);
                 }
             });
         });
     }
 
-    private void saveCatalogue() {
-        Optional<String> optionalFrom = new ClientCatalogueDialog().chooseCataloguePath();
+    private void saveCatalogue(ClientCatalogueDialog clientCatalogueDialog,
+                               ServerCatalogueDialog serverCatalogueDialog,
+                               ConnectionErrorAlert connectionErrorAlert) {
+        Optional<String> optionalFrom = clientCatalogueDialog.chooseCataloguePath();
         optionalFrom.ifPresent(fromPath -> {
-            Optional<String> optionalTo = new ServerCatalogueDialog().showAndWait();
+            Optional<String> optionalTo = serverCatalogueDialog.showDialog();
             optionalTo.ifPresent(toPath -> {
                 try {
                     controller.controlSavingCatalogue(fromPath, toPath);
                 } catch (MainControllerException e) {
-                    new ConnectionErrorAlert(e);
+                    connectionErrorAlert.show(e);
                 }
             });
         });
     }
 
-    private void deleteFile() {
-        Optional<String> result = new ServerFileDialog().showAndWait();
+    private void deleteFile(ServerFileDialog serverFileDialog) {
+        Optional<String> result = serverFileDialog.showDialog();
         result.ifPresent(fileName -> controller.controlDeletingFile(fileName));
     }
 
-    private void loadFile() {
-        Optional<String> optionalFrom = new ServerFileDialog().showAndWait();
+    private void loadFile(ServerFileDialog serverFileDialog, ClientCatalogueDialog clientCatalogueDialog,
+                          ConnectionErrorAlert connectionErrorAlert) {
+        Optional<String> optionalFrom = serverFileDialog.showDialog();
         optionalFrom.ifPresent(fromPath -> {
-            Optional<String> optionalTo = new ClientCatalogueDialog().chooseCataloguePath();
+            Optional<String> optionalTo = clientCatalogueDialog.chooseCataloguePath();
             optionalTo.ifPresent(toPath -> {
                 try {
                     controller.controlLoadingFile(fromPath, toPath + '/' + fromPath);
                 } catch (MainControllerException e) {
-                    new ConnectionErrorAlert(e);
+                    connectionErrorAlert.show(e);
                 }
             });
         });
     }
 
-    private void saveFile() {
-        Optional<String> optionalFrom = new ClientFileDialog().chooseFilePath();
+    private void saveFile(ClientFileDialog clientFileDialog, ServerFileDialog serverFileDialog,
+                          ConnectionErrorAlert connectionErrorAlert) {
+        Optional<String> optionalFrom = clientFileDialog.chooseFilePath();
         optionalFrom.ifPresent(fromFile -> {
-            Optional<String> optionalTo = new ServerFileDialog().showAndWait();
+            Optional<String> optionalTo = serverFileDialog.showDialog();
             optionalTo.ifPresent(toFile -> {
                 try {
                     controller.controlSavingFile(fromFile, toFile);
                 } catch (MainControllerException e) {
-                    new ConnectionErrorAlert(e);
+                    connectionErrorAlert.show(e);
                 }
             });
         });
     }
 
-    private void changeDataType() {
-        Optional<String> optionalDataType = new ChoiceDataTypeDialog().showAndWait();
+    private void changeDataType(ChoiceDataTypeDialog choiceDataTypeDialog) {
+        Optional<String> optionalDataType = choiceDataTypeDialog.showDialog();
         optionalDataType.ifPresent(dataType -> controller.controlChangeDataType(DataType.valueOf(dataType)));
     }
 
