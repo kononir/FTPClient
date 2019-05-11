@@ -2,19 +2,36 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed5b0569-df38-4f39-ad88-d327bfc8910b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/ftpClientNew.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/util/IOActions.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/bsuir/ftpclient/util/IOActionsTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/2/some/any" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/data_work_error.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/data_work_error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/error.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/error.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/sender_error.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sender_error.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/alert/ConnectionErrorAlert.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/alert/ConnectionErrorAlert.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/alert/DisconnectAlert.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/alert/DisconnectAlert.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/AuthenticationDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/AuthenticationDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/HostnameDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/HostnameDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/choose/ChoiceDataTypeDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/choose/ChoiceDataTypeDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/choose/ServerCatalogueDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/choose/ServerCatalogueDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/choose/ServerFileDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/choose/ServerFileDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/database/ConnectionPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/database/ConnectionPool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/database/DatabaseConnectionActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/database/DatabaseConnectionActions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/database/exception/ConnectionPoolException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/database/exception/ConnectionPoolException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/Connection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/control/ControlConnectionActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/control/ControlConnectionActions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/control/exception/ControlConnectionException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/control/exception/FtpConnectionException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/control/manager/SendingManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/control/manager/SendingManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/DataConnectionActions.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/exception/DataConnectionException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/parser/FileNamesParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/parser/FileNameParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/parser/impl/AbstractParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/parser/impl/AbstractParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/parser/impl/LISTParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/parser/impl/NLSTParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/parser/impl/NLSTParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/manager/work/FileListReceiving.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/manager/work/FileListReceiving.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/manager/work/FileReceiving.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/manager/work/FileReceiving.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/manager/work/FileSending.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/manager/work/FileSending.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/window/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/window/MainWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/bsuir/ftpclient/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/bsuir/ftpclient/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/window/MainWindowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/window/MainWindowController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/bsuir/ftpclient/connection/ftp/control/ControlConnectionActionsTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bsuir/ftpclient/connection/ftp/control/ControlConnectionActionsTests.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -25,11 +42,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/ftpClientNew$com_bsuir_ftpclient_in_ftpClientNew.ic" NAME="com.bsuir.ftpclient in ftpClientNew Coverage Results" MODIFIED="1556279985918" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/ftpClientNew$com_bsuir_ftpclient_in_ftpClientNew.ic" NAME="com.bsuir.ftpclient in ftpClientNew Coverage Results" MODIFIED="1557406720013" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/ftpClientNew$ControlConnectionActionsTests.ic" NAME="ControlConnectionActionsTests Coverage Results" MODIFIED="1552427137325" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.bsuir.ftpclient.connection.ftp.control.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/ftpClientNew$MainWindow.ic" NAME="MainWindow Coverage Results" MODIFIED="1557350320681" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/ftpClientNew$MainWindow.ic" NAME="MainWindow Coverage Results" MODIFIED="1557406379532" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/ftpClientNew$Connection.ic" NAME="Connection Coverage Results" MODIFIED="1552410679726" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.bsuir.ftpclient.connection.ftp.*</FILTER>
     </SUITE>
@@ -38,7 +55,7 @@
     </SUITE>
   </component>
   <component name="CoverageViewManager">
-    <option name="myElementSize" value="101" />
+    <option name="myElementSize" value="123" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -77,30 +94,64 @@
     </expand>
     <select />
   </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="testRunner" value="GRADLE" />
+    <option name="delegatedBuild" value="true" />
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/window/MainWindow.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="241">
-              <caret line="358" column="39" lean-forward="true" selection-start-line="358" selection-start-column="39" selection-end-line="358" selection-end-column="39" />
+            <state relative-caret-position="255">
+              <caret line="259" column="45" selection-start-line="259" selection-start-column="45" selection-end-line="259" selection-end-column="45" />
               <folding>
-                <element signature="e#2030#2031#0" expanded="true" />
-                <element signature="e#2063#2064#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/Main.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/manager/MainWindowManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="42" selection-start-line="10" selection-start-column="42" selection-end-line="10" selection-end-column="42" />
+            <state relative-caret-position="816">
+              <caret line="59" column="40" selection-start-line="59" selection-start-column="40" selection-end-line="59" selection-end-column="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/window/MainWindowController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1656">
+              <caret line="360" column="60" selection-start-line="360" selection-start-column="60" selection-end-line="360" selection-end-column="60" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#243#244#0" expanded="true" />
-                <element signature="e#282#283#0" expanded="true" />
+                <element signature="e#10571#10572#0" expanded="true" />
+                <element signature="e#10614#10615#0" expanded="true" />
+                <element signature="e#16083#16084#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="66" column="12" lean-forward="true" selection-start-line="66" selection-start-column="12" selection-end-line="66" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/parser/impl/AbstractParser.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="16" selection-start-line="16" selection-end-line="16" />
+              <folding>
+                <element signature="e#659#660#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -121,6 +172,11 @@
     <findStrings>
       <find>listF</find>
       <find>toS</find>
+      <find>bool</find>
+      <find>@O</find>
+      <find>@lin</find>
+      <find>file</find>
+      <find>doReturn</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -129,49 +185,19 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/memo/controller/MemoManagerController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/database/pool/ConnectionPool.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/database/exception/ConnectionPoolException.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/database/DatabaseConnection.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/database/DatabaseConnectionActions.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/parser/FileNameParser.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/parser/FileNamesParser.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/parser/AbstractParser.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/parser/LISTParser.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/parser/NLSTParser.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/exception/DataConnectionException.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/manager/work/CatalogueReceiving.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/control/exception/ControlConnectionException.java" />
-        <option value="$PROJECT_DIR$/src/test/java/com/bsuir/ftpclient/ConnectionTests.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/window/controller/exception/MainControllerException.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/control/ControlConnectionActions.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/database/ConnectionPool.java" />
-        <option value="$PROJECT_DIR$/src/test/java/com/bsuir/ftpclient/connection/ftp/control/ControlConnectionActionsTests.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/ChoosingDialog.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/ClientCatalogueDialog.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/ClientFileDialog.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/choose/ClientFileDialog.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/memo/MemoManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/memo/MainWindowManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/window/MainWindowManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/manager/DataManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/DataType.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/DataConnectionActions.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/Connection.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/log4j.properties" />
         <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/window/controller/MainWindowController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/window/exception/MainControllerException.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/tree/TreeUpdater.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/window/MainWindowController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/WaitingDialog.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/control/manager/SendingManager.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/manager/work/FileListReceiving.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/manager/work/FileReceiving.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/manager/work/FileSending.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/bsuir/ftpclient/ui/MainWindowTests.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/alert/DisconnectAlert.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/alert/ConnectionErrorAlert.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/choose/ClientCatalogueDialog.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/choose/ChoiceDataTypeDialog.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/choose/ServerFileDialog.java" />
@@ -179,7 +205,37 @@
         <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/HostnameDialog.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/AuthenticationDialog.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/Main.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/DataConnectionActionsTests.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/bsuir/ftpclient/DataConnectionActionsTests.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/bsuir/ftpclient/data/DataConnectionActionsTests.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/control/ControlConnectionActions.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/bsuir/ftpclient/connection/ftp/control/ControlConnectionActionsTests.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/manager/work/FileReceiving.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/manager/work/FileSending.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/bsuir/ftpclient/connection/ftp/data/DataConnectionActionsTests.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/exception/DataConnectionException.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/DataConnectionActions.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/util/DataConnectionActions.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/bsuir/ftpclient/connection/ftp/data/StreamActionsTests.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/util/StreamActions.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/util/IOActions.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/bsuir/ftpclient/util/IOActionsTests.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/log4j.properties" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/database/exception/ConnectionPoolException.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/database/ConnectionPool.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/database/DatabaseConnectionActions.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/parser/impl/LISTParser.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/parser/FileNamesParser.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/parser/FileNameParser.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/manager/work/FileListReceiving.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/parser/impl/NLSTParser.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/parser/impl/AbstractParser.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/Connection.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/manager/MainWindowManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/window/MainWindow.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/util/PathActions.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/window/MainWindowController.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
   </component>
@@ -234,7 +290,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -284,7 +339,98 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="ftpclient" type="462c0819:PsiDirectoryNode" />
+              <item name="connection" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ftpClientNew" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ftpClientNew" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ftpclient" type="462c0819:PsiDirectoryNode" />
+              <item name="connection" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
+              <item name="exception" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ftpClientNew" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ftpClientNew" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ftpclient" type="462c0819:PsiDirectoryNode" />
+              <item name="connection" type="462c0819:PsiDirectoryNode" />
+              <item name="ftp" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ftpClientNew" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ftpClientNew" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ftpclient" type="462c0819:PsiDirectoryNode" />
+              <item name="connection" type="462c0819:PsiDirectoryNode" />
+              <item name="ftp" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ftpClientNew" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ftpClientNew" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ftpclient" type="462c0819:PsiDirectoryNode" />
+              <item name="connection" type="462c0819:PsiDirectoryNode" />
+              <item name="ftp" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+              <item name="file" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ftpClientNew" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ftpClientNew" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ftpclient" type="462c0819:PsiDirectoryNode" />
+              <item name="connection" type="462c0819:PsiDirectoryNode" />
+              <item name="ftp" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+              <item name="file" type="462c0819:PsiDirectoryNode" />
+              <item name="parser" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ftpClientNew" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ftpClientNew" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ftpclient" type="462c0819:PsiDirectoryNode" />
+              <item name="connection" type="462c0819:PsiDirectoryNode" />
+              <item name="ftp" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+              <item name="file" type="462c0819:PsiDirectoryNode" />
+              <item name="parser" type="462c0819:PsiDirectoryNode" />
+              <item name="impl" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ftpClientNew" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ftpClientNew" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ftpclient" type="462c0819:PsiDirectoryNode" />
               <item name="ui" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ftpClientNew" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ftpClientNew" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ftpclient" type="462c0819:PsiDirectoryNode" />
+              <item name="ui" type="462c0819:PsiDirectoryNode" />
+              <item name="manager" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ftpClientNew" type="b2602c69:ProjectViewProjectNode" />
@@ -300,6 +446,13 @@
               <item name="ftpClientNew" type="b2602c69:ProjectViewProjectNode" />
               <item name="ftpClientNew" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ftpClientNew" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ftpClientNew" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -317,43 +470,63 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="ftpclient" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="ftpClientNew" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ftpClientNew" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557350335645" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557408690662" />
     <property name="database.console.LAST_STATE" value="false" />
     <property name="last.edited.regexp" value="asdasd" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.bsuir.ftpclient.connection.database.exception" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.bsuir.ftpclient.util" />
+      <recent name="com.bsuir.ftpclient" />
+      <recent name="com.bsuir.ftpclient.connection.ftp" />
+      <recent name="com.bsuir.ftpclient.connection.ftp.data" />
       <recent name="com.bsuir.ftpclient.connection.ftp.control" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\My Programs\ftpClientNew\src\main\resources" />
-      <recent name="D:\My Programs\ftpClientNew\src\main\java\com\bsuir\ftpclient" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\My Programs\ftpClientNew\src\test\resources\1\some" />
+      <recent name="D:\My Programs\ftpClientNew\src\test\resources\1" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.bsuir.ftpclient.connection.ftp.data.manager.work" />
       <recent name="com.bsuir.ftpclient.ui.dialog" />
     </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.bsuir.ftpclient.connection.database.exception" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\My Programs\ftpClientNew\src\main\resources" />
+      <recent name="D:\My Programs\ftpClientNew\src\main\java\com\bsuir\ftpclient" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -368,7 +541,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.MainWindow">
+  <component name="RunManager" selected="JUnit.com.bsuir.ftpclient in ftpClientNew">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.bsuir.ftpclient.Main" />
       <module name="ftpClientNew" />
@@ -393,6 +566,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MainWindowController" type="JUnit" factoryName="JUnit">
+      <module name="ftpClientNew" />
+      <option name="PACKAGE_NAME" value="com.bsuir.ftpclient.ui.window" />
+      <option name="MAIN_CLASS_NAME" value="com.bsuir.ftpclient.ui.window.MainWindowController" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="PARAMETERS" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="com.bsuir.ftpclient in ftpClientNew" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="ftpClientNew" />
       <option name="PACKAGE_NAME" value="com.bsuir.ftpclient" />
@@ -406,13 +590,14 @@
     </configuration>
     <list>
       <item itemvalue="Application.Main" />
+      <item itemvalue="JUnit.MainWindowController" />
       <item itemvalue="JUnit.MainWindow" />
       <item itemvalue="JUnit.com.bsuir.ftpclient in ftpClientNew" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
-        <item itemvalue="JUnit.MainWindow" />
+        <item itemvalue="JUnit.MainWindowController" />
       </list>
     </recent_temporary>
   </component>
@@ -446,7 +631,9 @@
       <workItem from="1556277751911" duration="15923000" />
       <workItem from="1556944890212" duration="33050000" />
       <workItem from="1557061707726" duration="962000" />
-      <workItem from="1557270982181" duration="21988000" />
+      <workItem from="1557270982181" duration="25989000" />
+      <workItem from="1557409539825" duration="328000" />
+      <workItem from="1557412438999" duration="49417000" />
     </task>
     <task id="LOCAL-00001" summary="Moved to maven">
       <created>1550918641975</created>
@@ -546,43 +733,50 @@
       <option name="project" value="LOCAL" />
       <updated>1557062486932</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Started adding ui tests">
+      <created>1557350531819</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1557350531819</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="MainWindow - 2019.05.09 at 00h 09m 42s.xml">
-      <configuration name="MainWindow" configurationId="JUnit" />
+    <history-entry file="MainWindowController - 2019.05.10 at 23h 14m 56s.xml">
+      <configuration name="MainWindowController" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MainWindow - 2019.05.09 at 00h 10m 47s.xml">
-      <configuration name="MainWindow" configurationId="JUnit" />
+    <history-entry file="MainWindowController - 2019.05.10 at 23h 20m 53s.xml">
+      <configuration name="MainWindowController" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MainWindow - 2019.05.09 at 00h 13m 59s.xml">
-      <configuration name="MainWindow" configurationId="JUnit" />
+    <history-entry file="MainWindowController - 2019.05.10 at 23h 36m 21s.xml">
+      <configuration name="MainWindowController" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MainWindow - 2019.05.09 at 00h 14m 31s.xml">
-      <configuration name="MainWindow" configurationId="JUnit" />
+    <history-entry file="MainWindowController - 2019.05.10 at 23h 37m 20s.xml">
+      <configuration name="MainWindowController" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MainWindow - 2019.05.09 at 00h 16m 00s.xml">
-      <configuration name="MainWindow" configurationId="JUnit" />
+    <history-entry file="com_bsuir_ftpclient_in_ftpClientNew - 2019.05.10 at 23h 37m 51s.xml">
+      <configuration name="com.bsuir.ftpclient in ftpClientNew" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MainWindow - 2019.05.09 at 00h 16m 19s.xml">
-      <configuration name="MainWindow" configurationId="JUnit" />
+    <history-entry file="com_bsuir_ftpclient_in_ftpClientNew - 2019.05.10 at 23h 41m 33s.xml">
+      <configuration name="com.bsuir.ftpclient in ftpClientNew" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MainWindow - 2019.05.09 at 00h 16m 43s.xml">
-      <configuration name="MainWindow" configurationId="JUnit" />
+    <history-entry file="com_bsuir_ftpclient_in_ftpClientNew - 2019.05.10 at 23h 43m 26s.xml">
+      <configuration name="com.bsuir.ftpclient in ftpClientNew" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MainWindow - 2019.05.09 at 00h 17m 53s.xml">
-      <configuration name="MainWindow" configurationId="JUnit" />
+    <history-entry file="MainWindowController_testControlLoadingCatalogueShouldLoadFileListAndLoadFileWhenGivenCataloguePathWithFile - 2019.05.10 at 23h 47m 54s.xml">
+      <configuration name="MainWindowController.testControlLoadingCatalogueShouldLoadFileListAndLoadFileWhenGivenCataloguePathWithFile" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MainWindow - 2019.05.09 at 00h 18m 13s.xml">
-      <configuration name="MainWindow" configurationId="JUnit" />
+    <history-entry file="MainWindowController_testControlLoadingCatalogueShouldLoadFileListAndLoadFileWhenGivenCataloguePathWithFile - 2019.05.10 at 23h 49m 13s.xml">
+      <configuration name="MainWindowController.testControlLoadingCatalogueShouldLoadFileListAndLoadFileWhenGivenCataloguePathWithFile" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MainWindow - 2019.05.09 at 00h 19m 03s.xml">
-      <configuration name="MainWindow" configurationId="JUnit" />
+    <history-entry file="com_bsuir_ftpclient_in_ftpClientNew - 2019.05.10 at 23h 50m 00s.xml">
+      <configuration name="com.bsuir.ftpclient in ftpClientNew" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="256052000" />
+    <option name="totallyTimeSpent" value="309798000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -597,7 +791,7 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4972826" visible="true" weight="0.3260212" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4972826" visible="true" weight="0.33585477" />
       <window_info id="Structure" order="1" sideWeight="0.5027174" side_tool="true" weight="0.30257186" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -606,15 +800,15 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32843137" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49924356" visible="true" weight="0.32843137" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49848714" visible="true" weight="0.32843137" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49924356" weight="0.39869282" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32843137" />
-      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32843137" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Tool Output" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50075644" side_tool="true" weight="0.39869282" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5015129" side_tool="true" weight="0.32843137" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.32843137" />
       <window_info anchor="bottom" id="Database Changes" order="12" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="13" />
@@ -623,14 +817,49 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.24962178" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Maven" order="3" sideWeight="0.49878347" weight="0.20499243" />
+      <window_info anchor="right" id="Maven" order="3" sideWeight="0.49635038" weight="0.20499243" />
       <window_info anchor="right" id="Palette" order="4" />
       <window_info anchor="right" id="Capture Analysis" order="5" />
       <window_info anchor="right" id="Database" order="6" weight="0.32980332" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="right" id="Theme Preview" order="8" />
-      <window_info anchor="right" id="Coverage" order="9" sideWeight="0.50121653" side_tool="true" weight="0.20499243" />
+      <window_info anchor="right" id="Coverage" order="9" sideWeight="0.50364965" side_tool="true" weight="0.31543118" />
     </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4972826" weight="0.33661118" />
+      <window_info id="Structure" order="1" sideWeight="0.5027174" side_tool="true" weight="0.30257186" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Capture Tool" order="4" />
+      <window_info id="UI Designer" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32843137" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49848714" weight="0.32843137" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49924356" visible="true" weight="0.39869282" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32843137" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32843137" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Tool Output" order="9" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5015129" side_tool="true" weight="0.32843137" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.32843137" />
+      <window_info anchor="bottom" id="Database Changes" order="12" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="13" />
+      <window_info anchor="bottom" id="ANTLR Preview" order="14" />
+      <window_info anchor="bottom" id="Database Console" order="15" weight="0.32843137" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.24962178" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Maven" order="3" sideWeight="0.49635038" weight="0.20499243" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="right" id="Database" order="6" weight="0.32980332" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Theme Preview" order="8" />
+      <window_info anchor="right" id="Coverage" order="9" sideWeight="0.50364965" side_tool="true" weight="0.31543118" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -650,378 +879,17 @@
     <MESSAGE value="Refactored socket connection&#10;Wrote connection pool" />
     <MESSAGE value="Write new file names parser;&#10;Fixed bugs" />
     <MESSAGE value="Fixed problems; Added logging" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed problems; Added logging" />
+    <MESSAGE value="Started adding ui tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Started adding ui tests" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
   </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/ftpClientNew$com_bsuir_ftpclient_in_ftpClientNew.ic" NAME="com.bsuir.ftpclient in ftpClientNew Coverage Results" MODIFIED="1557521385947" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/window/exception/MainControllerException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/DataType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
-          <folding>
-            <element signature="e#237#238#0" expanded="true" />
-            <element signature="e#264#265#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/manager/MainWindowManagerController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/tree/TreeUpdaterController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/WaitingDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="36" column="51" lean-forward="true" selection-start-line="36" selection-start-column="51" selection-end-line="36" selection-end-column="51" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/control/manager/SendingManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="13" column="4" lean-forward="true" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="74" />
-          <folding>
-            <element signature="e#3228#3229#0" expanded="true" />
-            <element signature="e#3270#3271#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/manager/work/CatalogueSending.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/manager/work/FileListReceiving.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="15" column="4" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="76" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/manager/work/FileReceiving.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="12" column="69" selection-start-line="12" selection-start-column="69" selection-end-line="12" selection-end-column="69" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/manager/work/FileSending.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="45" selection-start-line="22" selection-start-column="45" selection-end-line="22" selection-end-column="45" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/log4j.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="27" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logs/data_work_error.log">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logs/error.log">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logs/sender_error.log">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/javafx-src.zip!/javafx/scene/layout/Pane.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="98" column="16" selection-start-line="98" selection-start-column="16" selection-end-line="98" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/javafx-src.zip!/javafx/scene/layout/StackPane.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="152" column="15" selection-start-line="152" selection-start-column="15" selection-end-line="152" selection-end-column="15" />
-          <folding>
-            <element signature="e#5545#5546#0" expanded="true" />
-            <element signature="e#5610#5611#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/bsuir/ftpclient/ui/MainWindowTests.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/src.zip!/java/util/AbstractCollection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="85" selection-start-line="85" selection-end-line="85" />
-          <folding>
-            <element signature="e#2327#2328#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.13-beta-2/junit-4.13-beta-2-sources.jar!/org/junit/runner/notification/RunNotifier.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="171" selection-start-line="171" selection-end-line="171" />
-          <folding>
-            <element signature="e#5715#5716#0" expanded="true" />
-            <element signature="e#5775#5776#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.13-beta-2/junit-4.13-beta-2-sources.jar!/org/junit/internal/runners/model/EachTestNotifier.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.13-beta-2/junit-4.13-beta-2-sources.jar!/org/junit/runners/ParentRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="368" selection-start-line="368" selection-end-line="368" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.13-beta-2/junit-4.13-beta-2-sources.jar!/org/junit/runners/BlockJUnit4ClassRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="99" selection-start-line="99" selection-end-line="99" />
-          <folding>
-            <element signature="e#3981#3982#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/javafx-src.zip!/javafx/embed/swing/JFXPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="226" column="11" selection-start-line="226" selection-start-column="11" selection-end-line="226" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="80" column="21" selection-start-line="80" selection-start-column="21" selection-end-line="80" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/manager/MainWindowManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-153">
-          <caret line="23" column="11" selection-start-line="23" selection-start-column="11" selection-end-line="23" selection-end-column="11" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/javafx-src.zip!/javafx/stage/Window.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="654" selection-start-line="654" selection-end-line="654" />
-          <folding>
-            <element signature="e#23012#23013#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/window/MainWindowController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="55" column="16" selection-start-line="55" selection-start-column="16" selection-end-line="55" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/javafx-src.zip!/javafx/scene/control/TextInputDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="41" column="13" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/javafx-src.zip!/javafx/scene/control/Dialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
-          <caret line="323" column="17" lean-forward="true" selection-start-line="323" selection-start-column="17" selection-end-line="323" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/choose/ChoiceDataTypeDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/choose/ClientFileDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/alert/ConnectionErrorAlert.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/choose/ServerFileDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/choose/ClientCatalogueDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding>
-            <element signature="e#323#324#0" expanded="true" />
-            <element signature="e#377#378#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/choose/ServerCatalogueDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/alert/DisconnectAlert.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/HostnameDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/AuthenticationDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/src.zip!/java/lang/String.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="979" selection-start-line="979" selection-end-line="979" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/1.10.19/mockito-all-1.10.19-sources.jar!/org/mockito/internal/util/ObjectMethodsGuru.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="33" selection-start-line="33" selection-end-line="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/1.10.19/mockito-all-1.10.19-sources.jar!/org/mockito/internal/creation/cglib/MethodInterceptorFilter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="45" selection-start-line="45" selection-end-line="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/tree/TreeUpdater.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="17" column="28" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#462#463#0" expanded="true" />
-            <element signature="e#489#490#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/src.zip!/java/lang/Object.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="62" column="33" selection-start-line="62" selection-start-column="33" selection-end-line="62" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.13-beta-2/junit-4.13-beta-2-sources.jar!/org/junit/internal/runners/model/ReflectiveCallable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/javafx-src.zip!/javafx/scene/control/TreeItem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="97">
-          <caret line="737" column="31" selection-start-line="737" selection-start-column="28" selection-end-line="737" selection-end-column="31" />
-          <folding>
-            <element signature="e#14168#14169#0" expanded="true" />
-            <element signature="e#14194#14195#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/1.10.19/mockito-all-1.10.19-sources.jar!/org/mockito/Matchers.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="127">
@@ -1057,6 +925,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/dialog/choose/ClientFileDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="15" column="28" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -1069,14 +944,352 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/empty.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/src.zip!/java/net/Socket.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="940" column="24" selection-start-line="940" selection-start-column="24" selection-end-line="940" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/src.zip!/java/io/InputStream.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-5012">
+          <caret line="44" column="22" selection-start-line="44" selection-start-column="22" selection-end-line="44" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/src.zip!/java/io/FileSystem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="57" column="24" selection-start-line="57" selection-start-column="24" selection-end-line="57" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/src.zip!/java/io/File.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="281" lean-forward="true" selection-start-line="281" selection-end-line="281" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/control/ControlConnectionActions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="17" column="16" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/bsuir/ftpclient/connection/ftp/control/ControlConnectionActionsTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/exception/DataConnectionException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="31" lean-forward="true" selection-start-line="4" selection-start-column="31" selection-end-line="4" selection-end-column="31" />
+          <folding>
+            <element signature="e#270#271#0" expanded="true" />
+            <element signature="e#307#308#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/manager/work/FileReceiving.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="27" column="101" selection-start-line="27" selection-start-column="101" selection-end-line="27" selection-end-column="101" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/manager/work/FileSending.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-289">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/util/IOActions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="21" column="40" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/bsuir/ftpclient/util/IOActionsTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logs/error.log">
+      <provider selected="true" editor-type-id="LogFileEditorProvider">
+        <state relative-caret-position="153">
+          <caret line="9" column="65" selection-start-line="9" selection-start-column="65" selection-end-line="9" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/log4j.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="33" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.13-beta-2/junit-4.13-beta-2-sources.jar!/org/junit/Assert.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="113">
+          <caret line="144" column="23" selection-start-line="144" selection-start-column="23" selection-end-line="144" selection-end-column="23" />
+          <folding>
+            <element signature="e#4450#4451#0" expanded="true" />
+            <element signature="e#4502#4503#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/src.zip!/java/util/concurrent/Exchanger.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="215">
+          <caret line="614" column="13" selection-start-line="614" selection-start-column="13" selection-end-line="614" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/database/DatabaseConnectionListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/database/DatabaseConnectionActions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/database/exception/ConnectionPoolException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/parser/impl/LISTParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/javafx-src.zip!/javafx/scene/Scene.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-88338">
+          <caret line="383" column="26" selection-start-line="383" selection-start-column="24" selection-end-line="383" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.13-beta-2/junit-4.13-beta-2-sources.jar!/org/junit/Before.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="31" column="23" lean-forward="true" selection-start-line="31" selection-start-column="23" selection-end-line="31" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/src.zip!/java/util/List.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="110" column="17" selection-start-line="110" selection-start-column="17" selection-end-line="110" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/src.zip!/java/util/Collections.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-57776">
+          <caret line="1045" column="18" selection-start-line="1045" selection-start-column="16" selection-end-line="1045" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/database/ConnectionPool.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="62" column="55" selection-start-line="62" selection-start-column="55" selection-end-line="62" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/manager/DataManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="8" column="15" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="15" />
+          <folding>
+            <element signature="e#296#297#0" expanded="true" />
+            <element signature="e#345#346#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/parser/FileNameParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="15" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/manager/work/FileListReceiving.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="43" column="49" selection-start-line="43" selection-start-column="49" selection-end-line="43" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/src.zip!/java/lang/String.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7584">
+          <caret line="295" column="52" selection-start-line="295" selection-start-column="48" selection-end-line="295" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/manager/MainWindowManagerController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-204">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/control/manager/SendingManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="212">
+          <caret line="74" column="38" selection-start-line="74" selection-start-column="38" selection-end-line="74" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/src.zip!/java/lang/Void.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="48" column="12" selection-start-line="48" selection-start-column="12" selection-end-line="48" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/Connection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="52">
+          <caret line="52" column="26" lean-forward="true" selection-start-line="52" selection-start-column="26" selection-end-line="52" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/window/MainWindow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="241">
-          <caret line="358" column="39" lean-forward="true" selection-start-line="358" selection-start-column="39" selection-end-line="358" selection-end-column="39" />
+        <state relative-caret-position="255">
+          <caret line="259" column="45" selection-start-line="259" selection-start-column="45" selection-end-line="259" selection-end-column="45" />
           <folding>
-            <element signature="e#2030#2031#0" expanded="true" />
-            <element signature="e#2063#2064#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/2.some/any">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/2.some/1.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/2/some/any">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/1.10.19/mockito-all-1.10.19-sources.jar!/org/mockito/Mockito.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24991">
+          <caret line="1902" column="34" selection-start-line="1902" selection-start-column="26" selection-end-line="1902" selection-end-column="34" />
+          <folding>
+            <element signature="e#83550#83551#0" expanded="true" />
+            <element signature="e#83621#83622#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.13-beta-2/junit-4.13-beta-2-sources.jar!/org/junit/internal/runners/model/ReflectiveCallable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/util/PathActions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="27" column="23" lean-forward="true" selection-start-line="27" selection-start-column="23" selection-end-line="27" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#126#127#0" expanded="true" />
+            <element signature="e#169#170#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/manager/MainWindowManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="816">
+          <caret line="59" column="40" selection-start-line="59" selection-start-column="40" selection-end-line="59" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/parser/impl/AbstractParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+          <folding>
+            <element signature="e#659#660#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/ServerFile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+          <folding>
+            <element signature="e#299#300#0" expanded="true" />
+            <element signature="e#326#327#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/connection/ftp/data/file/parser/impl/NLSTParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="283">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/bsuir/ftpclient/ui/window/MainWindowController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1656">
+          <caret line="360" column="60" selection-start-line="360" selection-start-column="60" selection-end-line="360" selection-end-column="60" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#10571#10572#0" expanded="true" />
+            <element signature="e#10614#10615#0" expanded="true" />
+            <element signature="e#16083#16084#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="66" column="12" lean-forward="true" selection-start-line="66" selection-start-column="12" selection-end-line="66" selection-end-column="12" />
         </state>
       </provider>
     </entry>

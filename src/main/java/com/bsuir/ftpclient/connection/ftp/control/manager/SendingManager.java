@@ -5,7 +5,7 @@ import com.bsuir.ftpclient.connection.database.exception.DatabaseConnectionExcep
 import com.bsuir.ftpclient.connection.ftp.Connection;
 import com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions;
 import com.bsuir.ftpclient.connection.ftp.control.ControlStructure;
-import com.bsuir.ftpclient.connection.ftp.control.exception.ControlConnectionException;
+import com.bsuir.ftpclient.connection.ftp.control.exception.FtpConnectionException;
 import org.apache.log4j.Logger;
 
 import java.util.concurrent.*;
@@ -54,14 +54,14 @@ public class SendingManager {
 
                     request = "";
                 } while ("1".equals(firstCode));
-            } catch (ControlConnectionException | TimeoutException
+            } catch (FtpConnectionException | TimeoutException
                     | InterruptedException | DatabaseConnectionException e) {
                 LOGGER.error("Sending message error.", e);
             }
         }
 
         private void handleAnswerCode(String response)
-                throws TimeoutException, InterruptedException, ControlConnectionException {
+                throws TimeoutException, InterruptedException, FtpConnectionException {
             String answerCode = response.substring(0, 3);
 
             switch (answerCode) {

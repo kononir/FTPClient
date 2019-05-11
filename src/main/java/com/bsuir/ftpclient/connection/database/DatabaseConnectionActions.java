@@ -1,6 +1,5 @@
 package com.bsuir.ftpclient.connection.database;
 
-import com.bsuir.ftpclient.connection.database.exception.ConnectionPoolException;
 import com.bsuir.ftpclient.connection.database.exception.DatabaseConnectionException;
 import com.bsuir.ftpclient.connection.ftp.control.ControlStructure;
 
@@ -52,27 +51,13 @@ public class DatabaseConnectionActions {
         return controlStructures;
     }
 
-    private Connection connect() throws DatabaseConnectionException {
-        Connection connection;
-
-        try {
-            ConnectionPool pool = ConnectionPool.getInstance();
-            connection = pool.getConnection();
-        } catch (ConnectionPoolException e) {
-            throw new DatabaseConnectionException("Working with connection pool error", e);
-        }
-
-        return connection;
+    private Connection connect() {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        return pool.getConnection();
     }
 
-    private void disconnect(Connection connection) throws DatabaseConnectionException {
-        try {
-            if (connection != null) {
-                ConnectionPool pool = ConnectionPool.getInstance();
-                pool.returnConnection(connection);
-            }
-        } catch (ConnectionPoolException e) {
-            throw new DatabaseConnectionException("Working with connection pool error", e);
-        }
+    private void disconnect(Connection connection) {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        pool.returnConnection(connection);
     }
 }

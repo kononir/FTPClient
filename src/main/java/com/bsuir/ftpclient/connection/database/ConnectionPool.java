@@ -24,7 +24,7 @@ public class ConnectionPool {
 
     private BlockingQueue<Connection> connections = new ArrayBlockingQueue<>(CONNECTIONS_NUMBER);
 
-    private ConnectionPool() throws ConnectionPoolException {
+    private ConnectionPool() {
         try {
             Driver driver = new Driver();
             DriverManager.registerDriver(driver);
@@ -38,7 +38,7 @@ public class ConnectionPool {
     }
 
     // Double Checked Locking & volatile
-    public static ConnectionPool getInstance() throws ConnectionPoolException {
+    public static ConnectionPool getInstance() {
         ConnectionPool localInstance = instance;
         if (localInstance == null) {
             synchronized (ConnectionPool.class) {
@@ -52,7 +52,7 @@ public class ConnectionPool {
         return localInstance;
     }
 
-    public Connection getConnection() throws ConnectionPoolException {
+    public Connection getConnection() {
         try {
             return connections.poll(5, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
@@ -60,7 +60,7 @@ public class ConnectionPool {
         }
     }
 
-    public void returnConnection(Connection connection) throws ConnectionPoolException {
+    public void returnConnection(Connection connection) {
         try {
             connections.put(connection);
         } catch (InterruptedException e) {

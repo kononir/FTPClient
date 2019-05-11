@@ -1,13 +1,12 @@
 package com.bsuir.ftpclient.connection.ftp.control;
 
 import com.bsuir.ftpclient.connection.ftp.Connection;
-import com.bsuir.ftpclient.connection.ftp.control.exception.ControlConnectionException;
+import com.bsuir.ftpclient.connection.ftp.control.exception.FtpConnectionException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.net.Socket;
 
 public class ControlConnectionActions {
     private Connection controlConnection;
@@ -16,33 +15,24 @@ public class ControlConnectionActions {
         this.controlConnection = controlConnection;
     }
 
-    public void sendRequest(String request)
-            throws ControlConnectionException {
+    public void sendRequest(String request) throws FtpConnectionException {
         if (controlConnection.isClosed()) {
-            throw new ControlConnectionException("Connection doesn't exist");
+            throw new FtpConnectionException("Connection doesn't exist");
         }
 
-        Socket socket = controlConnection.getSocket();
-
-        try {
-            PrintStream output = new PrintStream(socket.getOutputStream());
-            output.println(request);
-        } catch (IOException e) {
-            throw new ControlConnectionException("Send request error", e);
-        }
+        PrintStream output = new PrintStream(controlConnection.getOutputStream());
+        output.println(request);
     }
 
-    public String receiveResponse() throws ControlConnectionException {
+    public String receiveResponse() throws FtpConnectionException {
         if (controlConnection.isClosed()) {
-            throw new ControlConnectionException("Connection doesn't exist");
+            throw new FtpConnectionException("Connection doesn't exist");
         }
-
-        Socket socket = controlConnection.getSocket();
 
         StringBuilder response;
 
         try {
-            BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            BufferedReader input = new BufferedReader(new InputStreamReader(controlConnection.getInputStream()));
             response = new StringBuilder(input.readLine());
 
             boolean isMultipleLine = "-".equals(response.substring(3, 4));
@@ -58,7 +48,7 @@ public class ControlConnectionActions {
                 } while (!endLine.equals(currentLine.substring(0, 4)));
             }
         } catch (IOException e) {
-            throw new ControlConnectionException("Receive response error", e);
+            throw new FtpConnectionException("Receive response error", e);
         }
 
         return response.toString();

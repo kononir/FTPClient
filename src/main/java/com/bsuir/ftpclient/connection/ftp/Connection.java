@@ -1,10 +1,12 @@
 package com.bsuir.ftpclient.connection.ftp;
 
-import com.bsuir.ftpclient.connection.ftp.control.exception.ControlConnectionException;
+import com.bsuir.ftpclient.connection.ftp.control.exception.FtpConnectionException;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 
 public class Connection {
@@ -12,38 +14,70 @@ public class Connection {
 
     private Socket socket;
 
-    public Socket getSocket() {
-        return socket;
+    //----- For tests -----
+    public String getHostAddress() {
+        return socket.getInetAddress().getHostAddress();
     }
 
-    public void connect(String connectInformation, int port)
-            throws ControlConnectionException {
-        if (socket != null && !socket.isClosed()) {
-            throw new ControlConnectionException("Connection is already established!");
+    public int getPort() {
+        return socket.getPort();
+    }
+    //---------------------
+
+    public InputStream getInputStream() throws FtpConnectionException {
+        if (isClosed()) {
+            throw new FtpConnectionException("Connection is not established!");
+        }
+
+        try {
+            return socket.getInputStream();
+        } catch (IOException e) {
+            throw new FtpConnectionException("Problems with connection input!", e);
+        }
+    }
+
+    public OutputStream getOutputStream() throws FtpConnectionException {
+        if (isClosed()) {
+            throw new FtpConnectionException("Connection is not established!");
+        }
+
+        try {
+            return socket.getOutputStream();
+        } catch (IOException e) {
+            throw new FtpConnectionException("Problems with connection output!", e);
+        }
+    }
+
+    public Void connect(String connectInformation, int port)
+            throws FtpConnectionException {
+        if (!isClosed()) {
+            throw new FtpConnectionException("Connection is already established!");
         }
 
         try {
             socket = new Socket(connectInformation, port);
             socket.setSoTimeout(TIMEOUT);
         } catch (IOException e) {
-            throw new ControlConnectionException("Socket open error!", e);
+            throw new FtpConnectionException("Connection open error!", e);
         }
+
+        return null;
     }
 
-    public void disconnect() throws ControlConnectionException {
-        if (socket == null || socket.isClosed()) {
-            throw new ControlConnectionException("Connection is not established!");
+    public void disconnect() throws FtpConnectionException {
+        if (isClosed()) {
+            throw new FtpConnectionException("Connection is not established!");
         }
 
         try {
             socket.close();
         } catch (IOException e) {
-            throw new ControlConnectionException("Socket close error!", e);
+            throw new FtpConnectionException("Connection close error!", e);
         }
     }
 
     @Test
-    public void disconnectPositiveTest() throws ControlConnectionException, IOException {
+    public void disconnectPositiveTest() throws FtpConnectionException, IOException {
         Connection connection = new Connection();
 
         connection.socket = new Socket("localhost", 21);
@@ -52,13 +86,13 @@ public class Connection {
         Assert.assertTrue("Positive test of 'connect' failed!", connection.socket.isClosed());
     }
 
-    @Test(expected = ControlConnectionException.class)
-    public void disconnectConnectionNotExistException() throws ControlConnectionException {
+    @Test(expected = FtpConnectionException.class)
+    public void disconnectConnectionNotExistException() throws FtpConnectionException {
         Connection connection = new Connection();
 
         connection.disconnect();
 
-        Assert.fail("Negative test (Expected ControlConnectionException) of 'disconnect' failed!");
+        Assert.fail("Negative test (Expected FtpConnectionException) of 'disconnect' failed!");
     }
 
     public boolean isClosed() {
@@ -87,25 +121,24 @@ public class Connection {
     }
 
     @Test
-    public void testConnectShouldCreateSocketAndSetHostnameWhenItIsNewConnecting()
-            throws ControlConnectionException {
+    public void testConnectShouldCreateSocketWhenItIsNewConnecting()
+            throws FtpConnectionException {
         Connection connection = new Connection();
-        String expectedHostname = "localhost";
 
         connection.connect("localhost", 21);
 
         Assert.assertFalse("Create new connection test is failed: socket isn't created", connection.socket.isClosed());
     }
 
-    @Test (expected = ControlConnectionException.class)
+    @Test (expected = FtpConnectionException.class)
     public void testConnectShouldThrowConnectionExistExceptionWhenConnectionAlreadyExist()
-            throws ControlConnectionException, IOException {
+            throws FtpConnectionException, IOException {
         Connection connection = new Connection();
 
         connection.socket = new Socket("localhost", 21);
 
         connection.connect("localhost", 21);
 
-        Assert.fail("Test should throw ControlConnectionException");
+        Assert.fail("Test should throw FtpConnectionException");
     }
 }

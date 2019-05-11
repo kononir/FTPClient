@@ -22,7 +22,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,24 +36,17 @@ public class MainWindow {
 
     private MainWindowController controller = new MainWindowController();
 
-    //-------- For tests ---------
-    private MainWindow mainWindow;
+    //----- For tests -----
+    private static final String ANY = "any";
+    private static final String ANY_PATH = "any/any";
 
     @Before
     public void setUp() {
-        System.out.println("In setUp");
-
-        mainWindow = new MainWindow();
-        mainWindow.controller = mock(MainWindowController.class);
-        mainWindow.fileTreeUpdater = mock(TreeUpdater.class);
-        mainWindow.mainWindowManager = mock(MainWindowManager.class);
+        controller = mock(MainWindowController.class);
+        fileTreeUpdater = mock(TreeUpdater.class);
+        mainWindowManager = mock(MainWindowManager.class);
     }
-
-    @After
-    public void tearDown() {
-        mainWindow = null;
-    }
-    // ---------------------------
+    //---------------------
 
     public void show(Stage stage) {
         MenuBar menuBar = new MenuBar();
@@ -160,7 +152,7 @@ public class MainWindow {
                     loadFileList(newValue, new ConnectionErrorAlert());
                 }
 
-                changeWorkingDirectory(newValue, new ConnectionErrorAlert());
+                changeWorkingDirectory(newValue);
             }
         });
 
@@ -201,7 +193,7 @@ public class MainWindow {
             Platform.runLater(() -> {
                 Stage stage = new Stage();
 
-                mainWindow.show(stage);
+                show(stage);
 
                 stage.close();
             });
@@ -237,20 +229,19 @@ public class MainWindow {
     @Test
     public void testConnect() throws MainControllerException {
         HostnameDialog hostnameDialog = mock(HostnameDialog.class);
-        when(hostnameDialog.showDialog()).thenReturn(Optional.of("any"));
+        when(hostnameDialog.showDialog()).thenReturn(Optional.of(ANY));
         AuthenticationDialog authenticationDialog = mock(AuthenticationDialog.class);
-        when(authenticationDialog.showDialog()).thenReturn(Optional.of(new Pair<>("any", "any")));
-        ConnectionErrorAlert connectionErrorAlert = mock(ConnectionErrorAlert.class);
+        when(authenticationDialog.showDialog()).thenReturn(Optional.of(new Pair<>(ANY, ANY)));
 
         TreeView<String> treeView = (TreeView<String>) mock(TreeView.class);
-        when(mainWindow.fileTreeUpdater.getTree()).thenReturn(treeView);
+        when(fileTreeUpdater.getTree()).thenReturn(treeView);
 
-        mainWindow.connect(hostnameDialog, authenticationDialog, connectionErrorAlert);
+        connect(hostnameDialog, authenticationDialog, null);
 
-        verify(mainWindow.controller, atLeastOnce()).controlConnecting(anyString());
-        verify(mainWindow.controller, atLeastOnce()).controlAuthenticating(anyObject());
-        verify(mainWindow.mainWindowManager, atLeastOnce()).startShowingServerAnswers();
-        verify(mainWindow.fileTreeUpdater, atLeastOnce()).getTree();
+        verify(controller, atLeastOnce()).controlConnecting(ANY);
+        verify(controller, atLeastOnce()).controlAuthenticating(any());
+        verify(mainWindowManager, atLeastOnce()).startShowingServerAnswers();
+        verify(fileTreeUpdater, atLeastOnce()).getTree();
     }
 
     private void disconnect(DisconnectAlert disconnectAlert) {
@@ -264,10 +255,10 @@ public class MainWindow {
     public void testDisconnect() {
         DisconnectAlert disconnectAlert = mock(DisconnectAlert.class);
 
-        mainWindow.disconnect(disconnectAlert);
+        disconnect(disconnectAlert);
 
-        verify(mainWindow.fileTreeUpdater, atLeastOnce()).clearTree();
-        verify(mainWindow.controller, atLeastOnce()).controlDisconnecting();
+        verify(fileTreeUpdater, atLeastOnce()).clearTree();
+        verify(controller, atLeastOnce()).controlDisconnecting();
     }
 
     private void loadFileList(TreeItem<String> node, ConnectionErrorAlert connectionErrorAlert) {
@@ -280,13 +271,9 @@ public class MainWindow {
         }
     }
 
-    private void changeWorkingDirectory(TreeItem<String> node, ConnectionErrorAlert connectionErrorAlert) {
-        try {
-            String path = fileTreeUpdater.getAbsolutePath(node);
-            controller.controlChangeWorkingDirectory(path);
-        } catch (MainControllerException e) {
-            connectionErrorAlert.show(e);
-        }
+    private void changeWorkingDirectory(TreeItem<String> node) {
+        String path = fileTreeUpdater.getAbsolutePath(node);
+        controller.controlChangeWorkingDirectory(path);
     }
 
     private void createCatalogue(ServerCatalogueDialog serverCatalogueDialog) {
@@ -315,6 +302,18 @@ public class MainWindow {
         });
     }
 
+    @Test
+    public void testLoadCatalogue() throws MainControllerException {
+        ServerCatalogueDialog serverCatalogueDialog = mock(ServerCatalogueDialog.class);
+        when(serverCatalogueDialog.showDialog()).thenReturn(Optional.of(ANY));
+        ClientCatalogueDialog clientCatalogueDialog = mock(ClientCatalogueDialog.class);
+        when(clientCatalogueDialog.chooseCataloguePath()).thenReturn(Optional.of(ANY));
+
+        loadCatalogue(serverCatalogueDialog, clientCatalogueDialog, null);
+
+        verify(controller, atLeastOnce()).controlLoadingCatalogue(ANY, ANY_PATH);
+    }
+
     private void saveCatalogue(ClientCatalogueDialog clientCatalogueDialog,
                                ServerCatalogueDialog serverCatalogueDialog,
                                ConnectionErrorAlert connectionErrorAlert) {
@@ -329,6 +328,18 @@ public class MainWindow {
                 }
             });
         });
+    }
+
+    @Test
+    public void testSaveCatalogue() throws MainControllerException {
+        ServerCatalogueDialog serverCatalogueDialog = mock(ServerCatalogueDialog.class);
+        when(serverCatalogueDialog.showDialog()).thenReturn(Optional.of(ANY));
+        ClientCatalogueDialog clientCatalogueDialog = mock(ClientCatalogueDialog.class);
+        when(clientCatalogueDialog.chooseCataloguePath()).thenReturn(Optional.of(ANY));
+
+        saveCatalogue(clientCatalogueDialog, serverCatalogueDialog, null);
+
+        verify(controller, atLeastOnce()).controlSavingCatalogue(ANY, ANY);
     }
 
     private void deleteFile(ServerFileDialog serverFileDialog) {
@@ -351,6 +362,18 @@ public class MainWindow {
         });
     }
 
+    @Test
+    public void testLoadFile() throws MainControllerException {
+        ServerFileDialog serverFileDialog = mock(ServerFileDialog.class);
+        when(serverFileDialog.showDialog()).thenReturn(Optional.of(ANY));
+        ClientCatalogueDialog clientCatalogueDialog = mock(ClientCatalogueDialog.class);
+        when(clientCatalogueDialog.chooseCataloguePath()).thenReturn(Optional.of(ANY));
+
+        loadFile(serverFileDialog, clientCatalogueDialog, null);
+
+        verify(controller, atLeastOnce()).controlLoadingFile(ANY, ANY_PATH);
+    }
+
     private void saveFile(ClientFileDialog clientFileDialog, ServerFileDialog serverFileDialog,
                           ConnectionErrorAlert connectionErrorAlert) {
         Optional<String> optionalFrom = clientFileDialog.chooseFilePath();
@@ -364,6 +387,18 @@ public class MainWindow {
                 }
             });
         });
+    }
+
+    @Test
+    public void testSaveFile() throws MainControllerException {
+        ClientFileDialog clientFileDialog = mock(ClientFileDialog.class);
+        when(clientFileDialog.chooseFilePath()).thenReturn(Optional.of(ANY));
+        ServerFileDialog serverFileDialog = mock(ServerFileDialog.class);
+        when(serverFileDialog.showDialog()).thenReturn(Optional.of(ANY));
+
+        saveFile(clientFileDialog, serverFileDialog, null);
+
+        verify(controller, atLeastOnce()).controlSavingFile(ANY, ANY);
     }
 
     private void changeDataType(ChoiceDataTypeDialog choiceDataTypeDialog) {
