@@ -3,7 +3,6 @@ package com.bsuir.ftpclient.ui.window;
 import com.bsuir.ftpclient.connection.ftp.data.DataType;
 import com.bsuir.ftpclient.connection.ftp.data.file.ServerFile;
 import com.bsuir.ftpclient.ui.alert.ConnectionErrorAlert;
-import com.bsuir.ftpclient.ui.alert.DisconnectAlert;
 import com.bsuir.ftpclient.ui.dialog.AuthenticationDialog;
 import com.bsuir.ftpclient.ui.dialog.HostnameDialog;
 import com.bsuir.ftpclient.ui.dialog.WaitingDialog;
@@ -18,6 +17,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -60,7 +61,7 @@ public class MainWindow {
         ));
 
         MenuItem disconnect = new MenuItem("Disconnect");
-        disconnect.setOnAction(event -> disconnect(new DisconnectAlert()));
+        disconnect.setOnAction(event -> disconnect());
 
         Menu connectionMenu = new Menu("Server");
         connectionMenu.getItems().addAll(connect, disconnect);
@@ -144,6 +145,7 @@ public class MainWindow {
         memoScrolling.setFitToWidth(true);
 
         TreeItem<String> root = new TypedTreeItem<>("/", true);
+
         TreeView<String> fileTree = new TreeView<>(root);
         fileTree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             TypedTreeItem<String> node = (TypedTreeItem<String>) newValue;
@@ -221,7 +223,7 @@ public class MainWindow {
                     controller.controlDisconnecting();
                 }
             } catch (MainControllerException e) {
-                connectionErrorAlert.show(e);
+                connectionErrorAlert.show(e.getMessage());
             }
         });
     }
@@ -244,18 +246,14 @@ public class MainWindow {
         verify(fileTreeUpdater, atLeastOnce()).getTree();
     }
 
-    private void disconnect(DisconnectAlert disconnectAlert) {
+    private void disconnect() {
         fileTreeUpdater.clearTree();
         controller.controlDisconnecting();
-
-        disconnectAlert.show();
     }
 
     @Test
     public void testDisconnect() {
-        DisconnectAlert disconnectAlert = mock(DisconnectAlert.class);
-
-        disconnect(disconnectAlert);
+        disconnect();
 
         verify(fileTreeUpdater, atLeastOnce()).clearTree();
         verify(controller, atLeastOnce()).controlDisconnecting();
@@ -267,7 +265,7 @@ public class MainWindow {
             List<ServerFile> fileComponents = controller.controlLoadingFileList(path);
             fileTreeUpdater.addAllComponents(fileComponents, node);
         } catch (MainControllerException e) {
-            connectionErrorAlert.show(e);
+            connectionErrorAlert.show(e.getMessage());
         }
     }
 
@@ -296,7 +294,7 @@ public class MainWindow {
                 try {
                     controller.controlLoadingCatalogue(fromPath, toPath + "/" + fromPath);
                 } catch (MainControllerException e) {
-                    connectionErrorAlert.show(e);
+                    connectionErrorAlert.show(e.getMessage());
                 }
             });
         });
@@ -324,7 +322,7 @@ public class MainWindow {
                 try {
                     controller.controlSavingCatalogue(fromPath, toPath);
                 } catch (MainControllerException e) {
-                    connectionErrorAlert.show(e);
+                    connectionErrorAlert.show(e.getMessage());
                 }
             });
         });
@@ -356,7 +354,7 @@ public class MainWindow {
                 try {
                     controller.controlLoadingFile(fromPath, toPath + '/' + fromPath);
                 } catch (MainControllerException e) {
-                    connectionErrorAlert.show(e);
+                    connectionErrorAlert.show(e.getMessage());
                 }
             });
         });
@@ -383,7 +381,7 @@ public class MainWindow {
                 try {
                     controller.controlSavingFile(fromFile, toFile);
                 } catch (MainControllerException e) {
-                    connectionErrorAlert.show(e);
+                    connectionErrorAlert.show(e.getMessage());
                 }
             });
         });

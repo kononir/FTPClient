@@ -3,7 +3,10 @@ package com.bsuir.ftpclient.ui.tree;
 import com.bsuir.ftpclient.connection.ftp.data.file.ServerFile;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
+import java.io.InputStream;
 import java.util.List;
 
 public class TreeUpdater {
@@ -25,12 +28,17 @@ public class TreeUpdater {
             boolean isDirectory = controller.controlIsDirectory(file);
             TreeItem<String> childNode = new TypedTreeItem<>(fileName, isDirectory);
 
+            if (isDirectory) {
+                childNode.setExpanded(true);
+            }
+
             parentNode.getChildren().add(childNode);
         }
     }
 
     public void clearTree() {
         TreeItem<String> root = new TypedTreeItem<>("/", true);
+        root.setExpanded(true);
         tree.setRoot(root);
     }
 

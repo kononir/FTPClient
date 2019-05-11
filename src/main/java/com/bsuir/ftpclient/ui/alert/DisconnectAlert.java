@@ -10,6 +10,6 @@ public class DisconnectAlert {
         alert.setHeaderText("Successful");
         alert.setContentText("Connection is closed!");
 
-        alert.showAndWait();
+        alert.show();
     }
 }

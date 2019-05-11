@@ -1,6 +1,8 @@
 package com.bsuir.ftpclient.ui.manager;
 
 import com.bsuir.ftpclient.connection.ftp.control.ControlStructure;
+import com.bsuir.ftpclient.ui.alert.ConnectionErrorAlert;
+import com.bsuir.ftpclient.ui.alert.DisconnectAlert;
 import com.bsuir.ftpclient.ui.dialog.WaitingDialog;
 import com.bsuir.ftpclient.ui.memo.MemoUpdater;
 import javafx.animation.AnimationTimer;
@@ -59,6 +61,7 @@ public class MainWindowManager {
         boolean controlConnectionIsClosed = "221".equals(answerCode) || "421".equals(answerCode);
         if (controlConnectionIsClosed) {
             timer.stop();
+            new DisconnectAlert().show();
         }
 
         String firstDigit = serverAnswer.substring(0, 1);
@@ -67,6 +70,11 @@ public class MainWindowManager {
             waitingDialog.show();
         } else if (waitingDialog != null && waitingDialog.isShowing()) {
             waitingDialog.close();
+        }
+
+        boolean errorAnswer = "4".equals(firstDigit) || "5".equals(firstDigit);
+        if (errorAnswer) {
+            new ConnectionErrorAlert().show(serverAnswer);
         }
     }
 

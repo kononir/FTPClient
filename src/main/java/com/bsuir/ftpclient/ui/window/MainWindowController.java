@@ -270,12 +270,17 @@ public class MainWindowController {
     }
 
     /**
-     * Add new level to old path on the server.
+     * Add new level to old path on the server.<br>
+     * Добавить новый уровень к старому пути на сервере
      *
      * @param oldPath old path, root directory to file or catalogue
-     *                with specified name
-     * @param name    name of file or catalogue that must be added
-     * @return new path on the server
+     *                with specified name<br>
+     *                старый путь, корневая директория для файла или
+     *                каталога с указанным именем
+     * @param name    name of file or catalogue that must be added<br>
+     *                имя файла или каталога, которое будет добавлено
+     * @return new path on the server<br>
+     *         новый путь на сервере
      */
     private String addToServerPath(String oldPath, String name) {
         String newPath;

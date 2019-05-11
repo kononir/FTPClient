@@ -3,15 +3,12 @@ package com.bsuir.ftpclient.ui.alert;
 import javafx.scene.control.Alert;
 
 public class ConnectionErrorAlert {
-
-    public void show(Exception e) {
-        e.printStackTrace();
-
+    public void show(String text) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText("Error");
-        alert.setContentText(e.getMessage());
+        alert.setContentText(text);
 
-        alert.showAndWait();
+        alert.show();
     }
 }
