@@ -3,10 +3,8 @@ package com.bsuir.ftpclient.ui.manager;
 import com.bsuir.ftpclient.connection.ftp.control.ControlStructure;
 import com.bsuir.ftpclient.ui.alert.ConnectionErrorAlert;
 import com.bsuir.ftpclient.ui.alert.DisconnectAlert;
-import com.bsuir.ftpclient.ui.dialog.WaitingDialog;
 import com.bsuir.ftpclient.ui.memo.MemoUpdater;
 import javafx.animation.AnimationTimer;
-import javafx.scene.control.TextArea;
 
 import java.util.List;
 
@@ -14,27 +12,29 @@ public class MainWindowManager {
     private AnimationTimer timer = new AnimationTimer() {
         @Override
         public void handle(long now) {
-            showLastAnswers(controller);
+            showLastAnswers();
         }
     };
 
-    private WaitingDialog waitingDialog;
     private MemoUpdater memoUpdater;
 
     private MainWindowManagerController controller = new MainWindowManagerController();
 
-    public MainWindowManager(TextArea memo, WaitingDialog waitingDialog) {
-        this.memoUpdater = new MemoUpdater(memo);
-        this.waitingDialog = waitingDialog;
+    public MainWindowManager(MemoUpdater memoUpdater) {
+        this.memoUpdater = memoUpdater;
     }
 
-    public void startShowingServerAnswers() {
+    public void startManaging() {
         controller.controlStartingListening();
-
         timer.start();
     }
 
-    private void showLastAnswers(MainWindowManagerController controller) {
+    public void stopManaging() {
+        controller.controlStoppingListening();
+        timer.stop();
+    }
+
+    private void showLastAnswers() {
         List<ControlStructure> controlStructures = controller.controlGettingControlStructures();
 
         if (controlStructures != null) {
@@ -65,21 +65,9 @@ public class MainWindowManager {
         }
 
         String firstDigit = serverAnswer.substring(0, 1);
-        boolean expectedOneMoreCommand = "1".equals(firstDigit);
-        if (expectedOneMoreCommand && !waitingDialog.isShowing()) {
-            waitingDialog.show();
-        } else if (waitingDialog != null && waitingDialog.isShowing()) {
-            waitingDialog.close();
-        }
-
         boolean errorAnswer = "4".equals(firstDigit) || "5".equals(firstDigit);
         if (errorAnswer) {
             new ConnectionErrorAlert().show(serverAnswer);
         }
-    }
-
-    public void stopShowingServerAnswers() {
-        controller.controlStoppingListening();
-        timer.stop();
     }
 }

@@ -9,6 +9,10 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 
 public class ControlConnectionActions {
+    private static final String SIGN_OF_MULTILINE_RESPONSE = "-";
+    private static final String SIGN_OF_ENDING_MULTILINE_RESPONSE = " ";
+    private static final String SIGN_OF_EXPECTING_ONE_MORE_COMMAND = "1";
+
     private Connection controlConnection;
 
     public ControlConnectionActions(Connection controlConnection) {
@@ -16,41 +20,39 @@ public class ControlConnectionActions {
     }
 
     public void sendRequest(String request) throws FtpConnectionException {
-        if (controlConnection.isClosed()) {
-            throw new FtpConnectionException("Connection doesn't exist");
-        }
-
         PrintStream output = new PrintStream(controlConnection.getOutputStream());
         output.println(request);
     }
 
     public String receiveResponse() throws FtpConnectionException {
-        if (controlConnection.isClosed()) {
-            throw new FtpConnectionException("Connection doesn't exist");
-        }
-
-        StringBuilder response;
+        StringBuilder fullResponse = new StringBuilder();
 
         try {
+            String firstLineOfCurrentResponsePart;
             BufferedReader input = new BufferedReader(new InputStreamReader(controlConnection.getInputStream()));
-            response = new StringBuilder(input.readLine());
+            do {
+                firstLineOfCurrentResponsePart = input.readLine();
+                fullResponse.append(firstLineOfCurrentResponsePart);
 
-            boolean isMultipleLine = "-".equals(response.substring(3, 4));
+                if (SIGN_OF_MULTILINE_RESPONSE.equals(fullResponse.substring(3, 4))) {
+                    addOtherLinesOfMultipleLineResponse(input, fullResponse);
+                }
 
-            if (isMultipleLine) {
-                String endLine = response.substring(0, 3) + ' ';
-                String currentLine;
-
-                do {
-                    currentLine = input.readLine();
-
-                    response.append('\n').append(currentLine);
-                } while (!endLine.equals(currentLine.substring(0, 4)));
-            }
+                fullResponse.append("\n");
+            } while (SIGN_OF_EXPECTING_ONE_MORE_COMMAND.equals(firstLineOfCurrentResponsePart.substring(0, 1)));
         } catch (IOException e) {
             throw new FtpConnectionException("Receive response error", e);
         }
 
-        return response.toString();
+        return fullResponse.toString();
+    }
+
+    private void addOtherLinesOfMultipleLineResponse(BufferedReader input, StringBuilder fullResponse)
+            throws IOException {
+        String currentLine;
+        do {
+            currentLine = input.readLine();
+            fullResponse.append('\n').append(currentLine);
+        } while (!SIGN_OF_ENDING_MULTILINE_RESPONSE.equals(currentLine.substring(3, 4)));
     }
 }

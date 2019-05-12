@@ -10,8 +10,6 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 public class Connection {
-    private static final int TIMEOUT = 10000;
-
     private Socket socket;
 
     //----- For tests -----
@@ -56,7 +54,6 @@ public class Connection {
 
         try {
             socket = new Socket(connectInformation, port);
-            socket.setSoTimeout(TIMEOUT);
         } catch (IOException e) {
             throw new FtpConnectionException("Connection open error!", e);
         }

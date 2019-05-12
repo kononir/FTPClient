@@ -14,18 +14,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class ControlConnectionActionsTests {
-    private static final String ONE_LINE = "220 Hello!";
-    private static final String TWO_LINES = "220-Hello\n220 World!";
-    private static final String THREE_LINES = "220-Hello\nSOME TEXT...\n220 World!";
+    private static final String ONE_LINE = "220 Hello!\n";
+    private static final String TWO_LINES = "220-Hello\n220 World!\n";
+    private static final String THREE_LINES = "220-Hello\nSOME TEXT...\n220 World!\n";
+    private static final String TWO_LINES_WITH_WAITING_COMMAND = "100 Wait another command\n220 Hello!\n";
 
     private static final String REQUEST = "User anonymous";
     private static final String REQUEST_WITH_NL = "User anonymous\r\n";
-
-    private static final InputStream NULL_INPUT_STREAM = null;
-    private static final OutputStream NULL_OUTPUT_STREAM = null;
-
-    private static final boolean CLOSED = true;
-    private static final boolean NOT_CLOSED = false;
 
     @Test
     public void testReceiveResponseShouldReturnOneLineWhenReceiveOneLine() throws FtpConnectionException {
@@ -48,12 +43,19 @@ public class ControlConnectionActionsTests {
         Assert.assertEquals(THREE_LINES, actual);
     }
 
+    @Test
+    public void testReceiveResponseShouldReturnTwoLinesWithWaitingCommandWhenReceiveTwoLines()
+            throws FtpConnectionException {
+        String actual = positiveTestReceive(TWO_LINES_WITH_WAITING_COMMAND);
+
+        Assert.assertEquals(TWO_LINES_WITH_WAITING_COMMAND, actual);
+    }
+
     @Test(expected = FtpConnectionException.class)
-    public void testReceiveResponseShouldThrowConnectionNotExistExceptionWhenConnectionNotExist()
+    public void testReceiveResponseShouldThrowFtpConnectionExceptionWhenConnectionNotExist()
             throws FtpConnectionException {
         Connection connection = mock(Connection.class);
-        when(connection.isClosed()).thenReturn(CLOSED);
-        when(connection.getInputStream()).thenReturn(NULL_INPUT_STREAM);
+        when(connection.getInputStream()).thenThrow(new FtpConnectionException("Test exception"));
 
         ControlConnectionActions actions = new ControlConnectionActions(connection);
 
@@ -64,7 +66,6 @@ public class ControlConnectionActionsTests {
 
     private String positiveTestReceive(String expected) throws FtpConnectionException {
         Connection connection = mock(Connection.class);
-        when(connection.isClosed()).thenReturn(NOT_CLOSED);
 
         InputStream inputStream = new ByteArrayInputStream(expected.getBytes());
         when(connection.getInputStream()).thenReturn(inputStream);
@@ -77,7 +78,6 @@ public class ControlConnectionActionsTests {
     @Test
     public void testSendRequestShouldReturnRequestWhenRetrieveStringFromStream() throws FtpConnectionException {
         Connection connection = mock(Connection.class);
-        when(connection.isClosed()).thenReturn(NOT_CLOSED);
 
         OutputStream outputStream = new ByteArrayOutputStream();
         when(connection.getOutputStream()).thenReturn(outputStream);
@@ -92,11 +92,10 @@ public class ControlConnectionActionsTests {
     }
 
     @Test(expected = FtpConnectionException.class)
-    public void testSendRequestShouldThrowConnectionNotExistExceptionWhenConnectionNotExist()
+    public void testSendRequestShouldThrowFtpConnectionExceptionWhenConnectionNotExist()
             throws FtpConnectionException {
         Connection connection = mock(Connection.class);
-        when(connection.getOutputStream()).thenReturn(NULL_OUTPUT_STREAM);
-        when(connection.isClosed()).thenReturn(CLOSED);
+        when(connection.getOutputStream()).thenThrow(new FtpConnectionException("Test exception"));
 
         ControlConnectionActions actions = new ControlConnectionActions(connection);
 

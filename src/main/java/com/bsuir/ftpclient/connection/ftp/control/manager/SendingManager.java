@@ -37,30 +37,20 @@ public class SendingManager {
             try {
                 ControlConnectionActions connectionActions = new ControlConnectionActions(controlConnection);
                 connectionActions.sendRequest(request);
+                String response = connectionActions.receiveResponse();
+
+                handleAnswerCodeOfResponse(response);
 
                 DatabaseConnectionActions databaseConnectionActions = new DatabaseConnectionActions();
-
-                String firstCode;
-                /* !!!!! when response has digit '1' at first place of answer code
-                         and there is no second response this cycle blocks executor !!!!! */
-                do {
-                    String response = connectionActions.receiveResponse();
-                    firstCode = response.substring(0, 1);
-
-                    handleAnswerCode(response);
-
-                    ControlStructure controlStructure = new ControlStructure(request, response);
-                    databaseConnectionActions.insertControlStructure(controlStructure);
-
-                    request = "";
-                } while ("1".equals(firstCode));
+                ControlStructure controlStructure = new ControlStructure(request, response);
+                databaseConnectionActions.insertControlStructure(controlStructure);
             } catch (FtpConnectionException | TimeoutException
                     | InterruptedException | DatabaseConnectionException e) {
                 LOGGER.error("Sending message error.", e);
             }
         }
 
-        private void handleAnswerCode(String response)
+        private void handleAnswerCodeOfResponse(String response)
                 throws TimeoutException, InterruptedException, FtpConnectionException {
             String answerCode = response.substring(0, 3);
 

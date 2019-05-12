@@ -1,9 +1,9 @@
 package com.bsuir.ftpclient.connection.ftp.data;
 
 public enum DataType {
-    ASCII("A"),
-    EBCDIC("E"),
-    IMAGE("I");
+    ASCII("A N"),
+    L8("L 8"),
+    BINARY("I N");
 
     public String code;
 

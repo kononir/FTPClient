@@ -10,6 +10,6 @@ public class MemoUpdater {
     }
 
     synchronized public void addTextToMemo(String text) {
-        memo.setText(memo.getText() + text);
+        memo.appendText(text);
     }
 }

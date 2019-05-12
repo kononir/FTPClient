@@ -2,12 +2,13 @@ package com.bsuir.ftpclient.ui.window;
 
 import com.bsuir.ftpclient.connection.ftp.data.DataType;
 import com.bsuir.ftpclient.connection.ftp.data.file.ServerFile;
+import com.bsuir.ftpclient.logic.MainController;
 import com.bsuir.ftpclient.ui.alert.ConnectionErrorAlert;
 import com.bsuir.ftpclient.ui.dialog.AuthenticationDialog;
 import com.bsuir.ftpclient.ui.dialog.HostnameDialog;
-import com.bsuir.ftpclient.ui.dialog.WaitingDialog;
 import com.bsuir.ftpclient.ui.dialog.choose.*;
 import com.bsuir.ftpclient.ui.manager.MainWindowManager;
+import com.bsuir.ftpclient.ui.memo.MemoUpdater;
 import com.bsuir.ftpclient.ui.tree.TreeUpdater;
 import com.bsuir.ftpclient.ui.tree.TypedTreeItem;
 import com.bsuir.ftpclient.ui.window.exception.MainControllerException;
@@ -17,8 +18,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -35,7 +34,7 @@ public class MainWindow {
     private TreeUpdater fileTreeUpdater;
     private MainWindowManager mainWindowManager;
 
-    private MainWindowController controller = new MainWindowController();
+    private MainController controller = new MainController();
 
     //----- For tests -----
     private static final String ANY = "any";
@@ -43,7 +42,7 @@ public class MainWindow {
 
     @Before
     public void setUp() {
-        controller = mock(MainWindowController.class);
+        controller = mock(MainController.class);
         fileTreeUpdater = mock(TreeUpdater.class);
         mainWindowManager = mock(MainWindowManager.class);
     }
@@ -137,12 +136,7 @@ public class MainWindow {
         TextArea answerMemo = new TextArea();
         answerMemo.setEditable(false);
 
-        mainWindowManager = new MainWindowManager(answerMemo, new WaitingDialog(controller));
-
-        ScrollPane memoScrolling = new ScrollPane();
-        memoScrolling.setContent(answerMemo);
-        memoScrolling.setFitToHeight(true);
-        memoScrolling.setFitToWidth(true);
+        mainWindowManager = new MainWindowManager(new MemoUpdater(answerMemo));
 
         TreeItem<String> root = new TypedTreeItem<>("/", true);
 
@@ -160,16 +154,11 @@ public class MainWindow {
 
         fileTreeUpdater = new TreeUpdater(fileTree);
 
-        ScrollPane treeScrolling = new ScrollPane();
-        treeScrolling.setContent(fileTree);
-        treeScrolling.setFitToHeight(true);
-        treeScrolling.setFitToWidth(true);
-
-        HBox activePlace = new HBox(memoScrolling, treeScrolling);
+        HBox activePlace = new HBox(answerMemo, fileTree);
         activePlace.setSpacing(10);
 
         StackPane.setMargin(activePlace, new Insets(35, 5, 35, 5));
-        StackPane.setAlignment(treeScrolling, Pos.CENTER);
+        StackPane.setAlignment(fileTree, Pos.CENTER);
 
         Button exitButton = new Button("Exit");
         exitButton.setOnAction(event -> close());
@@ -183,6 +172,7 @@ public class MainWindow {
         Scene scene = new Scene(pane);
 
         stage.setOnCloseRequest(event -> close());
+        stage.setTitle("Ftp client");
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
@@ -211,7 +201,7 @@ public class MainWindow {
         result.ifPresent(connectInformation -> {
             try {
                 controller.controlConnecting(connectInformation);
-                mainWindowManager.startShowingServerAnswers();
+                mainWindowManager.startManaging();
 
                 Optional<Pair<String, String>> authenticationOptional = authenticationDialog.showDialog();
 
@@ -242,7 +232,7 @@ public class MainWindow {
 
         verify(controller, atLeastOnce()).controlConnecting(ANY);
         verify(controller, atLeastOnce()).controlAuthenticating(any());
-        verify(mainWindowManager, atLeastOnce()).startShowingServerAnswers();
+        verify(mainWindowManager, atLeastOnce()).startManaging();
         verify(fileTreeUpdater, atLeastOnce()).getTree();
     }
 
@@ -406,7 +396,7 @@ public class MainWindow {
 
     private void close() {
         controller.controlClose();
-        mainWindowManager.stopShowingServerAnswers();
+        mainWindowManager.stopManaging();
         Platform.exit();
     }
 }

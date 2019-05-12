@@ -1,4 +1,4 @@
-package com.bsuir.ftpclient.ui.window;
+package com.bsuir.ftpclient.logic;
 
 import com.bsuir.ftpclient.connection.ftp.Connection;
 import com.bsuir.ftpclient.connection.ftp.control.exception.FtpConnectionException;
@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 
 import static org.mockito.Mockito.*;
 
-public class MainWindowController {
+public class MainController {
     private static final Logger LOGGER = Logger.getRootLogger();
 
     private static final int CONTROL_PORT = 21;
@@ -402,10 +402,6 @@ public class MainWindowController {
         dataManager.shutdown();
     }
 
-    public void controlRestartSendingMessages() {
-        sendingManager.restart();
-    }
-
     public List<ServerFile> controlLoadingFileList(String directoryName)
             throws MainControllerException {
         List<ServerFile> serverFiles;
@@ -457,7 +453,7 @@ public class MainWindowController {
     }
 
     public void controlChangeDataType(DataType dataType) {
-        String changeDataTypeCommand = "TYPE " + dataType.getCode() + " " + "N";
+        String changeDataTypeCommand = "TYPE " + dataType.getCode();
         sendingManager.send(changeDataTypeCommand);
     }
 }

@@ -531,3 +531,194 @@ Caused by: java.net.SocketTimeoutException: Read timed out
 	at java.io.BufferedReader.readLine(BufferedReader.java:389)
 	at com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions.receiveResponse(ControlConnectionActions.java:36)
 	... 4 more
+2019-05-12 01:07:28:737 ERROR senderLogger:59 - Sending message error.
+com.bsuir.ftpclient.connection.ftp.control.exception.FtpConnectionException: Receive response error
+	at com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions.receiveResponse(ControlConnectionActions.java:51)
+	at com.bsuir.ftpclient.connection.ftp.control.manager.SendingManager$Sender.run(SendingManager.java:47)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions.receiveResponse(ControlConnectionActions.java:36)
+	... 4 more
+2019-05-12 01:11:06:536 ERROR senderLogger:59 - Sending message error.
+com.bsuir.ftpclient.connection.ftp.control.exception.FtpConnectionException: Receive response error
+	at com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions.receiveResponse(ControlConnectionActions.java:51)
+	at com.bsuir.ftpclient.connection.ftp.control.manager.SendingManager$Sender.run(SendingManager.java:47)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions.receiveResponse(ControlConnectionActions.java:36)
+	... 4 more
+2019-05-12 01:41:08:134 ERROR senderLogger:59 - Sending message error.
+java.util.concurrent.TimeoutException
+	at java.util.concurrent.Exchanger.exchange(Exchanger.java:626)
+	at com.bsuir.ftpclient.connection.ftp.control.manager.SendingManager$Sender.handleAnswerCode(SendingManager.java:70)
+	at com.bsuir.ftpclient.connection.ftp.control.manager.SendingManager$Sender.run(SendingManager.java:50)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+2019-05-12 01:45:53:614 ERROR senderLogger:59 - Sending message error.
+com.bsuir.ftpclient.connection.ftp.control.exception.FtpConnectionException: Receive response error
+	at com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions.receiveResponse(ControlConnectionActions.java:51)
+	at com.bsuir.ftpclient.connection.ftp.control.manager.SendingManager$Sender.run(SendingManager.java:47)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions.receiveResponse(ControlConnectionActions.java:36)
+	... 4 more
+2019-05-12 01:56:26:297 ERROR senderLogger:59 - Sending message error.
+com.bsuir.ftpclient.connection.ftp.control.exception.FtpConnectionException: Receive response error
+	at com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions.receiveResponse(ControlConnectionActions.java:56)
+	at com.bsuir.ftpclient.connection.ftp.control.manager.SendingManager$Sender.run(SendingManager.java:47)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions.receiveResponse(ControlConnectionActions.java:39)
+	... 4 more
+2019-05-12 02:28:36:729 ERROR senderLogger:52 - Sending message error.
+java.util.concurrent.TimeoutException
+	at java.util.concurrent.Exchanger.exchange(Exchanger.java:626)
+	at com.bsuir.ftpclient.connection.ftp.control.manager.SendingManager$Sender.handleAnswerCode(SendingManager.java:63)
+	at com.bsuir.ftpclient.connection.ftp.control.manager.SendingManager$Sender.run(SendingManager.java:45)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+2019-05-12 03:23:28:554 ERROR senderLogger:49 - Sending message error.
+com.bsuir.ftpclient.connection.ftp.control.exception.FtpConnectionException: Receive response error
+	at com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions.receiveResponse(ControlConnectionActions.java:52)
+	at com.bsuir.ftpclient.connection.ftp.control.manager.SendingManager$Sender.run(SendingManager.java:40)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions.receiveResponse(ControlConnectionActions.java:41)
+	... 4 more
+2019-05-12 03:31:16:778 ERROR senderLogger:49 - Sending message error.
+com.bsuir.ftpclient.connection.ftp.control.exception.FtpConnectionException: Receive response error
+	at com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions.receiveResponse(ControlConnectionActions.java:52)
+	at com.bsuir.ftpclient.connection.ftp.control.manager.SendingManager$Sender.run(SendingManager.java:40)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.net.SocketException: Software caused connection abort: recv failed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions.receiveResponse(ControlConnectionActions.java:41)
+	... 4 more
+2019-05-12 03:47:19:005 ERROR senderLogger:49 - Sending message error.
+com.bsuir.ftpclient.connection.ftp.control.exception.FtpConnectionException: Connection doesn't exist
+	at com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions.sendRequest(ControlConnectionActions.java:27)
+	at com.bsuir.ftpclient.connection.ftp.control.manager.SendingManager$Sender.run(SendingManager.java:39)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+2019-05-12 20:32:55:857 ERROR senderLogger:49 - Sending message error.
+com.bsuir.ftpclient.connection.ftp.control.exception.FtpConnectionException: Receive response error
+	at com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions.receiveResponse(ControlConnectionActions.java:44)
+	at com.bsuir.ftpclient.connection.ftp.control.manager.SendingManager$Sender.run(SendingManager.java:40)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.net.SocketException: Software caused connection abort: recv failed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions.receiveResponse(ControlConnectionActions.java:34)
+	... 4 more
+2019-05-12 20:33:36:122 ERROR senderLogger:49 - Sending message error.
+com.bsuir.ftpclient.connection.ftp.control.exception.FtpConnectionException: Receive response error
+	at com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions.receiveResponse(ControlConnectionActions.java:44)
+	at com.bsuir.ftpclient.connection.ftp.control.manager.SendingManager$Sender.run(SendingManager.java:40)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.net.SocketException: Software caused connection abort: recv failed
+	at java.net.SocketInputStream.socketRead0(Native Method)
+	at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)
+	at java.net.SocketInputStream.read(SocketInputStream.java:171)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at com.bsuir.ftpclient.connection.ftp.control.ControlConnectionActions.receiveResponse(ControlConnectionActions.java:34)
+	... 4 more

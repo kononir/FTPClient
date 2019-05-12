@@ -11,8 +11,8 @@ public class ChoiceDataTypeDialog extends ChoiceDialog<String> {
     public ChoiceDataTypeDialog() {
         super("ASCII", Arrays.asList(
                 DataType.ASCII.name(),
-                DataType.EBCDIC.name(),
-                DataType.IMAGE.name()
+                DataType.L8.name(),
+                DataType.BINARY.name()
         ));
 
         setTitle("Choice data type");
