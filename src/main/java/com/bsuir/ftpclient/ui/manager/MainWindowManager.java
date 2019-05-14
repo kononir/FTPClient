@@ -1,6 +1,7 @@
 package com.bsuir.ftpclient.ui.manager;
 
 import com.bsuir.ftpclient.connection.ftp.control.ControlStructure;
+import com.bsuir.ftpclient.logic.manager.MainWindowManagerController;
 import com.bsuir.ftpclient.ui.alert.ConnectionErrorAlert;
 import com.bsuir.ftpclient.ui.alert.DisconnectAlert;
 import com.bsuir.ftpclient.ui.memo.MemoUpdater;

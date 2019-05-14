@@ -1,4 +1,4 @@
-package com.bsuir.ftpclient.ui.manager;
+package com.bsuir.ftpclient.logic.manager;
 
 import com.bsuir.ftpclient.connection.database.DatabaseConnectionListener;
 import com.bsuir.ftpclient.connection.ftp.control.ControlStructure;

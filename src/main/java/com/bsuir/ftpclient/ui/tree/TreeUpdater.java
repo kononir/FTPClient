@@ -1,12 +1,10 @@
 package com.bsuir.ftpclient.ui.tree;
 
 import com.bsuir.ftpclient.connection.ftp.data.file.ServerFile;
+import com.bsuir.ftpclient.logic.tree.TreeUpdaterController;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
-import java.io.InputStream;
 import java.util.List;
 
 public class TreeUpdater {

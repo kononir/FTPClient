@@ -13,7 +13,6 @@ import com.bsuir.ftpclient.ui.tree.TreeUpdater;
 import com.bsuir.ftpclient.ui.tree.TypedTreeItem;
 import com.bsuir.ftpclient.ui.window.exception.MainControllerException;
 import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -22,13 +21,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import org.junit.Before;
-import org.junit.Test;
 
 import java.util.List;
 import java.util.Optional;
-
-import static org.mockito.Mockito.*;
 
 public class MainWindow {
     private TreeUpdater fileTreeUpdater;
@@ -36,17 +31,14 @@ public class MainWindow {
 
     private MainController controller = new MainController();
 
-    //----- For tests -----
-    private static final String ANY = "any";
-    private static final String ANY_PATH = "any/any";
-
-    @Before
-    public void setUp() {
-        controller = mock(MainController.class);
-        fileTreeUpdater = mock(TreeUpdater.class);
-        mainWindowManager = mock(MainWindowManager.class);
+    public MainWindow() {
     }
-    //---------------------
+
+    public MainWindow(TreeUpdater fileTreeUpdater, MainWindowManager mainWindowManager, MainController controller) {
+        this.fileTreeUpdater = fileTreeUpdater;
+        this.mainWindowManager = mainWindowManager;
+        this.controller = controller;
+    }
 
     public void show(Stage stage) {
         MenuBar menuBar = new MenuBar();
@@ -178,23 +170,8 @@ public class MainWindow {
         stage.show();
     }
 
-    @Test
-    public void testShow() throws InterruptedException {
-        new Thread(() -> {
-            new JFXPanel();
-            Platform.runLater(() -> {
-                Stage stage = new Stage();
-
-                show(stage);
-
-                stage.close();
-            });
-        }).start();
-
-        Thread.sleep(5000);
-    }
-
-    private void connect(HostnameDialog hostnameDialog, AuthenticationDialog authenticationDialog,
+    // public for tests
+    public void connect(HostnameDialog hostnameDialog, AuthenticationDialog authenticationDialog,
                          ConnectionErrorAlert connectionErrorAlert) {
         Optional<String> result = hostnameDialog.showDialog();
 
@@ -218,35 +195,10 @@ public class MainWindow {
         });
     }
 
-    @Test
-    public void testConnect() throws MainControllerException {
-        HostnameDialog hostnameDialog = mock(HostnameDialog.class);
-        when(hostnameDialog.showDialog()).thenReturn(Optional.of(ANY));
-        AuthenticationDialog authenticationDialog = mock(AuthenticationDialog.class);
-        when(authenticationDialog.showDialog()).thenReturn(Optional.of(new Pair<>(ANY, ANY)));
-
-        TreeView<String> treeView = (TreeView<String>) mock(TreeView.class);
-        when(fileTreeUpdater.getTree()).thenReturn(treeView);
-
-        connect(hostnameDialog, authenticationDialog, null);
-
-        verify(controller, atLeastOnce()).controlConnecting(ANY);
-        verify(controller, atLeastOnce()).controlAuthenticating(any());
-        verify(mainWindowManager, atLeastOnce()).startManaging();
-        verify(fileTreeUpdater, atLeastOnce()).getTree();
-    }
-
-    private void disconnect() {
+    // public for tests
+    public void disconnect() {
         fileTreeUpdater.clearTree();
         controller.controlDisconnecting();
-    }
-
-    @Test
-    public void testDisconnect() {
-        disconnect();
-
-        verify(fileTreeUpdater, atLeastOnce()).clearTree();
-        verify(controller, atLeastOnce()).controlDisconnecting();
     }
 
     private void loadFileList(TreeItem<String> node, ConnectionErrorAlert connectionErrorAlert) {
@@ -259,22 +211,26 @@ public class MainWindow {
         }
     }
 
-    private void changeWorkingDirectory(TreeItem<String> node) {
+    // public for tests
+    public void changeWorkingDirectory(TreeItem<String> node) {
         String path = fileTreeUpdater.getAbsolutePath(node);
         controller.controlChangeWorkingDirectory(path);
     }
 
-    private void createCatalogue(ServerCatalogueDialog serverCatalogueDialog) {
+    // public for tests
+    public void createCatalogue(ServerCatalogueDialog serverCatalogueDialog) {
         Optional<String> result = serverCatalogueDialog.showDialog();
         result.ifPresent(catalogueName -> controller.controlCreatingCatalogue(catalogueName));
     }
 
-    private void deleteCatalogue(ServerCatalogueDialog serverCatalogueDialog) {
+    // public for tests
+    public void deleteCatalogue(ServerCatalogueDialog serverCatalogueDialog) {
         Optional<String> result = serverCatalogueDialog.showDialog();
         result.ifPresent(catalogueName -> controller.controlDeletingCatalogue(catalogueName));
     }
 
-    private void loadCatalogue(ServerCatalogueDialog serverCatalogueDialog,
+    // public for tests
+    public void loadCatalogue(ServerCatalogueDialog serverCatalogueDialog,
                                ClientCatalogueDialog clientCatalogueDialog,
                                ConnectionErrorAlert connectionErrorAlert) {
         Optional<String> optionalFrom = serverCatalogueDialog.showDialog();
@@ -290,19 +246,8 @@ public class MainWindow {
         });
     }
 
-    @Test
-    public void testLoadCatalogue() throws MainControllerException {
-        ServerCatalogueDialog serverCatalogueDialog = mock(ServerCatalogueDialog.class);
-        when(serverCatalogueDialog.showDialog()).thenReturn(Optional.of(ANY));
-        ClientCatalogueDialog clientCatalogueDialog = mock(ClientCatalogueDialog.class);
-        when(clientCatalogueDialog.chooseCataloguePath()).thenReturn(Optional.of(ANY));
-
-        loadCatalogue(serverCatalogueDialog, clientCatalogueDialog, null);
-
-        verify(controller, atLeastOnce()).controlLoadingCatalogue(ANY, ANY_PATH);
-    }
-
-    private void saveCatalogue(ClientCatalogueDialog clientCatalogueDialog,
+    // public for tests
+    public void saveCatalogue(ClientCatalogueDialog clientCatalogueDialog,
                                ServerCatalogueDialog serverCatalogueDialog,
                                ConnectionErrorAlert connectionErrorAlert) {
         Optional<String> optionalFrom = clientCatalogueDialog.chooseCataloguePath();
@@ -318,24 +263,14 @@ public class MainWindow {
         });
     }
 
-    @Test
-    public void testSaveCatalogue() throws MainControllerException {
-        ServerCatalogueDialog serverCatalogueDialog = mock(ServerCatalogueDialog.class);
-        when(serverCatalogueDialog.showDialog()).thenReturn(Optional.of(ANY));
-        ClientCatalogueDialog clientCatalogueDialog = mock(ClientCatalogueDialog.class);
-        when(clientCatalogueDialog.chooseCataloguePath()).thenReturn(Optional.of(ANY));
-
-        saveCatalogue(clientCatalogueDialog, serverCatalogueDialog, null);
-
-        verify(controller, atLeastOnce()).controlSavingCatalogue(ANY, ANY);
-    }
-
-    private void deleteFile(ServerFileDialog serverFileDialog) {
+    // public for tests
+    public void deleteFile(ServerFileDialog serverFileDialog) {
         Optional<String> result = serverFileDialog.showDialog();
         result.ifPresent(fileName -> controller.controlDeletingFile(fileName));
     }
 
-    private void loadFile(ServerFileDialog serverFileDialog, ClientCatalogueDialog clientCatalogueDialog,
+    // public for tests
+    public void loadFile(ServerFileDialog serverFileDialog, ClientCatalogueDialog clientCatalogueDialog,
                           ConnectionErrorAlert connectionErrorAlert) {
         Optional<String> optionalFrom = serverFileDialog.showDialog();
         optionalFrom.ifPresent(fromPath -> {
@@ -350,19 +285,8 @@ public class MainWindow {
         });
     }
 
-    @Test
-    public void testLoadFile() throws MainControllerException {
-        ServerFileDialog serverFileDialog = mock(ServerFileDialog.class);
-        when(serverFileDialog.showDialog()).thenReturn(Optional.of(ANY));
-        ClientCatalogueDialog clientCatalogueDialog = mock(ClientCatalogueDialog.class);
-        when(clientCatalogueDialog.chooseCataloguePath()).thenReturn(Optional.of(ANY));
-
-        loadFile(serverFileDialog, clientCatalogueDialog, null);
-
-        verify(controller, atLeastOnce()).controlLoadingFile(ANY, ANY_PATH);
-    }
-
-    private void saveFile(ClientFileDialog clientFileDialog, ServerFileDialog serverFileDialog,
+    // public for tests
+    public void saveFile(ClientFileDialog clientFileDialog, ServerFileDialog serverFileDialog,
                           ConnectionErrorAlert connectionErrorAlert) {
         Optional<String> optionalFrom = clientFileDialog.chooseFilePath();
         optionalFrom.ifPresent(fromFile -> {
@@ -377,19 +301,8 @@ public class MainWindow {
         });
     }
 
-    @Test
-    public void testSaveFile() throws MainControllerException {
-        ClientFileDialog clientFileDialog = mock(ClientFileDialog.class);
-        when(clientFileDialog.chooseFilePath()).thenReturn(Optional.of(ANY));
-        ServerFileDialog serverFileDialog = mock(ServerFileDialog.class);
-        when(serverFileDialog.showDialog()).thenReturn(Optional.of(ANY));
-
-        saveFile(clientFileDialog, serverFileDialog, null);
-
-        verify(controller, atLeastOnce()).controlSavingFile(ANY, ANY);
-    }
-
-    private void changeDataType(ChoiceDataTypeDialog choiceDataTypeDialog) {
+    // public for tests
+    public void changeDataType(ChoiceDataTypeDialog choiceDataTypeDialog) {
         Optional<String> optionalDataType = choiceDataTypeDialog.showDialog();
         optionalDataType.ifPresent(dataType -> controller.controlChangeDataType(DataType.valueOf(dataType)));
     }
